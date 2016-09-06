@@ -9,16 +9,24 @@ Imports:
     hash,
     tools,
     doMC,
-    xts
-License: What license is it under? see https://www.r-project.org/Licenses/
+    xts,
+    Rcpp,
+    RJSONIO,
+    foreach,
+    iterators,
+    rprogressbar,
+    stringr,
+    xlsx,
+    bimets
+License: BSD_2_clause + file LICENSE
 LazyData: true
 Suggests:
     testthat,
     crayon,
     covr,
     roxygen2,
-    Rcpp
 Collate:
+    'RcppExports.R'
     'dataset.r'
 RoxygenNote: 5.0.1
 LinkingTo: Rcpp
