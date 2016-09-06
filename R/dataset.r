@@ -23,6 +23,8 @@
 #' @exportClass Dataset
 #' @author Giuseppe Acito
 #' @importFrom hash hash
+#' @importFrom methods setClass representation
+#' @importFrom methods setGeneric setMethod signature
 
 Dataset <- setClass(
   "Dataset",

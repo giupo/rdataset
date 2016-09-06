@@ -1,10 +1,11 @@
 #!/usr/bin/env Rscript
 
-library(methods)
 library(testthat)
+library(methods)
 library(hash)
-library(tools)
 library(doMC)
+library(tools)
+
 packrat::extlib("bimets")
 devtools::load_all()
 auto_test("R", "tests/testthat/")
