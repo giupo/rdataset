@@ -21,4 +21,4 @@ Suggests:
 Collate:
     'dataset.r'
 RoxygenNote: 5.0.1
-LinkingTo: Rcpp, BH
+LinkingTo: Rcpp
