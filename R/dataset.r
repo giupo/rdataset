@@ -30,43 +30,47 @@ Dataset <- setClass(
     data = "hash",
     url="character"))
 
+
+.init <- function(.Object, url=NULL, ids=NULL) {
+  if(is.null(url)) {
+    raw_list <- list()
+    .Object@data <- hash()
+    return(.Object)
+  }
+  
+  .Object@url <- url
+  
+  # bypass for future releases
+  parsed_url<- list()
+  parsed_url$scheme <- NULL
+  
+  if (is.null(parsed_url$scheme) || parsed_url$scheme != "http"
+      || parsed_url$scheme != "https") {
+    path <- normalizePath(url)
+    if (!.noSPK && is_speakeasy(path)) {
+      raw_list <- load_dataset_spk(path, ids)
+    } else if (is_grafo(path)) {
+      raw_list <- load_dataset_grafo(path)
+    } else if (is_JSON(path)) {
+      raw_list <- load_dataset_json(path)
+    } else if (is_csv_library(path)) {
+      raw_list <- load_dataset_csv(path)
+    } else {
+      stop(paste0("Can't load: dunno what is ", url))
+    }
+  } else {
+    stop(parserd_url$scheme, "Not Implemented")
+  }
+
+  .Object@data <- hash(as.list(raw_list))
+  .Object
+}
+
 setMethod(
   "initialize",
   signature("Dataset"),
   function(.Object, url = NULL, ids = NULL) {
-    if(is.null(url)) {
-      raw_list <- list()
-      .Object@data <- hash()
-      return(.Object)
-    }
-
-    .Object@url <- url
-
-    # bypass for future releases
-    parsed_url<- list()
-    parsed_url$scheme <- NULL
-        
-    if (is.null(parsed_url$scheme) || parsed_url$scheme != "http"
-       || parsed_url$scheme != "https") {
-      path <- normalizePath(url)
-      if (is_speakeasy(path)) {
-        raw_list <- load_dataset_spk(path, ids)
-      } else if (is_grafo(path)) {
-        raw_list <- load_dataset_grafo(path)
-      } else if (is_JSON(path)) {
-        raw_list <- load_dataset_json(path)
-      } else if (is_csv_library(path)) {
-        raw_list <- load_dataset_csv(path)
-      } else {
-        stop(paste0("Can't load: dunno what is ", url))
-      }
-    } else {
-      stop(parserd_url$scheme, "Not Implemented")
-    }
-
-    message(raw_list)
-    .Object@data <- hash(as.list(raw_list))
-    .Object
+    .init(.Object, url=url, ids=ids)
   })
 
 #' Ritorna una singola serie storica o un sub Dataset di serie storiche
@@ -585,20 +589,6 @@ if(require(bimets)) {
       }
       ret
     })
-}
-
-#' Salva il dataset in BISS
-#'
-#' @name save.biss
-#' @aliases save.biss
-#' @author Giuseppe Acito
-#' @export
-#' @param ds il dataset da salvare
-
-if(suppressWarnings(require(BItools))) {
-  save.biss <- function(ds) {
-    keepbiss(as.list(ds))
-  }
 }
 
 #' Controlla che il percorso \code{path} contenga una struttura a

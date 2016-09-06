@@ -8,6 +8,11 @@ Source: CRAN
 Version: 2.1.2
 Hash: c515e41c73294952cbb33ee1c1be5a2d
 
+Package: RJSONIO
+Source: CRAN
+Version: 1.3-0
+Hash: fb672e20eb6f3010a3639f855d8ef6de
+
 Package: Rcpp
 Source: CRAN
 Version: 0.12.6
@@ -132,6 +137,11 @@ Source: CRAN
 Version: 1.0.0
 Hash: 77da8f1df873a4b91e5c4a68fe2fb1b6
 
+Package: rJava
+Source: CRAN
+Version: 0.9-8
+Hash: 3e8627a2a5bd45c9bad6112acfc231d9
+
 Package: rex
 Source: CRAN
 Version: 1.1.1
@@ -194,6 +204,18 @@ Package: withr
 Source: CRAN
 Version: 1.0.2
 Hash: 774eb7be9087cdc24b53b74e5359cfac
+
+Package: xlsx
+Source: CRAN
+Version: 0.5.7
+Hash: 6acda2cf5190bf93d0b24c5a40b564cf
+Requires: rJava, xlsxjars
+
+Package: xlsxjars
+Source: CRAN
+Version: 0.6.1
+Hash: 3902149dad80bcb14fcd88d8c7fd7f3b
+Requires: rJava
 
 Package: xts
 Source: CRAN
