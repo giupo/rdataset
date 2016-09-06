@@ -5,3 +5,6 @@
 Makefile
 ^packrat/
 ^\.Rprofile$
+autotest\.r
+packrat
+
