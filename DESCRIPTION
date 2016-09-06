@@ -8,16 +8,15 @@ Depends:
 Imports:
     hash,
     tools,
-    doMC
+    doMC,
+    xts
 License: What license is it under? see https://www.r-project.org/Licenses/
 LazyData: true
 Suggests:
     testthat,
     crayon,
     covr,
-    roxygen2,
-    bimets
+    roxygen2
 Collate:
-    'ts_functions.r'
     'dataset.r'
 RoxygenNote: 5.0.1
