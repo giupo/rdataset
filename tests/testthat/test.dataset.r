@@ -1,0 +1,226 @@
+context("Data Structures, Dataset")
+
+.setUp <- function() {  # noqa  
+  workdir <<- rutils::workDir()
+  jsonFilePath <<- file.path(workdir, "pippo.json")
+  write("test", jsonFilePath)
+
+  dir_grafo <<- rutils::tempdir()
+  spk_lib <<- rutils::tempdir()
+  spk_list <<- file.path(spk_lib, "test.list")
+  suppressWarnings({
+    dir.create(file.path(dir_grafo, "tasks"), recursive = TRUE)
+    dir.create(file.path(dir_grafo, "data", "T"), recursive = TRUE)
+    dir.create(file.path(dir_grafo, "metadati"), recursive = TRUE)
+    dir.create(spk_lib, recursive=TRUE)
+  })
+
+  write("test", file.path(spk_lib, "test.keep"))
+  write("test", spk_list)
+
+  write("1990\n1\n1\n0\n0\n0", file.path(dir_grafo, "data", "T", "TS1.csv"))
+  write("1990\n1\n1\n1\n1\n1", file.path(dir_grafo, "data", "T", "TS2.csv"))
+}
+
+.tearDown <- function() {
+  unlink(dir_grafo, recursive=TRUE, force=TRUE)
+  unlink(spk_lib, recursive=TRUE, force=TRUE)
+  # unlink(workdir, recursive=TRUE, force=TRUE)
+}
+
+test_that("is_JSON behaves correctly", {
+  .setUp()
+  expect_true(is_JSON(jsonFilePath))
+  expect_error(is_JSON("/non/esisto/dir/dir/pluto.json"))
+  expect_true(is_JSON(workdir) == FALSE)
+  expect_true(is_JSON("~")== FALSE)
+  .tearDown()
+})
+
+test_that("is_grafo works as expected",  {
+  .setUp()
+  expect_true(is_grafo(dir_grafo))
+  expect_true(is_grafo(workdir) == FALSE)
+  .tearDown()
+})
+
+test_that("is_speakeasy works as expected", {
+  if(!suppressWarnings(require(spkKeeping))) {
+    skip("There isn't speakeasy on this machine")
+  }
+
+  .setUp()
+  expect_true(is_speakeasy_library(spk_lib))
+  expect_true(is_speakeasy_list(spk_list))
+  expect_true(is_speakeasy(spk_lib))
+  expect_true(is_speakeasy(spk_list))
+  expect_error(is_speakeasy("/i/don/t/exist"))
+  expect_error(is_speakeasy("/i/don/t/exist/as/list.list"))
+  .tearDown()
+})
+
+test_that("load.dataset works as expected", {
+  .setUp()
+  d <- suppressWarnings(Dataset(dir_grafo))
+  expect_true(is.dataset(d["TS1"]))
+  expect_true(length(d) == 2)
+  expect_warning(expect_error(dataset("http://localhost")))
+  .tearDown()
+})
+
+test_that("slicing works as expected", {
+  .setUp()
+  d <- suppressWarnings(Dataset(dir_grafo))
+  expect_true(is.bimets(d[["TS1"]]))
+
+  tt = TSERIES(rep(0,10), START=c(1990,1), FREQ=4)
+  d["TEST"] <- tt
+  expect_true("TEST" %in% names(d))
+  d[["TEST2"]] <- tt
+  expect_true("TEST2" %in% names(d))
+  .tearDown()
+})
+
+test_that("slicing with multiple names", {
+  .setUp()
+  data <- list()
+  d <- suppressWarnings(Dataset(dir_grafo))
+  data[["A"]] <- TSERIES(c(1,2,3), START=c(1990,1), FREQ=4)
+  data[["B"]] <- TSERIES(c(1,2,3), START=c(1990,1), FREQ=4)
+
+  d[[names(data)]] <- data
+  expect_true(all(c("A", "B") %in% names(d)))
+  .tearDown()
+})
+
+test_that("as.dataset works with list, characters", {
+  .setUp()
+  l <- list(
+    A=TSERIES(c(1,2,3), START=c(1990,1), FREQ=4),
+    B=TSERIES(c(1,2,3), START=c(1990,1), FREQ=4))
+  
+  ds <- as.dataset(l)
+  expect_true(is.dataset(ds))
+  expect_true(all(c("A", "B") %in% names(ds)))
+  
+  ds <- suppressWarnings(as.dataset(dir_grafo))
+  expect_true(is.dataset(ds))
+  expect_true(all(c("TS1", "TS2") %in% names(ds)))
+  .tearDown()
+})
+
+test_that("boolean operators work on dataset", {
+  ds <- Dataset()
+  ds["A"] <- ts(c(1,2,3), start=c(1990,1), freq=4)
+  ds["B"] <- ts(c(0,0,0), start=c(1990,1), freq=4)
+  ds["C"] <- ds[["B"]] - ds[["A"]]
+  out <- ds[ds == 0]
+  expect_true("B" %in% names(out))
+  out <- ds[ds > 0]
+  expect_true("A" %in% names(out))
+  out <- ds[ds < 0.1]
+  expect_true("C" %in% names(out))
+})
+
+test_that("I can diff two datasets", {
+  ds1 <- Dataset()
+  ds2 <- Dataset()
+
+  ds1["A"] <- ts(c(1,2,3), start=c(1990,1), freq=4)
+  ds2["A"] <- ts(c(1,2,3), start=c(1990,1), freq=4)
+
+  diff <- ds1 - ds2
+  expect_true("A" %in% names(diff))
+  expect_equal(sum(abs(diff[["A"]])),0)
+})
+
+test_that("I can use or omit which when subsetting", {
+  ds <- Dataset()
+  ds["A"] <- ts(c(1,2,3), start=c(1990,1), freq=4)
+  ds["B"] <- ts(c(0,0,0), start=c(1990,1), freq=4)
+  ds["C"] <- ds[["B"]] - ds[["A"]]
+  out1 <- ds[ds == 0]
+  out2 <- ds[which(ds == 0)]
+  expect_true("B" %in% names(out1))
+  expect_true("B" %in% names(out2))    
+})
+
+test_that("I can use abs function over a Dataset", {
+  ds <- Dataset()
+  ds["A"] <- ts(c(-1,-2,-3), start=c(1990,1), freq=4)
+  ds["B"] <- ts(c(0,0,0), start=c(1990,1), freq=4)
+  ds <- abs(ds)
+  expect_true(all(ds[["A"]] > 0))
+})
+
+test_that("as list on datasets works as expected", {
+  ds <- Dataset()
+  ds["A"] <- ts(c(-1, -2, -3), start = c(1990, 1), freq = 4)
+  ds["B"] <- ts(c(0, 0, 0), start = c(1990, 1), freq = 4)
+  l <- as.list(ds)
+  expect_true(is.list(l))
+  expect_true(all(unlist(lapply(l, is.bimets))))
+  expect_true(!all(unlist(lapply(l, is.dataset))))
+  expect_true("A" %in% names(l))
+  expect_true("B" %in% names(l))
+  expect_true(all(names(l) %in% names(ds)))
+  expect_equal(ds[["A"]], l$A)
+  expect_equal(ds[["B"]], l$B)
+})
+
+test_that("Union of datasets works as expected", {
+  ds1 <- Dataset()
+  ds1["A"] <- ts(c(-1,-2,-3), start=c(1990,1), freq=4)
+  ds1["B"] <- ts(c(0,0,0), start=c(1990,1), freq=4)
+  ds2 <- Dataset()
+  ds2["C"] <- ts(c(-1,-2,-3), start=c(1990,1), freq=4)
+  ds2["D"] <- ts(c(0,0,0), start=c(1990,1), freq=4)
+
+  ds <- union.Dataset(ds1, ds2)
+  expect_true(all(names(ds1) %in% names(ds)))
+  expect_true(all(names(ds2) %in% names(ds)))
+  
+  expect_true(all(unlist(lapply(as.list(ds), is.bimets))))
+  expect_true(!all(unlist(lapply(as.list(ds), is.dataset))))
+})
+
+test_that("union of datasets behaves like a regular union", {
+  ds1 <- Dataset()
+  ds1["A"] <- ts(c(-1,-2,-3), start=c(1990,1), freq=4)
+  ds1["B"] <- ts(c(0,0,0), start=c(1990,1), freq=4)
+  ds2 <- Dataset()
+  ds2["B"] <- ts(c(-1,-2,-3), start=c(1990,1), freq=4)
+  ds2["D"] <- ts(c(0,0,0), start=c(1990,1), freq=4)
+  ds <- union.Dataset(ds1, ds2)
+  expect_equal(length(ds), 3)
+  expect_equal(ds[["B"]], ds1[["B"]])
+})
+
+test_that("URLIST su un Dataset", {
+  ds <- Dataset()
+  ds["A"] <- TIMESERIES(c(-1,-2,-3), START=c(1990,1), FREQ=4)
+  ds["B"] <- TIMESERIES(c(0,0,0), START=c(1990,1), FREQ=12)
+
+  ul <- URLIST(ds)
+  expect_true(all(colnames(ul) %in% c("freq", "start", "end", "startp",
+                                      "starty", "endp", "endy", "name")))
+
+  aa <- ul[ul$name == "A",]
+  expect_equal(aa$freq, 4)
+  expect_equal(aa$starty, 1990)
+  expect_equal(aa$start, 1990 + 1/4)
+  expect_equal(aa$end, 1990+3/4)
+  expect_equal(aa$startp, 1)
+  expect_equal(aa$endy, 1990)
+  expect_equal(aa$endp, 3)
+
+  bb <- ul[ul$name == "B",]
+  expect_equal(bb$freq, 12)
+  expect_equal(bb$starty, 1990)
+  expect_equal(bb$startp, 1)
+  expect_equal(bb$start, 1990 + 1/12)
+  expect_equal(bb$end, 1990+3/12)
+  expect_equal(bb$endy, 1990)
+  expect_equal(bb$endp, 3)
+ 
+})

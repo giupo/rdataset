@@ -3,3 +3,5 @@
 \.tar.gz$
 .bumpversion.cfg
 Makefile
+^packrat/
+^\.Rprofile$
