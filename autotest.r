@@ -7,6 +7,5 @@ library(doMC)
 library(tools)
 library(RJSONIO)
 
-packrat::extlib("bimets")
 devtools::load_all()
 auto_test("R", "tests/testthat/")

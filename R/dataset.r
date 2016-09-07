@@ -449,7 +449,6 @@ setGeneric(
 #' @param historic il dataset storico
 #' @param date una periodo di join
 #' @return Un dataset joinato
-#' @import bimets
 #' @importFrom foreach foreach %do% %dopar%
 #' @importFrom doMC registerDoMC
 #' @importFrom tis mergeSeries
@@ -880,40 +879,39 @@ setMethod(
 #' @usage shortSummary(object)
 #' @param object a `Dataset` object
 #' @export
-#' @import bimets
-if (require(bimets)) {
-  setGeneric(
-    "shortSummary",
-    function(ds) {
-      standardGeneric("shortSummary")
-    })
-  
-  setMethod(
-    "shortSummary",
-    signature("Dataset"),
-    function(ds) {
-      NOMI <- c()
-      STARTP <- c()
-      ENDP <- c()
-      FREQ <- c()
-      for(name in names(ds)) {
-        series <- ds[[name]]
-        startp <- TSINFO(series, MODE="STARTP")
-        starty <- TSINFO(series, MODE="STARTY")
-        endp <- TSINFO(series, MODE="ENDP")
-        endy <- TSINFO(series, MODE="ENDY")
-        freq <- TSINFO(series, MODE="FREQ")
-        
-        NOMI <- c(NOMI, name)
-        STARTP <- c(STARTP, paste0(starty, "/",startp))
-        ENDP <- c(ENDP, paste0(endy, "/", endp))
-        FREQ <- c(FREQ,paste(freq))
-      }
+#' 
+setGeneric(
+  "shortSummary",
+  function(ds) {
+    standardGeneric("shortSummary")
+  })
+
+setMethod(
+  "shortSummary",
+  signature("Dataset"),
+  function(ds) {
+    NOMI <- c()
+    STARTP <- c()
+    ENDP <- c()
+    FREQ <- c()
+    for(name in names(ds)) {
+      series <- ds[[name]]
+      startp <- start(series)[[2]]
+      starty <- start(series)[[1]]
+      endp <- end(series)[[2]]
+      endy <- end(series)[[1]]
+      freq <- frequency(series)
       
-      df <- data.frame(NOMI=NOMI, START=STARTP, END=ENDP, FREQ=FREQ)
-      print(df)
-      invisible(df)
-    })
+      NOMI <- c(NOMI, name)
+      STARTP <- c(STARTP, paste0(starty, "/",startp))
+      ENDP <- c(ENDP, paste0(endy, "/", endp))
+      FREQ <- c(FREQ,paste(freq))
+    }
+    
+    df <- data.frame(NOMI=NOMI, START=STARTP, END=ENDP, FREQ=FREQ)
+    print(df)
+    invisible(df)
+  })
 }
 
 #' tabs all the series in the Dataset
@@ -921,45 +919,44 @@ if (require(bimets)) {
 #' @name fullSummary
 #' @usage fullSummary(ds)
 #' @export
+#' @importFrom xts as.xts
 #' @param ds a `Dataset` instance
 
-if (require(bimets)) {
-  setGeneric(
-    "fullSummary",
-    function(ds) {
-      standardGeneric("fullSummary")
-    })
-  
-  .fullSummary <-  function(ds, digits=2) {
-    freq_bins <- hash()
-    for(name in names(ds)) {
-      series <- round(ds[[name]], digits=digits)
-      freq <- as.character(TSINFO(series, MODE="FREQ"))
-      series <- as.xts(series)
-      if(freq %in% keys(freq_bins)) {
-        bin <- freq_bins[[freq]]
-        bin[[name]] <- series
-        freq_bins[freq] <- bin
-      } else {
-        container <- list()
-        container[[name]] <- series
-        freq_bins[freq] <- container
-      }
-    }
-    
-    for(freq in keys(freq_bins)) {
-      samefreq <- freq_bins[[freq]]
-      print(do.call(cbind, samefreq))
+setGeneric(
+  "fullSummary",
+  function(ds) {
+    standardGeneric("fullSummary")
+  })
+
+.fullSummary <-  function(ds, digits=2) {
+  freq_bins <- hash()
+  for(name in names(ds)) {
+    series <- round(ds[[name]], digits=digits)
+    freq <- as.character(frequency(series))
+    series <- as.xts(series)
+    if(freq %in% keys(freq_bins)) {
+      bin <- freq_bins[[freq]]
+      bin[[name]] <- series
+      freq_bins[freq] <- bin
+    } else {
+      container <- list()
+      container[[name]] <- series
+      freq_bins[freq] <- container
     }
   }
   
-  setMethod(
-    "fullSummary",
-    signature("Dataset"),
-    function(ds) {
-      .fullSummary(ds)
-    })
+  for(freq in keys(freq_bins)) {
+    samefreq <- freq_bins[[freq]]
+    print(do.call(cbind, samefreq))
+  }
 }
+
+setMethod(
+  "fullSummary",
+  signature("Dataset"),
+  function(ds) {
+    .fullSummary(ds)
+  })
 
 #' Ritorna un data.frame con metadati delle serie
 #'
@@ -971,40 +968,37 @@ if (require(bimets)) {
 #' @return un dataframe con 4 colonne (nome, start, end, freq)
 #' @importFrom foreach foreach %do% %dopar%
 #' @importFrom iterators iter
-#' @import bimets
+#' @importFrom stats end start
 #' @export
 
-if (require(bimets)) {
-  setGeneric(
-    "URLIST",
-    function(x) {
-      standardGeneric("URLIST")
-    })
+setGeneric(
+  "URLIST",
+  function(x) {
+    standardGeneric("URLIST")
+  })
+
   
-  
-  setMethod(
-    "URLIST",
-    signature("Dataset"),
-    function(x) {
-      registerDoMC(detectCores())
-      
-      closure <- function(name) {
-        timeSeries <- x[[name]]
-        freq <- TSINFO(timeSeries, MODE="FREQ")
-        start <- TSINFO(timeSeries, MODE="START")
-        end <- TSINFO(timeSeries, MODE="END")
-        starty <- TSINFO(timeSeries, MODE="STARTY")
-        startp <- TSINFO(timeSeries, MODE="STARTP")
-        endy <- TSINFO(timeSeries, MODE="ENDY")
-        endp <- TSINFO(timeSeries, MODE="ENDP")
-        data.frame(name, freq, start, end, starty, startp, endy, endp)
-      }
-      
-      foreach(name = iter(names(x)), .combine=rbind) %dopar% {
-        closure(name)
-      }
-    })
-}
+setMethod(
+  "URLIST",
+  signature("Dataset"),
+  function(x) {
+    closure <- function(name) {
+      timeSeries <- x[[name]]
+      freq <- frequency(timeSeries)
+      starty <- stats::start(timeSeries)[[1]]
+      startp <- stats::end(timeSeries)[[2]]
+      endy <- stats::end(timeSeries)[[1]]
+      endp <- stats::end(timeSeries)[[2]]
+      START <- stats::start(timeSeries) + startp/freq
+      END <- stats::end(timeSeries) + endp/freq
+    
+      data.frame(name, freq, START, END, starty, startp, endy, endp)
+    }
+    
+    foreach(name = iter(names(x)), .combine=rbind) %dopar% {
+      closure(name)
+    }
+  })
 
 #' Casts to a Dataset
 #'
@@ -1363,9 +1357,7 @@ setMethod(
 #' @exportMethod annual
 #' @importFrom foreach foreach %do% %dopar%
 #' @importFrom iterators iter
-#' @importFrom doMC registerDoMC
-#' @importFrom parallel detectCores
-#' @importFrom bimets TSINFO ANNUAL
+#' @importFrom stats frequnecy
 
 setGeneric(
   "annual",
@@ -1378,23 +1370,24 @@ setMethod(
   signature("Dataset"),
   function(x) {
     
-    data <- foreach(nome=iter(names(x)),
-                    .multicombine=TRUE, .combine=c) %dopar% {
-      ret <- list()
-      serie <- x[[nome]]
-      freq <- TSINFO(serie, MODE="FREQ")
-      ret[[nome]] <- if(freq == 1) {
-        serie 
-      } else {
-        attributi <- attributes(serie)
-        if(attributi$stock == 1) {
-          ANNUAL(serie, "STOCK")
+    data <- foreach(
+      nome=iter(names(x)),
+      .multicombine=TRUE, .combine=c) %dopar% {
+        ret <- list()
+        serie <- x[[nome]]
+        freq <- frequency(serie)
+        ret[[nome]] <- if(freq == 1) {
+          serie 
         } else {
-          ANNUAL(serie, "SUM")
+          attributi <- attributes(serie)
+          if(attributi$stock == 1) {
+            ANNUAL(serie, "STOCK")
+          } else {
+            ANNUAL(serie, "SUM")
+          }
         }
+        ret
       }
-      ret
-    }
     as.dataset(data)
   })
 
