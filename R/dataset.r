@@ -24,7 +24,7 @@
 #' @author Giuseppe Acito
 #' @importFrom hash hash
 #' @importFrom methods setClass representation
-#' @importFrom setGeneric setMethod signature
+#' @importFrom methods setGeneric setMethod signature
 
 Dataset <- setClass(
   "Dataset",
@@ -912,7 +912,7 @@ setMethod(
     print(df)
     invisible(df)
   })
-}
+
 
 #' tabs all the series in the Dataset
 #'
@@ -986,13 +986,16 @@ setMethod(
       timeSeries <- x[[name]]
       freq <- frequency(timeSeries)
       starty <- stats::start(timeSeries)[[1]]
-      startp <- stats::end(timeSeries)[[2]]
+      startp <- stats::start(timeSeries)[[2]]
       endy <- stats::end(timeSeries)[[1]]
       endp <- stats::end(timeSeries)[[2]]
-      START <- stats::start(timeSeries) + startp/freq
-      END <- stats::end(timeSeries) + endp/freq
+      START <- starty + startp/freq
+      END <- endy + endp/freq
     
-      data.frame(name, freq, START, END, starty, startp, endy, endp)
+      data.frame(list(
+        name=name, freq = freq, start = START,
+        end = END, starty = starty, startp = startp,
+        endy = endy, endp = endp))
     }
     
     foreach(name = iter(names(x)), .combine=rbind) %dopar% {
@@ -1357,7 +1360,7 @@ setMethod(
 #' @exportMethod annual
 #' @importFrom foreach foreach %do% %dopar%
 #' @importFrom iterators iter
-#' @importFrom stats frequnecy
+#' @importFrom stats frequency
 
 setGeneric(
   "annual",

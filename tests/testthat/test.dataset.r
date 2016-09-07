@@ -72,9 +72,9 @@ test_that("load.dataset works as expected", {
 test_that("slicing works as expected", {
   .setUp()
   d <- suppressWarnings(Dataset(dir_grafo))
-  expect_true(is.bimets(d[["TS1"]]))
+  expect_true(is.ts(d[["TS1"]]))
 
-  tt = TSERIES(rep(0,10), START=c(1990,1), FREQ=4)
+  tt <- ts(rep(0,10), start=c(1990,1), freq=4)
   d["TEST"] <- tt
   expect_true("TEST" %in% names(d))
   d[["TEST2"]] <- tt
@@ -86,8 +86,8 @@ test_that("slicing with multiple names", {
   .setUp()
   data <- list()
   d <- suppressWarnings(Dataset(dir_grafo))
-  data[["A"]] <- TSERIES(c(1,2,3), START=c(1990,1), FREQ=4)
-  data[["B"]] <- TSERIES(c(1,2,3), START=c(1990,1), FREQ=4)
+  data[["A"]] <- ts(c(1,2,3), start=c(1990,1), freq=4)
+  data[["B"]] <- ts(c(1,2,3), start=c(1990,1), freq=4)
 
   d[[names(data)]] <- data
   expect_true(all(c("A", "B") %in% names(d)))
@@ -97,8 +97,8 @@ test_that("slicing with multiple names", {
 test_that("as.dataset works with list, characters", {
   .setUp()
   l <- list(
-    A=TSERIES(c(1,2,3), START=c(1990,1), FREQ=4),
-    B=TSERIES(c(1,2,3), START=c(1990,1), FREQ=4))
+    A=ts(c(1,2,3), start=c(1990,1), freq=4),
+    B=ts(c(1,2,3), start=c(1990,1), freq=4))
   
   ds <- as.dataset(l)
   expect_true(is.dataset(ds))
@@ -160,7 +160,7 @@ test_that("as list on datasets works as expected", {
   ds["B"] <- ts(c(0, 0, 0), start = c(1990, 1), freq = 4)
   l <- as.list(ds)
   expect_true(is.list(l))
-  expect_true(all(unlist(lapply(l, is.bimets))))
+  expect_true(all(unlist(lapply(l, is.ts))))
   expect_true(!all(unlist(lapply(l, is.dataset))))
   expect_true("A" %in% names(l))
   expect_true("B" %in% names(l))
@@ -181,7 +181,7 @@ test_that("Union of datasets works as expected", {
   expect_true(all(names(ds1) %in% names(ds)))
   expect_true(all(names(ds2) %in% names(ds)))
 
-  expect_true(all(unlist(lapply(as.list(ds), is.bimets))))
+  expect_true(all(unlist(lapply(as.list(ds), is.ts))))
   expect_true(!all(unlist(lapply(as.list(ds), is.dataset))))
 })
 
@@ -199,8 +199,8 @@ test_that("union of datasets behaves like a regular union", {
 
 test_that("URLIST su un Dataset", {
   ds <- Dataset()
-  ds["A"] <- TIMESERIES(c(-1,-2,-3), START=c(1990,1), FREQ=4)
-  ds["B"] <- TIMESERIES(c(0,0,0), START=c(1990,1), FREQ=12)
+  ds["A"] <- ts(c(-1, -2, -3), start = c(1990,1), freq = 4)
+  ds["B"] <- ts(c(0, 0, 0), start = c(1990,1), freq = 12)
 
   ul <- URLIST(ds)
   expect_true(all(colnames(ul) %in% c("freq", "start", "end", "startp",

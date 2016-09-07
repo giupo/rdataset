@@ -10,7 +10,7 @@ tslist12 <- list(
   "period" = prd,
   "freq" = 12)
 
-tss12 <- TSERIES(numbers, START=c(year, prd), FREQ=12)
+tss12 <- ts(numbers, start=c(year, prd), freq=12)
 
 tslist4 <- list(
   "numbers" = numbers,
@@ -18,7 +18,7 @@ tslist4 <- list(
   "period" = prd,
   "freq" = 4)
 
-tss4 <- TSERIES(numbers, START=c(year, prd), FREQ=4)
+tss4 <- ts(numbers, start=c(year, prd), freq=4)
 
 test_that("to_list behaves like expected", {
   listed12 <- to_list(tss12)
