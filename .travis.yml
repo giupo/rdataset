@@ -4,8 +4,17 @@ language: R
 sudo: false
 cache: packages
 
+repos:
+  CRAN: https://cran.rstudio.com
+
 r_packages:
   - covr
+  - hash
+  - doMC
+  - xts
+  - Rcpp
+  - stringr
+  - xlsx
 
 after_success:
   - Rscript -e 'library(covr); codecov(line_exclusions=file.path("packrat", list.files(path="packrat", recursive=TRUE)))'
