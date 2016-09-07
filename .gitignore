@@ -4,3 +4,5 @@
 packrat/lib*/
 *.tar.gz
 *.Rcheck
+*.so
+*.o
