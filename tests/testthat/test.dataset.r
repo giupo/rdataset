@@ -64,7 +64,7 @@ test_that("load.dataset works as expected", {
   d <- suppressWarnings(Dataset(dir_grafo))
   expect_true(is.dataset(d["TS1"]))
   expect_true(length(d) == 2)
-  expect_warning(expect_error(dataset("http://localhost")))
+  expect_error(dataset("http://localhost"))
   .tearDown()
 })
 
@@ -179,7 +179,7 @@ test_that("Union of datasets works as expected", {
   ds <- union.Dataset(ds1, ds2)
   expect_true(all(names(ds1) %in% names(ds)))
   expect_true(all(names(ds2) %in% names(ds)))
-  
+
   expect_true(all(unlist(lapply(as.list(ds), is.bimets))))
   expect_true(!all(unlist(lapply(as.list(ds), is.dataset))))
 })
@@ -222,5 +222,49 @@ test_that("URLIST su un Dataset", {
   expect_equal(bb$end, 1990+3/12)
   expect_equal(bb$endy, 1990)
   expect_equal(bb$endp, 3)
- 
+})
+
+test_that("Dataset fails with error if it doesn't know how to handle url", {
+  expect_error(Dataset("http://localhost"))
+})
+
+test_that("failig to match subsetting returns an empty Dataset", {
+  .setUp()
+  d <- Dataset(dir_grafo)
+  idx <- rep(FALSE, length(d))
+  expect_equal(length(d[idx]), 0)
+  .tearDown()
+})
+
+test_that("subsetting with a zero numeric array returns an empty Dataset", {
+  .setUp()
+  d <- Dataset(dir_grafo)
+  idx <- numeric(0)
+  expect_equal(length(d[idx]), 0)
+  .tearDown()
+})
+
+test_that("subsetting with inconsistent numeric array returns an error", {
+  .setUp()
+  d <- Dataset(dir_grafo)
+  idx <- c(8,9,10)
+  expect_error(d[idx])
+  .tearDown()
+})
+
+test_that("subsetting with inconsistent char array returns a warning and an empty Dataset", {
+  .setUp()
+  d <- Dataset(dir_grafo)
+  idx <- c("A", "B", "C")
+  expect_warning(expect_equal(length(d[idx]), 0))
+  .tearDown()
+})
+
+test_that("Setting to null an object removes it from Dataset", {
+  .setUp()
+  d <- Dataset(dir_grafo)
+  origLength <- length(d)
+  d["TS1"] <- NULL
+  expect_equal(length(d), origLength - 1)
+  .tearDown()
 })

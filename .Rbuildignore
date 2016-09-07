@@ -8,3 +8,4 @@ Makefile
 autotest\.r
 packrat
 
+^\.travis\.yml$

@@ -41,27 +41,26 @@ Dataset <- setClass(
   }
   
   .Object@url <- url
-  
+
+
+  if(startsWith(url, "http")) {
+    stop("http[s] not Implemented")
+  }
   # bypass for future releases
   parsed_url<- list()
   parsed_url$scheme <- NULL
   
-  if (is.null(parsed_url$scheme) || parsed_url$scheme != "http"
-      || parsed_url$scheme != "https") {
-    path <- normalizePath(url)
-    if (!.noSPK && is_speakeasy(path)) {
-      raw_list <- load_dataset_spk(path, ids)
-    } else if (is_grafo(path)) {
-      raw_list <- load_dataset_grafo(path)
-    } else if (is_JSON(path)) {
-      raw_list <- load_dataset_json(path)
-    } else if (is_csv_library(path)) {
-      raw_list <- load_dataset_csv(path)
-    } else {
-      stop(paste0("Can't load: dunno what is ", url))
-    }
+  path <- normalizePath(url)
+  if (!.noSPK && is_speakeasy(path)) {
+    raw_list <- load_dataset_spk(path, ids)
+  } else if (is_grafo(path)) {
+    raw_list <- load_dataset_grafo(path)
+  } else if (is_JSON(path)) {
+    raw_list <- load_dataset_json(path)
+  } else if (is_csv_library(path)) {
+    raw_list <- load_dataset_csv(path)
   } else {
-    stop(parserd_url$scheme, "Not Implemented")
+    stop(parsed_url$scheme, "not Implemented")
   }
 
   .Object@data <- hash(as.list(raw_list))
