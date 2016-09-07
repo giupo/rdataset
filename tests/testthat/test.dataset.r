@@ -2,9 +2,10 @@ context("Data Structures, Dataset")
 
 .setUp <- function() {  # noqa  
   workdir <<- rutils::workDir()
-  jsonFilePath <<- file.path(workdir, "pippo.json")
-  write("test", jsonFilePath)
+  # jsonFilePath <<- file.path(workdir, "pippo.json")
+  # write("test", jsonFilePath)
 
+  jsonFilePath <<- system.file(package="rdataset", "test.json")
   dir_grafo <<- rutils::tempdir()
   spk_lib <<- rutils::tempdir()
   spk_list <<- file.path(spk_lib, "test.list")
@@ -266,5 +267,11 @@ test_that("Setting to null an object removes it from Dataset", {
   origLength <- length(d)
   d["TS1"] <- NULL
   expect_equal(length(d), origLength - 1)
+  .tearDown()
+})
+
+test_that("I can load datasets of timeseries", {
+  .setUp()
+  d <- Dataset(jsonFilePath)
   .tearDown()
 })

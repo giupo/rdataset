@@ -452,21 +452,20 @@ setGeneric(
 #' @import bimets
 #' @importFrom foreach foreach %do% %dopar%
 #' @importFrom doMC registerDoMC
+#' @importFrom tis mergeSeries
 
 setMethod(
   "djoin",
-  c("Dataset","Dataset","ANY"),
+  c("Dataset", "Dataset", "ANY"),
   function(x, historic, date) {
     closure <- function(name) {
       ret <- list()
       if(!name %in% names(historic)) {
-        warning(paste0(
-          name,
-          " not in historic Dataset, adding without joining"))        
+        warning(name, "not in historic Dataset, adding without joining")
         ret[[name]] <- x[[name]]
       } else {
         ret[[name]] <- tryCatch(
-          TSJOIN(historic[[name]], x[[name]], JPRD=jprd),
+          as.ts(mergeSeries(historic[[name]], window(x[[name]], start = jprd))),
           error = function(cond) {
             stop(name, ": ", cond)
           })
@@ -475,7 +474,6 @@ setMethod(
     }
     
     ret <- Dataset()
-    registerDoMC(detectCores())
     ret@data <- hash(
       foreach(name = iter(names(x)), .combine=c, .multicombine=TRUE) %dopar% {
         closure(name)
@@ -571,26 +569,26 @@ setMethod(
 #' @return a dataset with the timeseries merged
 #' @note raises a warning for timeseries names not common in `x` and `y`
 #' @export
+#' @importFrom tis mergeSeries
 
-if(require(bimets)) {
-  setMethod(
-    "merge",
-    c("Dataset", "Dataset"),
-    function(x,y) {
-      common <- intersect(names(x), names(y))
-      not_common <- unique(union(setdiff(names(x), names(y)),
-                                 setdiff(names(y), names(x))))
-      if (length(not_common)) {
-        warning("Le seguenti serie non sono comuni: ",
-                paste(not_common, collapse=", "))
-      }
-      ret = Dataset()
-      for( name in common) {
-        ret[[name]] = TSMERGE(x[[name]], y[[name]])
-      }
-      ret
-    })
-}
+setMethod(
+  "merge",
+  c("Dataset", "Dataset"),
+  function(x,y) {
+    common <- intersect(names(x), names(y))
+    not_common <- unique(
+      union(setdiff(names(x), names(y)),
+            setdiff(names(y), names(x))))
+    if (length(not_common)) {
+      warning("Le seguenti serie non sono comuni: ",
+              paste(not_common, collapse=", "))
+    }
+    ret = Dataset()
+    for( name in common ) {
+      ret[[name]] = as.ts(mergeSeries(x[[name]], y[[name]]))
+    }
+    ret
+  })
 
 #' Controlla che il percorso \code{path} contenga una struttura a
 #' Grafo sul file system
@@ -706,8 +704,8 @@ is_speakeasy <- function(path)
 
 #' Controlla che `path` sia una library CSV
 #'
-#' @name isCSVLibrary
-#' @usage isCSVLibrary(path)
+#' @name is_csv_library
+#' @usage is_csv_library(path)
 #' @param path percorso da controllare
 #' @return `TRUE` se e' una library CSV, `FALSE` otherwise
 #' @export
@@ -747,7 +745,6 @@ load_dataset_csv <- function(path, ids=NULL) {
 
     nomi <- unlist(lapply(csvs, function(x) toupper(basename(x))))
     nomi <- gsub("\\.CSV", "", nomi)
-    registerDoMC(detectCores())
     
     foreach(filepath = iter(csvs), .combine = c, .errorhandling = 'remove') %dopar% {
       ret <- list()
@@ -785,13 +782,12 @@ load_dataset_grafo <- function(path) load_dataset_csv(file.path(path, "data"))
 
 load_dataset_json <- function(path) {
   json_data <- fromJSON(path, nullValue=NA)
-  registerDoMC(detectCores)
-  ret <- foreach(data=iter(json_data), .combine=c, .multicombine=T) %dopar% {
-    pret <- list()
-    pret[[1]] <- from_list(data)
+  ret <- list()
+  for(name in names(json_data)) {
+    ret[[name]] <- from_list(data)
   }
   names(ret) <- names(json_data)
-  return(ret)
+  ret
 }
 
 #' Salva un dataset come file JSON
@@ -817,7 +813,7 @@ save.dataset <- function(data, path) {
 #' @param x a generic object
 #' @return \code{TRUE} if \code{x} is a \code{Dataset}, \code{FALSE} otherwise
 
-is.dataset <- function(x) any(grepl("Dataset$", class(x)))
+is.dataset <- function(x) inherits(x, "Dataset")
 
 #' Costruisce un dataset.
 #'

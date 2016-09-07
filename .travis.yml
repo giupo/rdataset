@@ -15,6 +15,11 @@ r_packages:
   - Rcpp
   - stringr
   - xlsx
+  - tis
+  
+r_github_packages:
+  - giupo/rprogressbar
+  - giupo/rutils
 
 after_success:
   - Rscript -e 'library(covr); codecov(line_exclusions=file.path("packrat", list.files(path="packrat", recursive=TRUE)))'

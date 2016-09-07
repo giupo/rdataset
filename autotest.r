@@ -5,6 +5,7 @@ library(methods)
 library(hash)
 library(doMC)
 library(tools)
+library(RJSONIO)
 
 packrat::extlib("bimets")
 devtools::load_all()
