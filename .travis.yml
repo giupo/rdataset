@@ -16,7 +16,12 @@ r_packages:
   - stringr
   - xlsx
   - tis
-  
+
+addons:
+  apt:
+    packages:
+    - tk8.5
+    
 r_github_packages:
   - giupo/rprogressbar
   - giupo/rutils
