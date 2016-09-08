@@ -85,7 +85,7 @@ NumericVector createTimeSeries(double anno, double periodo,
 NumericVector tsRead_nativo(std::string path) {
   std::vector<double> dati;
   std::vector<double> numeri;    
-  std::ifstream fin(path);
+  std::ifstream fin(path.c_str());
   std::string line;
   double value = 0.;
   int anno = 0;
