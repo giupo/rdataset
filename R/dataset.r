@@ -33,6 +33,13 @@ Dataset <- setClass(
     url="character"))
 
 
+.version <- paste(R.Version()$major, R.Version()$minor, sep=".")
+startsWith <- if(.version < "3.3.0") {
+  function(x, pattern) grepl(paste0('^', pattern), x)
+} else {
+  base::startsWith
+}
+
 .init <- function(.Object, url=NULL, ids=NULL) {
   if(is.null(url)) {
     raw_list <- list()
@@ -43,6 +50,9 @@ Dataset <- setClass(
   .Object@url <- url
 
 
+
+
+  
   if(startsWith(url, "http")) {
     stop("http[s] not Implemented")
   }
