@@ -106,7 +106,7 @@ setMethod(
         return(Dataset())
       }
     }
- 
+    
     if (is.numeric(i) | is.logical(i)) {
       aslist <- as.list(x)
       out@data <- hash(aslist[i])
@@ -288,13 +288,13 @@ setMethod(
     }
 
     data <- foreach(
-        nome = iter(common),
-        .multicombine = TRUE,
-        .combine = c) %dopar% {
-      ret <- list()
-      ret[[nome]] <- e1[[nome]] - e2[[nome]]
-      ret
-    }
+      nome = iter(common),
+      .multicombine = TRUE,
+      .combine = c) %dopar% {
+        ret <- list()
+        ret[[nome]] <- e1[[nome]] - e2[[nome]]
+        ret
+      }
     # names(data) <- common
     as.dataset(data)
   })
@@ -698,7 +698,7 @@ is_speakeasy_list <- function(path) {
 #'         altrimenti \code{FALSE}
 
 is_speakeasy <- function(path)
-  (is_speakeasy_library(path) || is_speakeasy_list(path))
+(is_speakeasy_library(path) || is_speakeasy_list(path))
 
 
 #' Controlla che `path` sia una library CSV
@@ -731,31 +731,31 @@ is_csv_library <- function(path) {
 #' @importFrom parallel detectCores
 
 load_dataset_csv <- function(path, ids=NULL) {
-    csvs <- list.files(
-        path,
-        pattern="\\.csv$",
-        recursive=TRUE,
-        full.names=TRUE)
+  csvs <- list.files(
+    path,
+    pattern="\\.csv$",
+    recursive=TRUE,
+    full.names=TRUE)
   
-    if(!is.null(ids)) {
-        ids_path <- file.path(path, paste0(tolower(ids), ".csv"))
-        csvs <- intersect(csvs, ids_path)    
-    }
+  if(!is.null(ids)) {
+    ids_path <- file.path(path, paste0(tolower(ids), ".csv"))
+    csvs <- intersect(csvs, ids_path)    
+  }
 
-    nomi <- unlist(lapply(csvs, function(x) toupper(basename(x))))
-    nomi <- gsub("\\.CSV", "", nomi)
-    
-    foreach(filepath = iter(csvs), .combine = c, .errorhandling = 'remove') %dopar% {
-      ret <- list()
-      name <- toupper(basename(filepath))
-      name <- gsub("\\.CSV", "", name)
-      ret[[name]] <- tryCatch({
-        tsRead_nativo(filepath)
-      }, error = function(cond) {
-        stop(name, ":", cond)
-      })
-      ret
-    }
+  nomi <- unlist(lapply(csvs, function(x) toupper(basename(x))))
+  nomi <- gsub("\\.CSV", "", nomi)
+  
+  foreach(filepath = iter(csvs), .combine = c, .errorhandling = 'remove') %dopar% {
+    ret <- list()
+    name <- toupper(basename(filepath))
+    name <- gsub("\\.CSV", "", name)
+    ret[[name]] <- tryCatch({
+      tsRead_nativo(filepath)
+    }, error = function(cond) {
+      stop(name, ":", cond)
+    })
+    ret
+  }
 }
 
 #' Carica un Dataset da un percorso di Grafo
@@ -840,12 +840,12 @@ dataset <- function(...) {
   if(length(params) == 0) {
     return(new(class))
   }
-      
+  
   if("biss" %in% names(params) && params$biss) {
-      if(!require("RBISS")) {
-          stop("Non c'e' la library RBISS")
-      }
-      class <- "BissDataset"
+    if(!require("RBISS")) {
+      stop("Non c'e' la library RBISS")
+    }
+    class <- "BissDataset"
   }
   return(new(class, params[[1]]))
 }
@@ -977,7 +977,7 @@ setGeneric(
     standardGeneric("URLIST")
   })
 
-  
+
 setMethod(
   "URLIST",
   signature("Dataset"),
@@ -991,7 +991,7 @@ setMethod(
       endp <- stats::end(timeSeries)[[2]]
       START <- starty + startp/freq
       END <- endy + endp/freq
-    
+      
       data.frame(list(
         name=name, freq = freq, start = START,
         end = END, starty = starty, startp = startp,
@@ -1128,15 +1128,15 @@ setMethod(
       numero <- round(tt[i])
       anno <- idx[i]
       rows <- paste(
-          rows,
-          paste(
-              gsub("\\.", sep, mapped_name),
-              anno,
-              numero,
-              "A",
-              "F",
-              sep =sep),
-          sep = "\n")
+        rows,
+        paste(
+          gsub("\\.", sep, mapped_name),
+          anno,
+          numero,
+          "A",
+          "F",
+          sep =sep),
+        sep = "\n")
     }
   }
   kill(pb)
@@ -1175,24 +1175,24 @@ setMethod(
 #' @export
 
 setGeneric(
-    "to_xlsx",
-    function(x, path, bycol=T) {
-        standardGeneric("to_xlsx")
-    })
+  "to_xlsx",
+  function(x, path, bycol=T) {
+    standardGeneric("to_xlsx")
+  })
 
 setMethod(
-    "to_xlsx",
-    signature("Dataset", "character", "logical"),
-    function(x, path, bycol=T) {
-        .to_xlsx(x, path, bycol=bycol)
-    })
+  "to_xlsx",
+  signature("Dataset", "character", "logical"),
+  function(x, path, bycol=T) {
+    .to_xlsx(x, path, bycol=bycol)
+  })
 
 setMethod(
-    "to_xlsx",
-    signature("Dataset", "character"),
-    function(x, path) {
-        .to_xlsx(x, path, bycol=F)
-    })
+  "to_xlsx",
+  signature("Dataset", "character"),
+  function(x, path) {
+    .to_xlsx(x, path, bycol=F)
+  })
 
 
 
