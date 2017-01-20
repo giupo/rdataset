@@ -275,3 +275,16 @@ test_that("I can load datasets of timeseries", {
   d <- Dataset(jsonFilePath)
   .tearDown()
 })
+
+test_that("I can produce an xlsx from a Dataset", {
+  ds <- Dataset()
+  ds["TS1"] <- ts(c(1,2,3), start=c(1990,1), freq=1)
+  ds["TS4"] <- ts(c(1,2,3), start=c(1990,1), freq=4)
+  ds["TS12"] <- ts(c(1,2,3), start=c(1990,1), freq=12)
+  expect_true(require(rprogressbar))
+  #tmpfile <- tempfile(fileext=".xlsx")
+  tmpfile <- "~/tmp.xlsx"
+  #on.exit(unlink(tmpfile, force=TRUE))
+  to_xlsx(ds, tmpfile)
+  expect_true(file.info(tmpfile)$size > 0)
+})

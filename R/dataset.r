@@ -268,9 +268,8 @@ setMethod(
 #' @param e1 Dataset (primo operando)
 #' @param e2 Dataset (secondo operando)
 #' @return Il dataset con le differenze
-#' @importFrom foreach foreach getDoParWorkers
+#' @importFrom foreach foreach %dopar%
 #' @importFrom iterators iter
-#' @importFrom doMC registerDoMC
 #' @importFrom parallel detectCores
 
 setMethod(
@@ -289,12 +288,13 @@ setMethod(
     }
 
     result <- Dataset()
-    if (getDoParWorkers() == 1) {
-      registerDoMC(detectCores())
-    }
+    
+#    if (getDoParWorkers() == 1) {
+#      registerDoMC(detectCores())
+#    }
 
     if (length(common) == 0) {
-      stop("Non ci sono serie in comune tra i due dataset")
+      stop("No common objects between the datasets")
     }
 
     data <- foreach(
@@ -460,7 +460,6 @@ setGeneric(
 #' @param date una periodo di join
 #' @return Un dataset joinato
 #' @importFrom foreach foreach %do% %dopar%
-#' @importFrom doMC registerDoMC
 #' @importFrom tis mergeSeries
 
 setMethod(
@@ -737,7 +736,6 @@ is_csv_library <- function(path) {
 #' @note the path is scanned recursively
 #' @importFrom foreach foreach %do% %dopar%
 #' @importFrom iterators iter
-#' @importFrom doMC registerDoMC
 #' @importFrom parallel detectCores
 
 load_dataset_csv <- function(path, ids=NULL) {
@@ -1205,7 +1203,6 @@ setMethod(
   })
 
 
-
 do.call.cbind <- function(lst) {
   while(length(lst) > 1) {
     idxlst <- seq(from=1, to=length(lst), by=2)
@@ -1227,6 +1224,7 @@ do.call.cbind <- function(lst) {
 #' @rdname to_xlsx-internal
 #' @importFrom xlsx write.xlsx
 #' @importFrom hash hash
+#' @importFrom xts as.xts
 #' @importFrom rprogressbar ProgressBar updateProgressBar kill
 
 .to_xlsx <- function(x, path, bycol=T) {
@@ -1243,7 +1241,7 @@ do.call.cbind <- function(lst) {
     count <- count + 1
     updateProgressBar(pb, count, name)
     serie <- x[[name]]
-    f <- as.character(TSINFO(serie, MODE="FREQ", avoidCompliance=TRUE))
+    f <- as.character(frequency(serie))
     if (f %in% keys(freqs)) {
       container <- freqs[[f]]
       container[[name]] <- serie
@@ -1259,7 +1257,6 @@ do.call.cbind <- function(lst) {
   if(file.exists(path)) {
     unlink(path)
   }
-  browser()
   count <- 0
   pb <- ProgressBar(max=length(keys(freqs)))
   for(freq in keys(freqs)) {
