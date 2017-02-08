@@ -65,6 +65,13 @@ Version: 1.1.0
 Hash: 346d3477f87b89692dd1379eaed1a1be
 Requires: R6, assertthat, crayon, rprojroot
 
+Package: devtools
+Source: CRAN
+Version: 1.12.0
+Hash: bbad95109ae75cbb14099281cda43af2
+Requires: digest, git2r, httr, jsonlite, memoise, rstudioapi, whisker,
+    withr
+
 Package: digest
 Source: CRAN
 Version: 0.6.12
@@ -75,6 +82,11 @@ Source: CRAN
 Version: 1.4.3
 Hash: cd53ef4cf29dc59ce3f8c5c1af735fd1
 Requires: iterators
+
+Package: git2r
+Source: CRAN
+Version: 0.18.0
+Hash: 9dfaafbcca68be29b89ef7783dc1dac0
 
 Package: hash
 Source: CRAN
@@ -106,6 +118,12 @@ Package: magrittr
 Source: CRAN
 Version: 1.5
 Hash: bdc4d48c3135e8f3b399536ddf160df4
+
+Package: memoise
+Source: CRAN
+Version: 1.0.0
+Hash: 56e7087c3559eb7ba72a9afb349bf896
+Requires: digest
 
 Package: mime
 Source: CRAN
@@ -160,6 +178,11 @@ Version: 1.2
 Hash: fdcac51a7f47decd60556ceefc3c26b1
 Requires: backports
 
+Package: rstudioapi
+Source: CRAN
+Version: 0.6
+Hash: fd256f8bfb9a64cc35f98b0decb1a79f
+
 Package: stringi
 Source: CRAN
 Version: 1.1.2
@@ -181,6 +204,11 @@ Package: tis
 Source: CRAN
 Version: 1.32
 Hash: b5ece16c8bee99e06658647ea9ef6f43
+
+Package: whisker
+Source: CRAN
+Version: 0.3-2
+Hash: 803d662762e532705c2c066a82d066e7
 
 Package: withr
 Source: CRAN
