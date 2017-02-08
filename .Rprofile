@@ -1,7 +1,3 @@
-#### -- Packrat Autoloader (version 0.4.7-1) -- ####
-tryCatch({
-    suppressWarnings(source("packrat/init.R"))
-}, error = function(cond) {
-    message(cond)
-}) 
+#### -- Packrat Autoloader (version 0.4.8-1) -- ####
+source("packrat/init.R")
 #### -- End Packrat Autoloader -- ####
