@@ -1,5 +1,7 @@
 context("Data Structures, Dataset")
 
+library(zoo)
+
 .setUp <- function() {  # noqa  
   workdir <<- rutils::workDir()
   # jsonFilePath <<- file.path(workdir, "pippo.json")

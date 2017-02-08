@@ -5,6 +5,7 @@
 #' @export
 #' @param t a BIMETS timeseries
 #' @return a list object
+#' @importFrom stats is.ts
 
 to_list <- function(t) {
   if (is.ts(t)) {

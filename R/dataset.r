@@ -23,7 +23,7 @@
 #' @exportClass Dataset
 #' @author Giuseppe Acito
 #' @importFrom hash hash
-#' @importFrom methods setClass representation setGeneric setMethod signature
+#' @importFrom methods setClass representation setGeneric setMethod signature new
 
 Dataset <- setClass(
   "Dataset",
@@ -405,6 +405,7 @@ setGeneric (
 #'               files csv (1 per serie storica)
 #' @param as.grafo Salva Dataset con la struttura su filesystem compatible con
 #'                 il Grafo (implica as.csv == TRUE)
+#' @importFrom stats ts as.ts is.ts
 setMethod(
   "saveDataset",
   signature("Dataset", "character", "logical", "logical"),
@@ -1286,7 +1287,7 @@ setMethod(
 #'
 #' @name window.Dataset
 #' @usage window(x, ...)
-#' 
+#' @importFrom stats window
 #' @export
 
 window.Dataset <- function(x, ...) {
@@ -1303,7 +1304,6 @@ window.Dataset <- function(x, ...) {
   })
   as.dataset(ret)
 }
-
 
 #' Questa funzione esegue una deep copy dell'oggetto
 #'

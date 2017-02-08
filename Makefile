@@ -47,7 +47,7 @@ autotest:
 	Rscript autotest.r
 
 test:
-	Rscript -e 'devtools::test()'
+	Rscript -e 'devtools::test()' --default-packages=methods,utils
 
 so:
 	Rscript --vanilla -e 'devtools::compile_dll()'

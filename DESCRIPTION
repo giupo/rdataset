@@ -24,7 +24,8 @@ Suggests:
     testthat,
     crayon,
     covr,
-    roxygen2
+    roxygen2,
+    zoo
 Collate:
     'RcppExports.R'
     'io.r'
