@@ -19,4 +19,3 @@ Ritorna il dataset come una \code{list} di serie storiche
 \author{
 Giuseppe Acito
 }
-

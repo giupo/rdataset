@@ -17,4 +17,3 @@ Salva un dataset come file JSON
 \note{
 Funzione interna, potrebbe cambiare
 }
-

@@ -23,6 +23,11 @@ Source: CRAN
 Version: 0.12.9
 Hash: 7ab41cbe74918de8de87e435ef17e92d
 
+Package: XML
+Source: CRAN
+Version: 3.98-1.5
+Hash: 818adc834fc0a16dd4340a59d63b673a
+
 Package: assertthat
 Source: CRAN
 Version: 0.1
@@ -76,6 +81,12 @@ Package: digest
 Source: CRAN
 Version: 0.6.12
 Hash: e53fb8c58673df868183697e39a6a4d6
+
+Package: doParallel
+Source: CRAN
+Version: 1.0.10
+Hash: df91a7abfa938c06ad87b9a2b9269adb
+Requires: foreach, iterators
 
 Package: foreach
 Source: CRAN
@@ -182,6 +193,16 @@ Package: rstudioapi
 Source: CRAN
 Version: 0.6
 Hash: fd256f8bfb9a64cc35f98b0decb1a79f
+
+Package: rutils
+Source: github
+Version: 0.2.5
+Hash: cc39fa2989455e29eb0b1465b7dd2c0d
+Requires: XML, doParallel, foreach, testthat
+GithubRepo: rutils
+GithubUsername: giupo
+GithubRef: master
+GithubSha1: 6f4adbbe167e44ffc8fcd2adfaba8e34299ba29e
 
 Package: stringi
 Source: CRAN

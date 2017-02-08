@@ -24,4 +24,3 @@ Imposta, data una stringa ed un oggetto xts, una serie storica nel Dataset
 \author{
 Giuseppe Acito
 }
-

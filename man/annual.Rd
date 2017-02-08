@@ -16,4 +16,3 @@ un dataset annualizzato
 Se le serie contenute sono gia' annuali, non fa nulla e
 lascia la serie cosi' com'e'
 }
-

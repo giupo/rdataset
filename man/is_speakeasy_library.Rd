@@ -19,4 +19,3 @@ Controlla che il percorso \code{path} e' una library Speakeasy
 \author{
 Giuseppe Acito
 }
-

@@ -29,4 +29,3 @@ ds <- dataset(lll)
 \author{
 Giuseppe Acito
 }
-

@@ -19,4 +19,3 @@ Elenco dei nomi di serie contenuti nel Dataset
 \author{
 Giuseppe Acito
 }
-

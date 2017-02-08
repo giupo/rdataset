@@ -16,15 +16,14 @@
 #' @name Dataset
 #' @usage Dataset(url, ids)
 #' @aliases Dataset-class
-#' @param url path where data is
-#' @param ids only IDs area leaded in this Dataset (character array of names)
+#' @slot data hash containing data
+#' @slot url path where data is
 #' @title Dataset OOP
 #' @export Dataset
 #' @exportClass Dataset
 #' @author Giuseppe Acito
 #' @importFrom hash hash
-#' @importFrom methods setClass representation
-#' @importFrom methods setGeneric setMethod signature
+#' @importFrom methods setClass representation setGeneric setMethod signature
 
 Dataset <- setClass(
   "Dataset",
@@ -35,10 +34,10 @@ Dataset <- setClass(
 
 .version <- paste(R.Version()$major, R.Version()$minor, sep=".")
 startsWith <- if(.version < "3.3.0") {
-  function(x, pattern) grepl(paste0('^', pattern), x)
-} else {
-  base::startsWith
-}
+                  function(x, pattern) grepl(paste0('^', pattern), x)
+              } else {
+                  base::startsWith
+              }
 
 .init <- function(.Object, url=NULL, ids=NULL) {
   if(is.null(url)) {
@@ -49,10 +48,6 @@ startsWith <- if(.version < "3.3.0") {
   
   .Object@url <- url
 
-
-
-
-  
   if(startsWith(url, "http")) {
     stop("http[s] not Implemented")
   }

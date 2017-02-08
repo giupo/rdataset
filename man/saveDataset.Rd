@@ -22,10 +22,9 @@ il Grafo (implica as.csv == TRUE)}
 \description{
 Salva un Dataset.
 }
-\author{
-Giuseppe Acito
-}
 \seealso{
 \code{saveGraph}
 }
-
+\author{
+Giuseppe Acito
+}

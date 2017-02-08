@@ -15,4 +15,3 @@ is.dataset(x)
 \description{
 checks if \code{x} is an object of type \code{Dataset}
 }
-

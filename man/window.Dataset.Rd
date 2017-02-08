@@ -9,4 +9,3 @@ window(x, ...)
 \description{
 Esegue il `window` sul Dataset
 }
-

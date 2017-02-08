@@ -15,4 +15,3 @@ a timeseries
 \description{
 converts a list structure to a BIMETS timeseries
 }
-

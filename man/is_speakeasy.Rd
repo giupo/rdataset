@@ -16,10 +16,9 @@ is_speakeasy(path)
 \description{
 Controlla che il percorso \code{path} e' un contenitore di dati Speakeasy
 }
-\author{
-Giuseppe Acito
-}
 \seealso{
 is_speakeas_list is_speakeasy_library
 }
-
+\author{
+Giuseppe Acito
+}

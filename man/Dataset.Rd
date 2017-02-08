@@ -8,15 +8,17 @@
 \usage{
 Dataset(url, ids)
 }
-\arguments{
-\item{url}{path where data is}
-
-\item{ids}{only IDs area leaded in this Dataset (character array of names)}
-}
 \description{
 Classe contenitore di dati (serie storiche)
 }
+\section{Slots}{
+
+\describe{
+\item{\code{data}}{hash containing data}
+
+\item{\code{url}}{path where data is}
+}}
+
 \author{
 Giuseppe Acito
 }
-

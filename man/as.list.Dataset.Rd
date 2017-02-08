@@ -2,6 +2,7 @@
 % Please edit documentation in R/dataset.r
 \name{as.list.Dataset}
 \alias{as.list.Dataset}
+\alias{as.list.Dataset}
 \title{S3 overload for `Dataset`}
 \usage{
 as.list.Dataset(X)
@@ -26,4 +27,3 @@ Ritorna il `Dataset` come `list` di oggetti
 \seealso{
 as.list
 }
-

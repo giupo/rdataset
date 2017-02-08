@@ -20,4 +20,3 @@ load a list of timeseries placed in path as CSV files.
 \note{
 the path is scanned recursively
 }
-

@@ -25,4 +25,3 @@ specificata.
 \author{
 Giuseppe Acito
 }
-

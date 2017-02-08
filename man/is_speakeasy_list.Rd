@@ -19,4 +19,3 @@ Controlla che il percorso \code{path} e' un file list Speakeasy
 \author{
 Giuseppe Acito
 }
-

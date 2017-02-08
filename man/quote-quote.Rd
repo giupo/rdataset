@@ -23,4 +23,3 @@ Se un oggetto non e' comune ai due dataset viene invocato un warning
 \author{
 Giuseppe Acito
 }
-

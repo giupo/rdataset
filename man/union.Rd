@@ -26,4 +26,3 @@ nomi dei due dataset sia non nulla.
 \author{
 Giuseppe Acito
 }
-

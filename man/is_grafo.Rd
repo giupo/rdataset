@@ -21,4 +21,3 @@ Grafo sul file system
 \author{
 Giuseppe Acito
 }
-
