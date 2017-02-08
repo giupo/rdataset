@@ -176,12 +176,13 @@ Requires: R6, Rcpp, brew, commonmark, desc, digest, stringi, stringr,
 
 Package: rprogressbar
 Source: github
-Version: 0.1.3
-Hash: e280590a7a0fdb868402afdc37cabb52
+Version: 0.1.6
+Hash: fbd740011e24436980dffb69847a99a4
+Requires: rstudioapi
 GithubRepo: rprogressbar
 GithubUsername: giupo
 GithubRef: master
-GithubSha1: 03875470cca68e2ed5177e61a7e04b2d3a3a330c
+GithubSha1: ccab5b0f27ca203d239c0aeca627445f4d34efea
 
 Package: rprojroot
 Source: CRAN
