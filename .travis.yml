@@ -19,6 +19,8 @@ addons:
 r:
   - release
 
+warnings_are_errors: false
+
 repos:
   CRAN: http://cran.rstudio.com
 
