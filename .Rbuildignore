@@ -5,7 +5,7 @@
 Makefile
 ^packrat/
 ^\.Rprofile$
-autotest\.r
+^autotest\.r$
 packrat
-
+CONTRIBUTING.rst
 ^\.travis\.yml$

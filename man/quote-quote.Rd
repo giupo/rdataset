@@ -18,8 +18,5 @@ Il dataset con le differenze
 \description{
 Esegue la differenza tra due dataset di oggetti (a patto che la differenza
 sia definita per gli oggetti)
-Se un oggetto non e' comune ai due dataset viene invocato un warning
-}
-\author{
-Giuseppe Acito
+Se un oggetto non e' comune ai due dataset viene lanciato un warning
 }
