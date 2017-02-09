@@ -262,8 +262,14 @@ setMethod(
     nomi1 <- names(e1)
     nomi2 <- names(e2)
     common <- intersect(nomi1, nomi2)
-    not_common <- setdiff(nomi1, nomi2)
+    not_common <- union(
+      setdiff(nomi1, nomi2),
+      setdiff(nomi2, nomi1))
 
+    if (length(common) == 0) {
+      stop("No common objects between the datasets")
+    }
+    
     if (length(not_common) > 0) {
       lapply(not_common, function(name) {
         warning(paste0(name, " not common, excluded from diff"))
@@ -272,10 +278,6 @@ setMethod(
 
     result <- Dataset()
     
-    if (length(common) == 0) {
-      stop("No common objects between the datasets")
-    }
-
     data <- foreach(
       nome = iter(common),
       .multicombine = TRUE,

@@ -291,3 +291,60 @@ test_that("a dataset can be created from a CSV-filled directory", {
   }
 })
 
+test_that("Init with a non existing directory raises a warning and an error", {
+  expect_error(expect_warning(Dataset("/io/non/esisto")))
+})
+
+test_that("calling with an unsupported protocol raises an error", {
+  expect_warning(expect_error(Dataset("ftp://helloWorld")))
+})
+
+test_that("can't subset with list()", {
+  d <- Dataset()
+  expect_error(d[list(a=1)], "can't subset")
+})
+
+test_that("I can delete data from a Dataset", {
+  d <- Dataset()
+  d["A"] <- ts(c(1,2,3))
+  d["B"] <- ts(c(1,2,3))
+
+  expect_equal(length(d), 2)
+  expect_equal(names(d), c("A", "B"))
+
+  d["A"] <- NULL
+
+  expect_equal(length(d), 1)
+  expect_true(!"A" %in% names(d))
+})
+
+test_that("`as.vector` is equal to `names` on a Dataset", {
+  d <- Dataset()
+  d["A"] <- ts(c(1,2,3))
+  d["B"] <- ts(c(1,2,3))
+  expect_equal(names(d), as.vector(d))
+})
+
+test_that("differences from a dataset with different names raises a warning", {
+  d1 <- Dataset()
+  d1["A"] <- ts(c(1,2,3))
+  d1["B"] <- ts(c(1,2,3))
+  d2 <- Dataset()
+  d2["A"] <- ts(c(1,2,3))
+  d2["B"] <- ts(c(1,2,3))
+  d2["C"] <- ts(c(1,2,3))
+
+  expect_warning(d1-d2)
+})
+
+
+test_that("differences from a dataset with zero common  names raises an error", {
+  d1 <- Dataset()
+  d1["A"] <- ts(c(1,2,3))
+  d1["B"] <- ts(c(1,2,3))
+  d2 <- Dataset()
+  d2["C"] <- ts(c(1,2,3))
+  d2["D"] <- ts(c(1,2,3))
+
+  expect_error(d1-d2)
+})
