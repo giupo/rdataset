@@ -348,3 +348,30 @@ test_that("differences from a dataset with zero common  names raises an error", 
 
   expect_error(d1-d2)
 })
+
+test_that("comparators return a logical values", {
+  d1 <- Dataset()
+  d1["A"] <- ts(c(1,2,3))
+  d1["B"] <- ts(c(1,2,3))
+
+  x <- d1 <= 2
+  expected <- c(A=TRUE, B=TRUE)
+  expect_true(is.logical(x))
+  expect_equal(x, expected)
+
+  x <- d1 >= 2
+  expected <- c(A=TRUE, B=TRUE)
+  expect_true(is.logical(x))
+  expect_equal(x, expected)
+
+
+  x <- d1 <= -2
+  expected <- c(A=FALSE, B=FALSE)
+  expect_true(is.logical(x))
+  expect_equal(x, expected)
+
+  x <- d1 >= 4
+  expected <- c(A=FALSE, B=FALSE)
+  expect_true(is.logical(x))
+  expect_equal(x, expected)
+})
