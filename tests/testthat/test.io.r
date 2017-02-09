@@ -98,3 +98,9 @@ test_that("to_json can encode an array", {
   x <- to_json(data)
   expect_equal(data, from_json(x))
 })
+
+test_that("from_list is able to convert data to the caller", {
+  data <- c(1,2,3,4)
+  raw_list <- list(numbers=data)
+  expect_equal(from_list(raw_list), data)
+})
