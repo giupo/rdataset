@@ -612,9 +612,8 @@ is_JSON <- function(path) {
 
 is_csv_library <- function(path) {
   csvs <- list.files(
-    path,
-    pattern="..csv",    
-    full.names=TRUE)
+    path, pattern="..csv",    
+    full.names=TRUE, ignore.case=TRUE)
   return(length(csvs) > 0)
 }
 
@@ -635,7 +634,8 @@ load_dataset_csv <- function(path, ids=NULL) {
     path,
     pattern="\\.csv$",
     recursive=TRUE,
-    full.names=TRUE)
+    full.names=TRUE,
+    ignore.case=TRUE)
   
   if(!is.null(ids)) {
     ids_path <- file.path(path, paste0(tolower(ids), ".csv"))

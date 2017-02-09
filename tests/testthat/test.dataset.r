@@ -275,3 +275,19 @@ test_that("I can produce an xlsx from a Dataset", {
   to_xlsx(ds, tmpfile)
   expect_true(file.info(tmpfile)$size > 0)
 })
+
+test_that("is_csv_library works as expected", {
+  directory <- system.file(package="rdataset", "csvdataset")
+  expect_true(file.info(directory)$isdir)
+  expect_true(is_csv_library(directory))
+})
+
+test_that("a dataset can be created from a CSV-filled directory", {
+  directory <- system.file(package="rdataset", "csvdataset")
+  expect_true(file.info(directory)$isdir)
+  d <- Dataset(directory)
+  for(nome in names(d)) {
+    expect_true(is.ts(d[[nome]]))
+  }
+})
+
