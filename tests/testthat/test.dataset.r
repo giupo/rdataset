@@ -412,9 +412,9 @@ test_that("saveDataset behaves like expected", {
 
    with_mock(
     `rdataset::tsWrite_nativo`=function(...) { called <<- called + 1 }, {
-      saveDataset(d, "/non/esisto", as.csv = TRUE, as.grafo=FALSE)
+      saveDataset(d, "/non/esisto", as.csv = TRUE)
       expect_true(called > 0)
       called <<- 0
     })
-  
+
 })

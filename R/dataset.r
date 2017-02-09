@@ -390,32 +390,16 @@ setGeneric (
 #' @param path percorso dove salvare il Dataset
 #' @param as.csv Salva Dataset come CSV
 #'               files csv (1 per serie storica)
-#' @param as.grafo Salva Dataset con la struttura su filesystem compatible con
-#'                 il Grafo (implica as.csv == TRUE)
 #' @importFrom stats ts as.ts is.ts
 setMethod(
   "saveDataset",
-  signature("Dataset", "character", "logical", "logical"),
-  function(x, path, as.csv = FALSE, as.grafo=FALSE) {
+  signature("Dataset", "character", "logical"),
+  function(x, path, as.csv = FALSE) {
     data <- x@data
     if (as.csv) {
       for (name in keys(data)) {
         timeSeries <- data[[name]]
-        if (as.grafo) {
-          tryCatch({
-            data_path <- data.path(path, name)
-            tsWrite_nativo(timeSeries, data_path)
-          }, error = function(cond) {
-            name <- gsub("0", ".", data_path)
-            tryCatch({
-              tsWrite_nativo(timeSeries, data.path(path, name))
-            }, error = function(cond) {
-              warning(data_path)
-            })
-          })
-        } else {
-          tsWrite_nativo(timeSeries, file.path(path, paste0(name, ".csv")))
-        }
+        tsWrite_nativo(timeSeries, file.path(path, paste0(name, ".csv")))
       }
     } else {
       data <- lapply(as.list(data), to_list)
