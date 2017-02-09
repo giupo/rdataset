@@ -392,7 +392,9 @@ test_that("Expect output from show", {
   d <- Dataset()
   d["A"] <- ts(c(1,2,3))
   d["B"] <- ts(c(1,2,3))
+  d@url <- "http://blabla"
   expect_output(show(d), "Dataset ")
+  expect_output(show(d), "http://blabla")
 })
 
 test_that("saveDataset behaves like expected", {
