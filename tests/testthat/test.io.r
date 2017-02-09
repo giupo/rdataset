@@ -71,3 +71,8 @@ test_that("to_list and from_list are symmetric", {
     expect_equal(tslist4[[name]], l4[[name]])
   }
 })
+
+test_that("to_json produces a JSON string", {
+  x <- to_json(tss12)
+  expect_true(is.character(x))
+})
