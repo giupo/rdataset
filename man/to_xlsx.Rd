@@ -4,7 +4,7 @@
 \alias{to_xlsx}
 \title{Allunga tutte le serie del Dataset.}
 \usage{
-to_xlsx(x, path)
+to_xlsx(x, path, bycol)
 }
 \arguments{
 \item{x}{nome del Dataset}

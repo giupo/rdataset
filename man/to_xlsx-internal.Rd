@@ -4,7 +4,7 @@
 \alias{.to_xlsx}
 \title{Exporta in xlsx un Dataset}
 \usage{
-.to_xlsx(x, path)
+.to_xlsx(x, path, bycol)
 }
 \arguments{
 \item{x}{Istanza di Dataset}

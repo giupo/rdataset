@@ -3,18 +3,29 @@
 \docType{methods}
 \name{as.list}
 \alias{as.list}
+\alias{as.list}
+\alias{as.list.Dataset}
 \title{Ritorna il dataset come una \code{list} di serie storiche}
 \usage{
 \S4method{as.list}{Dataset}(x)
+
+as.list.Dataset(x, ...)
 }
 \arguments{
 \item{x}{il Dataset}
 }
 \value{
 la \code{list} contenente le serie storiche
+
+una `list` di Timeseries
 }
 \description{
 Ritorna il dataset come una \code{list} di serie storiche
+
+Ritorna il `Dataset` come `list` di oggetti
+}
+\seealso{
+base::as.list
 }
 \author{
 Giuseppe Acito

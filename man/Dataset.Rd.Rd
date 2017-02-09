@@ -9,7 +9,6 @@ dataset(...)
 \arguments{
 \item{...}{Qui si puo specificare
 - una stringa con un URL da cui costruire il Dataset
-  (Grafo, Speakeasy library, Speakeasy List)
 - una lista di oggetti}
 }
 \value{

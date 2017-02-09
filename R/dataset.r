@@ -231,7 +231,6 @@ setMethod(
 #' @title Elenco nomi Dataset
 #' @export
 #' @importFrom hash keys
-#' @author Giuseppe Acito
 #' @param x un istanza di Dataset
 #' @return un character array contenente i nomi delle serie storiche nel Dataset
 
@@ -244,12 +243,11 @@ setMethod(
 
 #' Esegue la differenza tra due dataset di oggetti (a patto che la differenza
 #' sia definita per gli oggetti)
-#' Se un oggetto non e' comune ai due dataset viene invocato un warning
+#' Se un oggetto non e' comune ai due dataset viene lanciato un warning
 #'
 #' @name "-"
 #' @title Differenza tra Dataset
 #' @export
-#' @author Giuseppe Acito
 #' @param e1 Dataset (primo operando)
 #' @param e2 Dataset (secondo operando)
 #' @return Il dataset con le differenze
@@ -260,7 +258,7 @@ setMethod(
 setMethod(
   "-",
   signature(e1 = "Dataset", e2 = "Dataset"),
-  function(e1,e2) {
+  function(e1, e2) {
     nomi1 <- names(e1)
     nomi2 <- names(e2)
     common <- intersect(nomi1, nomi2)
@@ -274,10 +272,6 @@ setMethod(
 
     result <- Dataset()
     
-#    if (getDoParWorkers() == 1) {
-#      registerDoMC(detectCores())
-#    }
-
     if (length(common) == 0) {
       stop("No common objects between the datasets")
     }
@@ -485,21 +479,16 @@ setMethod(
 #' @param x il Dataset
 #' @return la \code{list} contenente le serie storiche
 
-
 setMethod(
   "as.list",
   signature("Dataset"),
   function(x) as.list.Dataset(x))
 
-
 #' Ritorna il `Dataset` come `list` di oggetti
 #'
-#' @name as.list.Dataset
-#' @usage as.list.Dataset(x)
-#' @param x un generico oggetto R
-#' @param ... generics passati a base::as.list
+#' @name as.list
 #' @seealso base::as.list
-#' @return un `Dataset`
+#' @return una `list` di Timeseries 
 #' @export
 
 as.list.Dataset <- function(x, ...) as.list(x@data, ...) #cosa cambia dal precedente? Boh!
@@ -964,11 +953,18 @@ setMethod(
     }
   })
 
+
+#' Accesses the timeseries/object based on its name
+#' 
+#' @param x dataset
+#' @param name nome dell'oggetto da estrarre
+#' @export
+
 setMethod(
   "$",
   signature("Dataset"),
-  function(x) {
-    x
+  function(x, name) {
+    x[[unlist(str_split(name, " "))]]
   })
 
 #' Allunga tutte le serie del Dataset.
@@ -1083,7 +1079,7 @@ setMethod(
 #'
 #'
 #' @name to_xlsx
-#' @usage to_xlsx(x, path)
+#' @usage to_xlsx(x, path, bycol)
 #' @param x nome del Dataset
 #' @param periodo percorso del file
 #' @param bycol esporta per colonna se `TRUE`, altrimenti per riga
@@ -1124,7 +1120,7 @@ do.call.cbind <- function(lst) {
 #' Exporta in xlsx un Dataset
 #'
 #' @name .to_xlsx
-#' @usage .to_xlsx(x, path)
+#' @usage .to_xlsx(x, path, bycol)
 #' @param x Istanza di Dataset
 #' @param path percorso dove esportare i dati
 #' @param bycol esporta per colonna se `TRUE`, altrimenti per riga
@@ -1196,8 +1192,6 @@ setMethod(
 
 #' Esegue il `window` sul Dataset
 #'
-#' @name window.Dataset
-#' @usage window(x, ...)
 #' @importFrom stats window
 #' @export
 
