@@ -286,9 +286,14 @@ test_that("a dataset can be created from a CSV-filled directory", {
   directory <- system.file(package="rdataset", "csvdataset")
   expect_true(file.info(directory)$isdir)
   d <- Dataset(directory)
+  expect_true(length(d) > 0)
   for(nome in names(d)) {
     expect_true(is.ts(d[[nome]]))
   }
+
+  d <- Dataset(directory, ids=c("A"))
+  expect_true("A" %in% names(d))
+  expect_true(!"B" %in% names(d))  
 })
 
 test_that("Init with a non existing directory raises a warning and an error", {
@@ -341,10 +346,11 @@ test_that("differences from a dataset with different names raises a warning", {
   d2["C"] <- ts(c(1,2,3))
 
   expect_warning(d1-d2)
+  expect_warning(d2-d1)
 })
 
 
-test_that("differences from a dataset with zero common  names raises an error", {
+test_that("differences from a dataset with zero common names raises an error", {
   d1 <- Dataset()
   d1["A"] <- ts(c(1,2,3))
   d1["B"] <- ts(c(1,2,3))

@@ -19,7 +19,8 @@ Imports:
     xlsx,
     tis,
     methods,
-    stats
+    stats,
+    rutils
 License: BSD_2_clause + file LICENSE
 LazyData: true
 Suggests:
@@ -27,8 +28,7 @@ Suggests:
     crayon,
     covr,
     roxygen2,
-    zoo,
-    rutils
+    zoo
 Collate:
     'RcppExports.R'
     'io.r'

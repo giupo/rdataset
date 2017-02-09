@@ -203,13 +203,13 @@ Hash: fd256f8bfb9a64cc35f98b0decb1a79f
 
 Package: rutils
 Source: github
-Version: 0.2.5
-Hash: cc39fa2989455e29eb0b1465b7dd2c0d
+Version: 0.2.6
+Hash: 60db86ce2b43df9fb989be05f271e952
 Requires: XML, doParallel, foreach, testthat
 GithubRepo: rutils
 GithubUsername: giupo
 GithubRef: master
-GithubSha1: 6f4adbbe167e44ffc8fcd2adfaba8e34299ba29e
+GithubSha1: f6298b2ddb803b9dfdb2df048bb329c62cef0a45
 
 Package: stringi
 Source: CRAN

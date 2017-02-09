@@ -12,11 +12,14 @@ load_dataset_csv(path, ids = NULL)
 \item{ids}{names of the series to load}
 }
 \value{
-a named `list` with timeseries (loaded with `grafo::tsRead`
+a named `list` with timeseries
 }
 \description{
 load a list of timeseries placed in path as CSV files.
 }
 \note{
 the path is scanned recursively
+}
+\seealso{
+tsRead_nativo
 }

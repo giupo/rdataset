@@ -53,7 +53,7 @@ Dataset <- setClass(
   } else if (is_JSON(path)) {
     raw_list <- load_dataset_json(path)
   } else if (is_csv_library(path)) {
-    raw_list <- load_dataset_csv(path)
+    raw_list <- load_dataset_csv(path, ids=ids)
   } else {
     stop(parsed_url$scheme, "not Implemented")
   }
@@ -625,11 +625,12 @@ is_csv_library <- function(path) {
 #' @title internal functions
 #' @param path path where CSV files are
 #' @param ids names of the series to load
-#' @return a named `list` with timeseries (loaded with `grafo::tsRead`
+#' @return a named `list` with timeseries
+#' @seealso tsRead_nativo
 #' @note the path is scanned recursively
 #' @importFrom foreach foreach %do% %dopar%
 #' @importFrom iterators iter
-#' @importFrom parallel detectCores
+#' @importFrom rutils .basename
 
 load_dataset_csv <- function(path, ids=NULL) {
   csvs <- list.files(
@@ -640,8 +641,15 @@ load_dataset_csv <- function(path, ids=NULL) {
     ignore.case=TRUE)
   
   if(!is.null(ids)) {
-    ids_path <- file.path(path, paste0(tolower(ids), ".csv"))
-    csvs <- intersect(csvs, ids_path)    
+    #ids_path <- file.path(path, paste0(tolower(ids), ".csv"))
+    #csvs <- intersect(csvs, ids_path)
+
+    filterWithIds <- Vectorize(function(X) {
+      nome <- .basename(X)
+      return(nome %in% ids)
+    })
+
+    csvs <- csvs[filterWithIds(csvs)]
   }
 
   nomi <- unlist(lapply(csvs, function(x) toupper(basename(x))))
