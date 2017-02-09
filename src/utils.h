@@ -20,6 +20,9 @@ typedef struct Periodo {
 
 unsigned int periodoToInt(Periodo p);
 Periodo intToPeriodo(int period);
+Periodo floatToPeriodo(const float floatPeriod, const unsigned int freq);
+float periodoToFloat(const Periodo p, const unsigned int freq);
+
 // trim from start
 static inline std::string &ltrim(std::string &s) {
   s.erase(s.begin(), 
@@ -49,6 +52,8 @@ std::string touppercase(std::string);
 NumericVector createTimeSeries(double anno, double periodo, 
                                double freq, std::vector<double> dati0);
 NumericVector tsRead_nativo(std::string path);
+
+void tsWrite_nativo(NumericVector series, std::string path);
 
 typedef struct filename_ {
   std::string name;

@@ -388,4 +388,31 @@ test_that("comparators return a logical values", {
   expect_equal(x, expected)
 })
 
+test_that("Expect output from show", {
+  d <- Dataset()
+  d["A"] <- ts(c(1,2,3))
+  d["B"] <- ts(c(1,2,3))
+  expect_output(show(d), "Dataset ")
+})
 
+test_that("saveDataset behaves like expected", {
+  called <- 0
+  d <- Dataset()
+  d["A"] <- ts(c(1,2,3))
+  d["B"] <- ts(c(1,2,3))
+
+  with_mock(
+    `base::write`=function(...) { called <<- called + 1 }, {
+      saveDataset(d, "/non/esisto", as.csv = FALSE, as.grafo=FALSE)
+      expect_true(called > 0)
+      called <<- 0
+    })
+
+   with_mock(
+    `rdataset::tsWrite_nativo`=function(...) { called <<- called + 1 }, {
+      saveDataset(d, "/non/esisto", as.csv = TRUE, as.grafo=FALSE)
+      expect_true(called > 0)
+      called <<- 0
+    })
+  
+})

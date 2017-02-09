@@ -71,6 +71,33 @@ NumericVector createTimeSeries(double anno, double periodo,
 }
 
 
+//' tsWrite nativo
+//'
+//' Scrive una timeseries in formato CSV (legacy support)
+//' @name tsWrite_nativo
+//' @param series timeSeries
+//' @param path percorso del file
+//' @import Rcpp
+//' @useDynLib rdataset
+//
+// [[Rcpp::export]]
+
+void tsWrite_nativo(NumericVector series, std::string path) {
+  std::ofstream output;
+  output.open(path.c_str());
+  NumericVector tsp = series.attr("tsp");
+  unsigned int freq = tsp[2];
+  float start = tsp[0];
+  Periodo p = floatToPeriodo(start, freq);
+
+  output << p.anno << '\n' << p.periodo << '\n' << freq << '\n';
+  
+  for(NumericVector::iterator it = series.begin(); it != series.end(); ++it) {
+    output << *it << '\n';
+  }
+  output.close();
+}
+
 //' tsRead implementato nativamente.
 //'
 //' @name tsRead_nativo
@@ -80,7 +107,6 @@ NumericVector createTimeSeries(double anno, double periodo,
 //' @useDynLib rdataset
 //
 // [[Rcpp::export]]
-
 
 NumericVector tsRead_nativo(std::string path) {
   std::vector<double> dati;
@@ -92,7 +118,7 @@ NumericVector tsRead_nativo(std::string path) {
   int periodo = 0;
   int freq = 0;
   unsigned int lineCounter = 0;
-  while(getline(fin,line)) {
+  while(getline(fin, line)) {
     line = trim(line);          
     if(lineCounter > 2) {
       if(line.compare("?") == 0 || line.compare("NA") == 0) {
@@ -153,6 +179,25 @@ Periodo intToPeriodo(int intperiod) {
   unsigned int anno = floor(intperiod/1000);
   unsigned int period = intperiod - ( anno * 1000 );
   
-  Periodo p = {anno, period};
+  Periodo p = {
+    anno,
+    period
+  };
   return p;
+}
+
+Periodo floatToPeriodo(const float floatPeriod, const unsigned int freq) {
+  unsigned int anno = floor(floatPeriod);
+  unsigned int period = int(floatPeriod - anno) * freq;
+  
+  Periodo p = {
+    anno,
+    period
+  };
+
+  return p;
+}
+
+float periodoToFloat(const Periodo periodo, const unsigned int freq) {
+  return float(periodo.anno) + float(periodo.periodo)/freq;
 }

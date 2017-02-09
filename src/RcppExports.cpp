@@ -5,6 +5,17 @@
 
 using namespace Rcpp;
 
+// tsWrite_nativo
+void tsWrite_nativo(NumericVector series, std::string path);
+RcppExport SEXP rdataset_tsWrite_nativo(SEXP seriesSEXP, SEXP pathSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type series(seriesSEXP);
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    tsWrite_nativo(series, path);
+    return R_NilValue;
+END_RCPP
+}
 // tsRead_nativo
 NumericVector tsRead_nativo(std::string path);
 RcppExport SEXP rdataset_tsRead_nativo(SEXP pathSEXP) {

@@ -377,6 +377,7 @@ setGeneric (
     standardGeneric("saveDataset")
   })
 
+
 #' Salva un Dataset.
 #'
 #' @name saveDataset
@@ -400,21 +401,20 @@ setMethod(
     if (as.csv) {
       for (name in keys(data)) {
         timeSeries <- data[[name]]
-        print(name)
         if (as.grafo) {
           tryCatch({
             data_path <- data.path(path, name)
-            tsWrite(timeSeries, data_path)
+            tsWrite_nativo(timeSeries, data_path)
           }, error = function(cond) {
             name <- gsub("0", ".", data_path)
             tryCatch({
-              tsWrite(timeSeries, data.path(path, name))
+              tsWrite_nativo(timeSeries, data.path(path, name))
             }, error = function(cond) {
               warning(data_path)
             })
           })
         } else {
-          tsWrite(timeSeries, file.path(path, paste0(name, ".", .CSV_EXT)))
+          tsWrite_nativo(timeSeries, file.path(path, paste0(name, ".csv")))
         }
       }
     } else {
