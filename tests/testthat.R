@@ -1,4 +1,5 @@
 library(testthat)
+library(rutils)
 library(rdataset)
 library(methods)
 
