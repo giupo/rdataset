@@ -316,6 +316,12 @@ test_that("I can delete data from a Dataset", {
 
   expect_equal(length(d), 1)
   expect_true(!"A" %in% names(d))
+
+  d[["B"]] <- NULL
+
+  expect_equal(length(d), 0)
+  expect_true(!"B" %in% names(d))
+
 })
 
 test_that("`as.vector` is equal to `names` on a Dataset", {
@@ -375,3 +381,5 @@ test_that("comparators return a logical values", {
   expect_true(is.logical(x))
   expect_equal(x, expected)
 })
+
+
