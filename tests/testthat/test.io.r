@@ -76,3 +76,11 @@ test_that("to_json produces a JSON string", {
   x <- to_json(tss12)
   expect_true(is.character(x))
 })
+
+test_that("from_json can create a timeseries", {
+  json <- "{'freq':1, 'year':1, 'period':1, 'numbers':[1,2,3,4]}"
+  x <- from_json(json)
+  expect_true(is.ts(x))
+  expect_equal(frequency(x), 1)
+  expect_equal(as.numeric(x), c(1,2,3,4))
+}) 
