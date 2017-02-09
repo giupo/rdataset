@@ -645,7 +645,7 @@ load_dataset_csv <- function(path, ids=NULL) {
     #csvs <- intersect(csvs, ids_path)
 
     filterWithIds <- Vectorize(function(X) {
-      nome <- .basename(X)
+      nome <- rutils::.basename(X)
       return(nome %in% ids)
     })
 
