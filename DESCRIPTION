@@ -27,7 +27,8 @@ Suggests:
     crayon,
     covr,
     roxygen2,
-    zoo
+    zoo,
+    rutils
 Collate:
     'RcppExports.R'
     'io.r'
