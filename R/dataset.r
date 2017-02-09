@@ -625,9 +625,6 @@ load_dataset_csv <- function(path, ids=NULL) {
     ignore.case=TRUE)
   
   if(!is.null(ids)) {
-    #ids_path <- file.path(path, paste0(tolower(ids), ".csv"))
-    #csvs <- intersect(csvs, ids_path)
-
     filterWithIds <- Vectorize(function(X) {
       nome <- rutils::.basename(X)
       return(nome %in% ids)
@@ -636,8 +633,7 @@ load_dataset_csv <- function(path, ids=NULL) {
     csvs <- csvs[filterWithIds(csvs)]
   }
 
-  nomi <- unlist(lapply(csvs, function(x) toupper(basename(x))))
-  nomi <- gsub("\\.CSV", "", nomi)
+  nomi <- unlist(lapply(csvs, function(x) toupper(rutils::.basename(x))))
   
   foreach(filepath = iter(csvs), .combine = c, .errorhandling = 'remove') %dopar% {
     ret <- list()
@@ -681,21 +677,6 @@ load_dataset_json <- function(path) {
   }
   names(ret) <- names(json_data)
   ret
-}
-
-#' Salva un dataset come file JSON
-#'
-#' @name save.dataset
-#' @usage save.dataset(data, path)
-#' @param data il `Dataset` da salvare
-#' @param path percorso del file JSON su cui salvare il `Dataset`
-#' @note Funzione interna, potrebbe cambiare
-#' @title Internal Functions
-#' @importFrom RJSONIO toJSON
-
-save.dataset <- function(data, path) {
-  json_data <- toJSON(lapply(data, to_list))
-  write(json_data, path)
 }
 
 #' checks if \code{x} is an object of type \code{Dataset}

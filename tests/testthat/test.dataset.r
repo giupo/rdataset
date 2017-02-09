@@ -293,7 +293,7 @@ test_that("a dataset can be created from a CSV-filled directory", {
 
   d <- Dataset(directory, ids=c("A"))
   expect_true("A" %in% names(d))
-  expect_true(!"B" %in% names(d))  
+  expect_true(!"B" %in% names(d))
 })
 
 test_that("Init with a non existing directory raises a warning and an error", {
@@ -420,7 +420,7 @@ test_that("saveDataset behaves like expected", {
 })
 
 test_that("tsWrite_nativo writes a timeseries as CSV", {
-  tmpdir <- tempdir()
+  tmpdir <- rutils::tempdir()
   on.exit(unlink(tmpdir, recursive=TRUE, force=TRUE))
   path <- file.path(tmpdir, "/test.csv")
   x <- ts(c(1,2,3,4), start=c(1990,1), frequency=4)
@@ -440,5 +440,29 @@ test_that("tsWrite_nativo writes a timeseries as CSV", {
   for(i in seq_along(linee)) {
     token <- linee[[i]]
     expect_equal(as.numeric(token), expected[[i]])
+  }
+})
+
+
+test_that("fullsummary e shortsummary provide an output", {
+  d <- Dataset()
+  d["A"] <- ts(c(1,2,3), start=c(1990,1), frequency=1)
+  d["B"] <- ts(c(1,2,3), start=c(1990,1), frequency=4)
+  d["C"] <- ts(c(1,2,3), start=c(1990,1), frequency=12)
+  
+  expect_output(shortSummary(d))
+  expect_output(fullSummary(d))  
+})
+
+test_that("as.dataset on a dataset returns a dataset", {
+  d <- Dataset()
+  d["A"] <- ts(c(1,2,3))
+  d["B"] <- ts(c(1,2,3))
+
+  x <- as.dataset(d)
+  expect_true(is.dataset(x))
+  expect_equal(names(d), names(x))
+  for(name in names(d)) {
+    expect_equal(d[[name]], x[[name]])
   }
 })
