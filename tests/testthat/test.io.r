@@ -104,3 +104,26 @@ test_that("from_list is able to convert data to the caller", {
   raw_list <- list(numbers=data)
   expect_equal(from_list(raw_list), data)
 })
+
+test_that("from_list returns just the numbers if year, freq, period are not present", {
+  data <- c(1,2,3,4)
+  raw_list <- list(numbers=data)
+  x <- from_list(raw_list)
+  expect_equal(x, data)
+  expect_true(!is.ts(x))
+
+  raw_list[["year"]] <- 0
+  x <- from_list(raw_list)
+  expect_equal(x, data)
+  expect_true(!is.ts(x))
+
+  raw_list[["period"]] <- 0
+  x <- from_list(raw_list)
+  expect_equal(x, data)
+  expect_true(!is.ts(x))
+
+  raw_list[["freq"]] <- 0
+  x <- from_list(raw_list)
+  expect_equal(x, data)
+  expect_true(!is.ts(x))
+})
