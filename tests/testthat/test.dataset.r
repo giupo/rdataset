@@ -466,3 +466,20 @@ test_that("as.dataset on a dataset returns a dataset", {
     expect_equal(d[[name]], x[[name]])
   }
 })
+
+test_that("djoin joins each timeseries in Dataset", {
+  d1 <- Dataset()
+  d1["A"] <- ts(c(1,2,3), start=c(1990,1), frequency=4)
+  d1["B"] <- ts(c(1,2,3), start=c(1990,1), frequency=4)
+  d1["C"] <- ts(c(1,2,3), start=c(1990,1), frequency=4)
+  d1["nonInD2"] <- ts(c(1,2,3), start=c(1990,1), frequency=1)
+  
+  d2 <- Dataset()
+  d2["A"] <- ts(c(-1,-2,-3), start=c(1990,1), frequency=4)
+  d2["B"] <- ts(c(-1,-2,-3), start=c(1990,1), frequency=4)
+  d2["C"] <- ts(c(-1,-2,-3), start=c(1990,1), frequency=4)
+  d2["nonInD1"] <- ts(c(-1,-2,-3), start=c(1990,1), frequency=1)
+
+  joined <- djoin(d1, d2, c(1990,2))
+  
+})
