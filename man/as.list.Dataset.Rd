@@ -2,28 +2,21 @@
 % Please edit documentation in R/dataset.r
 \name{as.list.Dataset}
 \alias{as.list.Dataset}
-\alias{as.list.Dataset}
-\title{S3 overload for `Dataset`}
+\title{Ritorna il `Dataset` come `list` di oggetti}
 \usage{
-as.list.Dataset(X)
-
 as.list.Dataset(x)
 }
 \arguments{
 \item{x}{un generico oggetto R}
 
-\item{X}{object to cast}
+\item{...}{generics passati a base::as.list}
 }
 \value{
-a list representation of the object `X`
-
 un `Dataset`
 }
 \description{
-God only knows why this is necessary having defined a setMethod
-
 Ritorna il `Dataset` come `list` di oggetti
 }
 \seealso{
-as.list
+base::as.list
 }

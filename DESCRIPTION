@@ -2,8 +2,8 @@ Package: rdataset
 Title: Timeseries container
 Version: 0.0.3
 Authors@R: person("Giuseppe", "Acito", email = "giuseppe.acito@gmail.com", role = c("aut", "cre"))
-Description: rdataset provides a library for accessing a container of timeseries,
-             manages the container as a namespace and overloads a bunch of group operations
+Description: A timeseries container supplied with basic group operations (sums, union set, differences).
+             It manages the container as an hash (1 unique character name -> 1 timeseries)
 Depends:
     R (>= 3.0.3),
 Imports:
@@ -18,7 +18,8 @@ Imports:
     stringr,
     xlsx,
     tis,
-    methods
+    methods,
+    stats
 License: BSD_2_clause + file LICENSE
 LazyData: true
 Suggests:

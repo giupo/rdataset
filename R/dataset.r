@@ -31,14 +31,6 @@ Dataset <- setClass(
     data = "hash",
     url="character"))
 
-
-.version <- paste(R.Version()$major, R.Version()$minor, sep=".")
-startsWith <- if(.version < "3.3.0") {
-                  function(x, pattern) grepl(paste0('^', pattern), x)
-              } else {
-                  base::startsWith
-              }
-
 .init <- function(.Object, url=NULL, ids=NULL) {
   if(is.null(url)) {
     raw_list <- list()
@@ -48,9 +40,12 @@ startsWith <- if(.version < "3.3.0") {
   
   .Object@url <- url
 
+  startsWith <- function(x, pattern) grepl(paste0('^', pattern), x)
+  
   if(startsWith(url, "http")) {
     stop("http[s] not Implemented")
   }
+  
   # bypass for future releases
   parsed_url<- list()
   parsed_url$scheme <- NULL
@@ -485,20 +480,6 @@ setMethod(
     ret
   })
 
-#' S3 overload for `Dataset`
-#'
-#' God only knows why this is necessary having defined a setMethod
-#'
-#' @name as.list.Dataset
-#' @seealso as.list
-#' @usage as.list.Dataset(X)
-#' @param X object to cast
-#' @return a list representation of the object `X`
-#' @export
-
-as.list.Dataset <- function(X) {
-  as.list(X@data)
-}
 
 #' Ritorna il dataset come una \code{list} di serie storiche
 #'
@@ -521,9 +502,12 @@ setMethod(
 #' @name as.list.Dataset
 #' @usage as.list.Dataset(x)
 #' @param x un generico oggetto R
+#' @param ... generics passati a base::as.list
+#' @seealso base::as.list
 #' @return un `Dataset`
+#' @export
 
-as.list.Dataset <- function(x) as.list(x@data) #cosa cambia dal precedente? Boh!
+as.list.Dataset <- function(x, ...) as.list(x@data, ...) #cosa cambia dal precedente? Boh!
 
 union.Dataset <- function(x, y) {
   out <- Dataset()
@@ -846,7 +830,7 @@ dataset <- function(...) {
   }
   
   if("biss" %in% names(params) && params$biss) {
-    if(!require("RBISS")) {
+    if(!requireNamespace("RBISS", quietly=TRUE)) {
       stop("Non c'e' la library RBISS")
     }
     class <- "BissDataset"
@@ -880,15 +864,20 @@ setMethod(
 #' For each series prints it's stard period, end period and frequency
 #'
 #' @name shortSummary
+#' @rdname shortSummary
 #' @usage shortSummary(object)
 #' @param object a `Dataset` object
 #' @export
-#' 
+#'
+
 setGeneric(
   "shortSummary",
   function(ds) {
     standardGeneric("shortSummary")
   })
+
+#' @rdname shortSummary
+#' @importFrom methods signature
 
 setMethod(
   "shortSummary",
