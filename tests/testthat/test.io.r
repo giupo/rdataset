@@ -78,9 +78,23 @@ test_that("to_json produces a JSON string", {
 })
 
 test_that("from_json can create a timeseries", {
-  json <- "{'freq':1, 'year':1, 'period':1, 'numbers':[1,2,3,4]}"
+  json <- "{'freq':1, 'year':1990, 'period':1, 'numbers':[1,2,3,4]}"
   x <- from_json(json)
   expect_true(is.ts(x))
   expect_equal(frequency(x), 1)
   expect_equal(as.numeric(x), c(1,2,3,4))
+  expect_equal(start(x), c(1990, 1))
 }) 
+
+test_that("from_json returns an array of numbers if it's not encoded as a timeseries", {
+  json <- "[1,2,3,4]"
+  x <- from_json(json)
+  expect_true(is.numeric(x))
+  expect_equal(x, c(1,2,3,4))
+})
+
+test_that("to_json can encode an array", {
+  data <- c(1,2,3,4)
+  x <- to_json(data)
+  expect_equal(data, from_json(x))
+})
