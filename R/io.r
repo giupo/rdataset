@@ -50,7 +50,7 @@ from_list <- function(lista) {
     if(year == 0 || period == 0 || freq == 0) {
       payload
     } else {
-      ts(payload, start = c(year, period), freq = freq)
+      ts(payload, start = c(year, period), frequency = freq)
     }
   } else {
     lista

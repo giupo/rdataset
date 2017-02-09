@@ -47,21 +47,6 @@ test_that("is_grafo works as expected",  {
   .tearDown()
 })
 
-test_that("is_speakeasy works as expected", {
-  if(!suppressWarnings(require(spkKeeping))) {
-    skip("There isn't speakeasy on this machine")
-  }
-
-  .setUp()
-  expect_true(is_speakeasy_library(spk_lib))
-  expect_true(is_speakeasy_list(spk_list))
-  expect_true(is_speakeasy(spk_lib))
-  expect_true(is_speakeasy(spk_list))
-  expect_error(is_speakeasy("/i/don/t/exist"))
-  expect_error(is_speakeasy("/i/don/t/exist/as/list.list"))
-  .tearDown()
-})
-
 test_that("load.dataset works as expected", {
   .setUp()
   d <- suppressWarnings(Dataset(dir_grafo))

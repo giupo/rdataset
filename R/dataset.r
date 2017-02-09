@@ -1,6 +1,3 @@
-.noSPK = !suppressWarnings(require(spkKeeping))
-.NO_SPK_WARN = "There's isn't a Speakeasy environment"
-
 ## Whenever you have a cyclic dependency, without really having one,
 ## it's due some generics you are defining in your code:
 ## that's why I'm writing here this reminder. If you ever encounter a
@@ -51,9 +48,7 @@ Dataset <- setClass(
   parsed_url$scheme <- NULL
   
   path <- normalizePath(url)
-  if (!.noSPK && is_speakeasy(path)) {
-    raw_list <- load_dataset_spk(path, ids)
-  } else if (is_grafo(path)) {
+  if (is_grafo(path)) {
     raw_list <- load_dataset_grafo(path)
   } else if (is_JSON(path)) {
     raw_list <- load_dataset_json(path)
@@ -618,78 +613,6 @@ is_JSON <- function(path) {
   }
 }
 
-#' Controlla che il percorso \code{path} e' una library Speakeasy
-#'
-#' @name is_speakeasy_library
-#' @aliases is_speakeasy_library
-#' @author Giuseppe Acito
-#' @export
-#' @param path percorso da controllare
-#' @return \code{TRUE} se il percorso e' una library Speakeasy,
-#'         altrimenti \code{FALSE}
-
-is_speakeasy_library <- function(path) {
-  fileInfo <- file.info(path)
-  
-  if(.noSPK) {
-    warning(.NO_SPK_WARN)
-  }
-  
-  if(is.na(fileInfo$isdir)) {
-    stop(paste0(path, " doesn't exists"))
-  }
-  
-  if(fileInfo$isdir) {
-    length(list.files(path, pattern="..keep", full.names=TRUE)) > 0
-  } else {
-    FALSE
-  }
-}
-
-#' Controlla che il percorso \code{path} e' un file list Speakeasy
-#'
-#' @name is_speakeasy_list
-#' @aliases is_speakeasy_list
-#' @author Giuseppe Acito
-#' @export
-#' @param path percorso da controllare
-#' @return \code{TRUE} se il percorso e' una list Speakeasy,
-#'         altrimenti \code{FALSE}
-
-
-is_speakeasy_list <- function(path) {
-  fileInfo <- file.info(path)
-  
-  if(.noSPK) {
-    warning(.NO_SPK_WARN)
-  }
-  
-  if(is.na(fileInfo$isdir)) {
-    stop(paste0(path, " doesn't exists"))
-  }
-  
-  if(!fileInfo$isdir) {
-    file_ext(path) == "list"
-  } else {
-    FALSE
-  }
-}
-
-#' Controlla che il percorso \code{path} e' un contenitore di dati Speakeasy
-#'
-#' @name is_speakeasy
-#' @aliases is_speakeasy
-#' @author Giuseppe Acito
-#' @export
-#' @seealso is_speakeas_list is_speakeasy_library
-#' @param path percorso da controllare
-#' @return \code{TRUE} se il percorso e' una library o una list Speakeasy,
-#'         altrimenti \code{FALSE}
-
-is_speakeasy <- function(path)
-(is_speakeasy_library(path) || is_speakeasy_list(path))
-
-
 #' Controlla che `path` sia una library CSV
 #'
 #' @name is_csv_library
@@ -811,7 +734,6 @@ is.dataset <- function(x) inherits(x, "Dataset")
 #' @author Giuseppe Acito
 #' @param ... Qui si puo specificare
 #'            - una stringa con un URL da cui costruire il Dataset
-#'              (Grafo, Speakeasy library, Speakeasy List)
 #'            - una lista di oggetti
 #' @return Il Dataset richiesto.
 #' @examples
