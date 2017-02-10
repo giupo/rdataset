@@ -411,7 +411,7 @@ setMethod(
 
 setGeneric(
   "djoin",
-  function(x, historic, date) {
+  function(historic, x, date) {
     standardGeneric("djoin")
   })
 
@@ -431,7 +431,7 @@ setGeneric(
 setMethod(
   "djoin",
   c("Dataset", "Dataset", "ANY"),
-  function(x, historic, date) {
+  function(historic, x, date) {
     closure <- function(name) {
       ret <- list()
       if(!name %in% names(historic)) {
@@ -535,8 +535,11 @@ setMethod(
   function(x,y) {
     common <- intersect(names(x), names(y))
     not_common <- unique(
-      union(setdiff(names(x), names(y)),
-            setdiff(names(y), names(x))))
+      union(
+        setdiff(names(x), names(y)),
+        setdiff(names(y), names(x))
+      ))
+    
     if (length(not_common)) {
       warning("Le seguenti serie non sono comuni: ",
               paste(not_common, collapse=", "))

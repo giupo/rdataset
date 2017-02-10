@@ -480,6 +480,30 @@ test_that("djoin joins each timeseries in Dataset", {
   d2["C"] <- ts(c(-1,-2,-3), start=c(1990,1), frequency=4)
   d2["nonInD1"] <- ts(c(-1,-2,-3), start=c(1990,1), frequency=1)
 
-  joined <- djoin(d1, d2, c(1990,2))
+  expect_warning(joined <- djoin(d1, d2, c(1990,2)))
+  expect_true(all(names(joined) %in% c("A","B","C", "nonInD1")))
   
+  for(name in intersect(names(d2), names(d1))) {
+    expect_equal(as.numeric(joined[[name]]), c(1, -2, -3))
+  }
+})
+
+test_that("merge merges each timeseries in Dataset", {
+  d1 <- Dataset()
+  d1["A"] <- ts(c(1, 2, 3), start=c(1990,1), frequency=4)
+  d1["B"] <- ts(c(1, 2, 3), start=c(1990,1), frequency=4)
+  d1["C"] <- ts(c(1, 2, 3), start=c(1990,1), frequency=4)
+  d1["nonInD2"] <- ts(c(1,2), start=c(1990,1), frequency=1)
+  
+  d2 <- Dataset()
+  d2["A"] <- ts(c(-2,-3), start=c(1990,2), frequency=4)
+  d2["B"] <- ts(c(-2,-3), start=c(1990,2), frequency=4)
+  d2["C"] <- ts(c(-2,-3), start=c(1990,2), frequency=4)
+  d2["nonInD1"] <- ts(c(-1,-2,-3), start=c(1990,1), frequency=1)
+  
+  expect_warning(joined <- merge(d1, d2), "non sono comuni")
+  expect_true(all(names(joined) %in% c("A","B","C", "nonInD1")))
+  for(name in intersect(names(d2), names(d1))) {
+    expect_equal(as.numeric(joined[[name]]), c(1, -2, -3))
+  }
 })
