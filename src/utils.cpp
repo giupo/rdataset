@@ -8,6 +8,32 @@
 #include <cerrno>
 #include <algorithm>
 #include <functional> 
+/**
+
+string join(vector<string> v, char j) {
+  std::stringstream ss;
+  for(size_t i = 0; i < v.size(); ++i) {
+    if(i != 0) {
+      ss << j;
+    }
+    ss << v[i];
+  }
+  return ss.str();
+}
+
+string quote(string s) {
+  std::stringstream ss;
+  ss << "'" << s << "'";
+  return ss.str();
+}
+
+vector<string> quote(vector<string> v) {
+  vector<string> ret(v.size());
+  for(unsigned int i=0; i < v.size(); ++i) {
+    ret[i] = quote(v[i]);
+  }
+  return ret;
+}
 
 char *gnu_basename(char *path) {
     char *base = strrchr(path, '/');
@@ -56,6 +82,15 @@ vector<string> get_csv_from_path(std::string path) {
   return files;
 }
 
+}
+
+std::string touppercase(std::string name) {
+  std::string name0 = name;
+  std::transform(name0.begin(), name0.end(), name0.begin(), ::toupper);
+  return name0;
+}
+
+*/
 
 NumericVector createTimeSeries(double anno, double periodo, 
                                  double freq, std::vector<double> dati0) {
@@ -138,37 +173,6 @@ NumericVector tsRead_nativo(std::string path) {
   }
   fin.close();
   return createTimeSeries(anno, periodo, freq, dati); 
-}
-
-std::string touppercase(std::string name) {
-  std::string name0 = name;
-  std::transform(name0.begin(), name0.end(), name0.begin(), ::toupper);
-  return name0;
-}
-
-string quote(string s) {
-  std::stringstream ss;
-  ss << "'" << s << "'";
-  return ss.str();
-}
-
-vector<string> quote(vector<string> v) {
-  vector<string> ret(v.size());
-  for(unsigned int i=0; i < v.size(); ++i) {
-    ret[i] = quote(v[i]);
-  }
-  return ret;
-}
-
-string join(vector<string> v, char j) {
-  std::stringstream ss;
-  for(size_t i = 0; i < v.size(); ++i) {
-    if(i != 0) {
-      ss << j;
-    }
-    ss << v[i];
-  }
-  return ss.str();
 }
 
 unsigned int periodoToInt(Periodo p) {

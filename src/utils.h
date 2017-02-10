@@ -44,16 +44,12 @@ static inline std::string &trim(std::string &s) {
   return ltrim(rtrim(s));
 }
 
+/*
 string quote(string s);
 vector<string> quote(vector<string> v);
 string join(vector<string> v, char j);
 
 std::string touppercase(std::string);
-NumericVector createTimeSeries(double anno, double periodo, 
-                               double freq, std::vector<double> dati0);
-NumericVector tsRead_nativo(std::string path);
-
-void tsWrite_nativo(NumericVector series, std::string path);
 
 typedef struct filename_ {
   std::string name;
@@ -63,5 +59,13 @@ typedef struct filename_ {
 filename_t getFilenameFromPath(std::string path);
 vector<string> get_csv_from_path(std::string path);
 char* gnu_basename(char* path);
+
+*/
+
+NumericVector createTimeSeries(double anno, double periodo, 
+                               double freq, std::vector<double> dati0);
+NumericVector tsRead_nativo(std::string path);
+
+void tsWrite_nativo(NumericVector series, std::string path);
 
 #endif
