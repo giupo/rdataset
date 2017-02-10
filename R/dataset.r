@@ -439,7 +439,7 @@ setMethod(
         ret[[name]] <- x[[name]]
       } else {
         ret[[name]] <- tryCatch(
-          as.ts(mergeSeries(historic[[name]], window(x[[name]], start = jprd))),
+          as.ts(mergeSeries(historic[[name]], window(x[[name]], start = date))),
           error = function(cond) {
             stop(name, ": ", cond)
           })
