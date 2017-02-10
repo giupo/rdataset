@@ -160,12 +160,7 @@ setMethod(
   c("Dataset", "ANY", "missing", "ANY"),
   function(x, i, j, ..., value) {
     data <- x@data
-    if (length(value) == 1 && is.null(value) ) {
-      ## sto cancellando
-      data <- del(i, data)
-    } else {
-      data[i] <- value
-    }
+    data[i] <- value
     x@data <- data
     invisible(x)
   })
