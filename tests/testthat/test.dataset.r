@@ -556,3 +556,17 @@ test_that("can copy a Dataset", {
   expect_equal(x@url, d@url)
   expect_true(address(x) != address(d))
 })
+
+test_that("you can round timeseries in Dataset", {
+  d <- Dataset()
+  d["A"] <- ts(c(1.001, 2.001, 3.001), start=c(1990,1), frequency=4)
+  d["B"] <- ts(c(1, 2, 3), start=c(1990,1), frequency=4)
+
+  expect_error(round(d, digits="ciao"))
+  x <- round(d, digits=1)
+  expect_true(address(x) != address(d))
+  expect_true(all(d[["A"]] - d[["B"]] != 0))
+  expect_equal(x[["A"]], x[["B"]])
+  expect_true(all(x[["A"]] - x[["B"]] == 0))
+})
+
