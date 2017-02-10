@@ -268,10 +268,13 @@ test_that("I can produce an xlsx from a Dataset", {
   ds["TS1"] <- ts(c(1,2,3), start=c(1990,1), freq=1)
   ds["TS4"] <- ts(c(1,2,3), start=c(1990,1), freq=4)
   ds["TS12"] <- ts(c(1,2,3), start=c(1990,1), freq=12)
+  ds["TS1-1"] <- ts(c(1,2,3), start=c(1990,1), freq=1)
+  ds["TS4-1"] <- ts(c(1,2,3), start=c(1990,1), freq=4)
+  ds["TS12-1"] <- ts(c(1,2,3), start=c(1990,1), freq=12)
   expect_true(require(rprogressbar))
-  #tmpfile <- tempfile(fileext=".xlsx")
-  tmpfile <- "~/tmp.xlsx"
-  #on.exit(unlink(tmpfile, force=TRUE))
+  tmpfile <- tempfile(fileext=".xlsx")
+  # tmpfile <- "~/tmp.xlsx"
+  on.exit(unlink(tmpfile, force=TRUE))
   to_xlsx(ds, tmpfile)
   expect_true(file.info(tmpfile)$size > 0)
 })
@@ -516,4 +519,40 @@ test_that("merge merges each timeseries in Dataset", {
   for(name in intersect(names(d2), names(d1))) {
     expect_equal(as.numeric(joined[[name]]), c(1, -2, -3))
   }
+})
+
+test_that("You can have a union of Dataset", {
+  d1 <- Dataset()
+  d1["A"] <- ts(c(1, 2, 3), start=c(1990,1), frequency=4)
+  d1["B"] <- ts(c(1, 2, 3), start=c(1990,1), frequency=4)
+   
+  d2 <- Dataset()
+  d2["B"] <- ts(c(-2,-3), start=c(1990,2), frequency=4)
+  d2["C"] <- ts(c(-2,-3), start=c(1990,2), frequency=4)
+
+  u <- union(d1, d2)
+  expect_true(all(names(u) %in% c("A", "B", "C")))
+  expect_equal(u[["B"]], d1[["B"]])
+})
+
+test_that("to_csv creates a string CSV of the Dataset", {
+  d <- Dataset()
+  d["A"] <- ts(c(1, 2, 3), start=c(1990,1), frequency=4)
+  d["B"] <- ts(c(1, 2, 3), start=c(1990,1), frequency=4)
+  x <- to_csv(d)
+  expect_true(is.character(x))
+})
+
+test_that("can copy a Dataset", {
+  d <- Dataset()
+  d["A"] <- ts(c(1, 2, 3), start=c(1990,1), frequency=4)
+  d["B"] <- ts(c(1, 2, 3), start=c(1990,1), frequency=4)
+  d@url <- "fakeurl"
+
+  x <- copy(d)
+  for(name in names(x)) {
+    expect_equal(x[[name]], d[[name]])
+  }
+  expect_equal(x@url, d@url)
+  expect_true(address(x) != address(d))
 })

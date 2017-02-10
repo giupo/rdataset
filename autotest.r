@@ -9,5 +9,7 @@ library(RJSONIO)
 library(xts)
 library(xlsx)
 library(tis)
+library(data.table)
+
 devtools::load_all()
 auto_test("R", "tests/testthat/")

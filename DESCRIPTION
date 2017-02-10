@@ -28,7 +28,8 @@ Suggests:
     crayon,
     covr,
     roxygen2,
-    zoo
+    zoo,
+    data.table
 Collate:
     'RcppExports.R'
     'io.r'
