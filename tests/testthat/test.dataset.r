@@ -449,6 +449,10 @@ test_that("fullsummary e shortsummary provide an output", {
   d["A"] <- ts(c(1,2,3), start=c(1990,1), frequency=1)
   d["B"] <- ts(c(1,2,3), start=c(1990,1), frequency=4)
   d["C"] <- ts(c(1,2,3), start=c(1990,1), frequency=12)
+  # to test freq bins...
+  d["A1"] <- ts(c(1,2,3), start=c(1990,1), frequency=1)
+  d["B1"] <- ts(c(1,2,3), start=c(1990,1), frequency=4)
+  d["C1"] <- ts(c(1,2,3), start=c(1990,1), frequency=12)
   
   expect_output(shortSummary(d))
   expect_output(fullSummary(d))  
@@ -486,6 +490,12 @@ test_that("djoin joins each timeseries in Dataset", {
   for(name in intersect(names(d2), names(d1))) {
     expect_equal(as.numeric(joined[[name]]), c(1, -2, -3))
   }
+  
+  with_mock(
+    'tis::mergeSeries' = function(...) stop("error"), {
+      expect_error(expect_warning(djoin(d1, d2, c(1990,2))), ": error")
+    })
+    
 })
 
 test_that("merge merges each timeseries in Dataset", {
