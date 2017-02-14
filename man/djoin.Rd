@@ -6,12 +6,12 @@
 \title{Joina i due dataset \code{x} e \code{historic} alla data (\code{date})
 specificata.}
 \usage{
-\S4method{djoin}{Dataset,Dataset}(x, historic, date)
+\S4method{djoin}{Dataset,Dataset}(historic, x, date)
 }
 \arguments{
-\item{x}{il dataset nuovo}
-
 \item{historic}{il dataset storico}
+
+\item{x}{il dataset nuovo}
 
 \item{date}{una periodo di join}
 }

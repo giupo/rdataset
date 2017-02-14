@@ -5,8 +5,7 @@
 \alias{saveDataset}
 \title{Salva un Dataset}
 \usage{
-\S4method{saveDataset}{Dataset,character,logical,logical}(x, path,
-  as.csv = FALSE, as.grafo = FALSE)
+\S4method{saveDataset}{Dataset,character,logical}(x, path, as.csv = FALSE)
 }
 \arguments{
 \item{x}{un Dataset}
@@ -15,9 +14,6 @@
 
 \item{as.csv}{Salva Dataset come CSV
 files csv (1 per serie storica)}
-
-\item{as.grafo}{Salva Dataset con la struttura su filesystem compatible con
-il Grafo (implica as.csv == TRUE)}
 }
 \description{
 Salva un Dataset.

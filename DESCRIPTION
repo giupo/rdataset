@@ -2,10 +2,11 @@ Package: rdataset
 Title: Timeseries container
 Version: 0.2.16
 Authors@R: person("Giuseppe", "Acito", email = "giuseppe.acito@gmail.com", role = c("aut", "cre"))
-Description: A timeseries container supplied with basic group operations (sums, union set, differences).
-             It manages the container as an hash (1 unique character name -> 1 timeseries)
+Description: A timeseries container supplied with basic group operations
+	     (sums, union set, differences). It manages the container as an
+	     hash (1 unique character name -> 1 timeseries)
 Depends:
-    R (>= 3.0.3),
+    R (>= 3.1.0),
 Imports:
     hash,
     tools,

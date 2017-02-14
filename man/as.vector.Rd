@@ -11,7 +11,7 @@
 \item{x}{un istanza di Dataset}
 }
 \value{
-un character array contenente i nomi delle serie storiche nel Dataset
+Una rappresentazione a lista del Dataset
 }
 \description{
 Ritorna un elenco di nomi di serie storiche serie storiche contenuti

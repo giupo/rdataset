@@ -164,7 +164,8 @@ test_that("Union of datasets works as expected", {
   ds2["C"] <- ts(c(-1,-2,-3), start=c(1990,1), freq=4)
   ds2["D"] <- ts(c(0,0,0), start=c(1990,1), freq=4)
 
-  ds <- union.Dataset(ds1, ds2)
+  ds <- union(ds1, ds2)
+  
   expect_true(all(names(ds1) %in% names(ds)))
   expect_true(all(names(ds2) %in% names(ds)))
 
@@ -176,12 +177,15 @@ test_that("union of datasets behaves like a regular union", {
   ds1 <- Dataset()
   ds1["A"] <- ts(c(-1,-2,-3), start=c(1990,1), freq=4)
   ds1["B"] <- ts(c(0,0,0), start=c(1990,1), freq=4)
+
   ds2 <- Dataset()
   ds2["B"] <- ts(c(-1,-2,-3), start=c(1990,1), freq=4)
   ds2["D"] <- ts(c(0,0,0), start=c(1990,1), freq=4)
-  ds <- union.Dataset(ds1, ds2)
+
+  ds <- union(ds1, ds2)
+
   expect_equal(length(ds), 3)
-  expect_equal(ds[["B"]], ds1[["B"]])
+  expect_equal(ds1[["B"]], ds[["B"]])
 })
 
 test_that("URLIST su un Dataset", {
@@ -332,11 +336,12 @@ test_that("I can delete data from a Dataset", {
 
 })
 
-test_that("`as.vector` is equal to `names` on a Dataset", {
+test_that("`as.vector` returns a list representtion of this Dataset", {
   d <- Dataset()
   d["A"] <- ts(c(1,2,3))
   d["B"] <- ts(c(1,2,3))
-  expect_equal(names(d), as.vector(d))
+  expect_is(as.vector(d), "list")
+  expect_equal(as.vector(d), list(A=d[["A"]], B=d[["B"]]))
 })
 
 test_that("differences from a dataset with different names raises a warning", {
