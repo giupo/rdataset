@@ -53,7 +53,7 @@ so:
 	Rscript --vanilla -e 'devtools::compile_dll()'
 
 coverage:
-	Rscript -e 'covr::package_coverage(line_exclusions=file.path("packrat", list.files(path="packrat", recursive=TRUE)))'
+	Rscript -e 'covr::package_coverage(line_exclusions=list.files(path="packrat", full.names=TRUE, recursive=TRUE))'
 
 codecov:
-	Rscript -e 'covr::codecov(line_exclusions=file.path("packrat", list.files(path="packrat", recursive=TRUE)))'
+	Rscript -e 'covr::codecov(line_exclusions=list.files(path="packrat", recursive=TRUE, full.names=TRUE))'
