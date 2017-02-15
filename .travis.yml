@@ -33,7 +33,8 @@ before_install:
   - sh -e /etc/init.d/xvfb start
 
 after_success:
-  - Rscript -e 'packrat::restore()'
-  - Rscript -e 'devtools::test()'
-  - Rscript -e 'covr::codecov(line.exclusions=file.path("packrat", list.files(path="packrat", recursive=T)))'
+  - make packrat_restore
+  - make test
+  - make codecov
+ 
   

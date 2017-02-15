@@ -47,7 +47,7 @@ autotest:
 	Rscript autotest.r
 
 test:
-	Rscript -e 'devtools::test()' --default-packages=methods,utils
+	Rscript -e 'devtools::test()' --default-packages=methods,utils,data.table
 
 so:
 	Rscript --vanilla -e 'devtools::compile_dll()'
@@ -57,3 +57,6 @@ coverage:
 
 codecov:
 	Rscript -e 'covr::codecov(line_exclusions=list.files(path="packrat", recursive=TRUE, full.names=TRUE))'
+
+packrat_restore:
+	Rscript -e 'packrat::restore()'
