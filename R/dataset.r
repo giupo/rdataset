@@ -135,7 +135,11 @@ setMethod(
   "[[",
   signature("Dataset", "character"),
   function(x, i) {
-    out <- as.list(x@data[[i]])
+    out <- list()
+    for(name in i) {
+      out[[name]] <- x@data[[name]]
+    }
+    
     if (length(out) == 1) {
       out <-  out[[1]]
     }
@@ -510,7 +514,7 @@ union.Dataset <- function(x, y) {
 #' @name union
 #' @aliases union
 #' @seealso base::union
-#' @exportMethod
+#' @exportMethod union
 #' @export
 #' @author Giuseppe Acito
 #' @param x il primo dataset
@@ -949,6 +953,7 @@ setMethod(
 #' 
 #' @param x dataset
 #' @param name nome dell'oggetto da estrarre
+#' @importFrom stringr str_split
 #' @export
 
 setMethod(
@@ -1260,7 +1265,7 @@ setMethod(
 #' @exportMethod annual
 #' @importFrom foreach foreach %do% %dopar%
 #' @importFrom iterators iter
-#' @importFrom stats frequency
+#' @importFrom stats frequency aggregate
 
 setGeneric(
   "annual",

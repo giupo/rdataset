@@ -10,6 +10,7 @@ library(xts)
 library(xlsx)
 library(tis)
 library(data.table)
+library(stringr)
 
 devtools::load_all()
 auto_test("R", "tests/testthat/")

@@ -3,19 +3,28 @@
 \name{union}
 \alias{union}
 \alias{union.Dataset}
+\alias{union}
 \title{Fonde due dataset in un unico dataset
 Le serie storiche contenute nel secondo \code{y} sovrascrivono le
 serie storiche contenute nel primo in caso che l'intersezione dei
 nomi dei due dataset sia non nulla.}
 \usage{
 union.Dataset(x, y)
+
+union(x, y)
 }
 \arguments{
 \item{x}{il primo dataset}
 
 \item{y}{il secondo dataset}
+
+\item{x}{il primo dataset}
+
+\item{y}{il secondo dataset}
 }
 \value{
+un dataset con l'unione di tutte le serie storiche
+
 un dataset con l'unione di tutte le serie storiche
 }
 \description{
@@ -23,10 +32,19 @@ Fonde due dataset in un unico dataset
 Le serie storiche contenute nel secondo \code{y} sovrascrivono le
 serie storiche contenute nel primo in caso che l'intersezione dei
 nomi dei due dataset sia non nulla.
+
+Fonde due dataset in un unico dataset
+Le serie storiche contenute nel secondo \code{y} sovrascrivono le
+serie storiche contenute nel primo in caso che l'intersezione dei
+nomi dei due dataset sia non nulla.
 }
 \seealso{
 base::union
+
+base::union
 }
 \author{
+Giuseppe Acito
+
 Giuseppe Acito
 }

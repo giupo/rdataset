@@ -628,3 +628,12 @@ test_that('i can get an annual of an entire dataset', {
     expect_equal(frequency(ann[[name]]), 1)
   }
 })
+
+test_that("I can access series with $", {
+   ds <- Dataset()
+   ds["A"] <- A <- ts(c(1,2,3), start=c(1990,1), freq=1)
+   ds["B"] <- B <- ts(c(1,2,3), start=c(1990,1), freq=4)
+   expect_equal(ds$A, A)
+   expect_equal(ds$B, B)
+   expect_equal(ds$`A B`, ds[[c("A", "B")]])
+})
