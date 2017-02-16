@@ -18,10 +18,10 @@ typedef struct Periodo {
 } Periodo;
 
 
-unsigned int periodoToInt(Periodo p);
-Periodo intToPeriodo(int period);
+// unsigned int periodoToInt(Periodo p);
+// Periodo intToPeriodo(int period);
 Periodo floatToPeriodo(const float floatPeriod, const unsigned int freq);
-float periodoToFloat(const Periodo p, const unsigned int freq);
+// float periodoToFloat(const Periodo p, const unsigned int freq);
 
 // trim from start
 static inline std::string &ltrim(std::string &s) {
@@ -43,24 +43,6 @@ static inline std::string &rtrim(std::string &s) {
 static inline std::string &trim(std::string &s) {
   return ltrim(rtrim(s));
 }
-
-/*
-string quote(string s);
-vector<string> quote(vector<string> v);
-string join(vector<string> v, char j);
-
-std::string touppercase(std::string);
-
-typedef struct filename_ {
-  std::string name;
-  std::string ext;
-} filename_t;
-
-filename_t getFilenameFromPath(std::string path);
-vector<string> get_csv_from_path(std::string path);
-char* gnu_basename(char* path);
-
-*/
 
 NumericVector createTimeSeries(double anno, double periodo, 
                                double freq, std::vector<double> dati0);

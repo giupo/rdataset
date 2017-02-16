@@ -8,89 +8,6 @@
 #include <cerrno>
 #include <algorithm>
 #include <functional> 
-/**
-
-string join(vector<string> v, char j) {
-  std::stringstream ss;
-  for(size_t i = 0; i < v.size(); ++i) {
-    if(i != 0) {
-      ss << j;
-    }
-    ss << v[i];
-  }
-  return ss.str();
-}
-
-string quote(string s) {
-  std::stringstream ss;
-  ss << "'" << s << "'";
-  return ss.str();
-}
-
-vector<string> quote(vector<string> v) {
-  vector<string> ret(v.size());
-  for(unsigned int i=0; i < v.size(); ++i) {
-    ret[i] = quote(v[i]);
-  }
-  return ret;
-}
-
-char *gnu_basename(char *path) {
-    char *base = strrchr(path, '/');
-    return base ? base+1 : path;
-}
-
-filename_t getFilenameFromPath(std::string path) {
-  filename_t ret;
-  std::string filename =gnu_basename((char*) path.c_str());
-  int lastindex = filename.find_last_of("."); 
-  ret.name = filename.substr(0, lastindex);
-  ret.ext = filename.substr(lastindex+1);
-  return ret;
-}
-
-vector<string> get_csv_from_path(std::string path) {
-  std::vector<string> files;
-  std::string filename;
-  std::string name;
-  std::string ext;  
-  DIR *dp;
-  struct dirent *dirp;
-  
-  if((dp  = opendir(path.c_str())) == NULL) {
-    stringstream err;
-    err << "Error(" << errno << ") opening " << path;
-    closedir(dp);
-    stop(err.str());
-  }
-  
-  while ((dirp = readdir(dp)) != NULL) {
-    //iterate here     
-    if(strcmp(dirp->d_name, ".") == 0 || 
-       strcmp(dirp->d_name, "..") == 0) {
-      continue;
-    }
-    filename = dirp->d_name;
-    filename_t ft = getFilenameFromPath(filename);
-    name = touppercase(ft.name);   
-    if(ft.ext.compare("csv") == 0 || ft.ext.compare("CSV") == 0) {
-      std::string filepath = path + "/" + filename;
-      files.push_back(filepath);      
-    }
-  }
-  closedir(dp);
-  return files;
-}
-
-}
-
-std::string touppercase(std::string name) {
-  std::string name0 = name;
-  std::transform(name0.begin(), name0.end(), name0.begin(), ::toupper);
-  return name0;
-}
-
-*/
 
 NumericVector createTimeSeries(double anno, double periodo, 
                                  double freq, std::vector<double> dati0) {
@@ -175,10 +92,12 @@ NumericVector tsRead_nativo(std::string path) {
   return createTimeSeries(anno, periodo, freq, dati); 
 }
 
+/*
 unsigned int periodoToInt(Periodo p) {
   return p.anno * 1000 + p.periodo;
 }
 
+/*
 Periodo intToPeriodo(int intperiod) {
   unsigned int anno = floor(intperiod/1000);
   unsigned int period = intperiod - ( anno * 1000 );
@@ -189,6 +108,7 @@ Periodo intToPeriodo(int intperiod) {
   };
   return p;
 }
+*/
 
 Periodo floatToPeriodo(const float floatPeriod, const unsigned int freq) {
   unsigned int anno = floor(floatPeriod);
@@ -209,6 +129,8 @@ Periodo floatToPeriodo(const float floatPeriod, const unsigned int freq) {
   return p;
 }
 
+/*
 float periodoToFloat(const Periodo periodo, const unsigned int freq) {
   return float(periodo.anno) + float(periodo.periodo)/freq;
 }
+*/
