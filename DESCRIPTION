@@ -1,6 +1,6 @@
 Package: rdataset
 Title: Timeseries container
-Version: 0.2.18
+Version: 0.2.19
 Authors@R: person("Giuseppe", "Acito", email = "giuseppe.acito@gmail.com", role = c("aut", "cre"))
 Description: A timeseries container supplied with basic group operations
 	     (sums, union set, differences). It manages the container as an
