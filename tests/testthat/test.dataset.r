@@ -575,3 +575,56 @@ test_that("you can round timeseries in Dataset", {
   expect_true(all(x[["A"]] - x[["B"]] == 0))
 })
 
+test_that("I can have an annual of a ts", {
+  expected <- ts(12, start=1990, frequency=1)
+
+  monthly <- ts(seq(12), start=c(1990,1), frequency=12)
+  attr(monthly, "stock") <- 1
+  expect_equal(annual(monthly), expected)
+
+  monthly <- ts(rep(1, 12), start=c(1990,1), frequency=12)
+  attr(monthly, "stock") <- 0
+  expect_equal(annual(monthly), expected)
+
+  quarterly <- ts(c(3,6,9,12), start=c(1990,1), frequency=4)
+  attr(quarterly, "stock") <- 1
+  expect_equal(annual(quarterly), expected)
+
+  quarterly <- ts(rep(3, 4), start=c(1990,1), frequency=4)
+  attr(quarterly, "stock") <- 0
+  expect_equal(annual(quarterly), expected)
+
+  yearly <- ts(12, start=1990, frequency=1)
+  expect_equal(yearly, expected)
+  attr(yearly, "stock") <- 1
+  expect_equal(as.numeric(annual(yearly)), as.numeric(expected))
+
+  yearly <- ts(12, start=1990, frequency=1)
+  attr(yearly, "stock") <- 0
+  expect_equal(as.numeric(annual(yearly)), as.numeric(expected))
+})
+
+test_that('i can get an annual of an entire dataset', {
+  d <- dataset()
+  d["monthly"] <- {
+    x <- ts(seq(12), start=c(1990,1), frequency=12)
+    attr(x, "stock") <- 1
+    x
+  }
+  d["quarterly"] <- {
+    x <- ts(c(3,6,9,12), start=c(1990,1), frequency=4)
+    attr(x, "stock") <- 1
+    x
+  } 
+
+  d["yearly"] <- {
+    x <- ts(12, start=1990, frequency=1)
+    attr(x, "stock") <- 1
+    x
+  }
+
+  ann <- annual(d)
+  for(name in names(ann)) {
+    expect_equal(frequency(ann[[name]]), 1)
+  }
+})

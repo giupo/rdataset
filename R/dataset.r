@@ -731,12 +731,12 @@ dataset <- function(...) {
     return(new(class))
   }
   
-  if("biss" %in% names(params) && params$biss) {
+  if("biss" %in% names(params) && params$biss) { # nocov start
     if(!requireNamespace("RBISS", quietly=TRUE)) {
       stop("Non c'e' la library RBISS")
     }
     class <- "BissDataset"
-  }
+  } # nocov end
   return(new(class, params[[1]]))
 }
 
@@ -1272,37 +1272,22 @@ setMethod(
   "annual",
   signature("Dataset"),
   function(x) {
-    
-    data <- foreach(
-      nome=iter(names(x)),
-      .multicombine=TRUE, .combine=c) %dopar% {
-        ret <- list()
-        serie <- x[[nome]]
-        freq <- frequency(serie)
-        ret[[nome]] <- if(freq == 1) {
-          serie 
-        } else {
-          attributi <- attributes(serie)
-          if(attributi$stock == 1) {
-            ANNUAL(serie, "STOCK")
-          } else {
-            ANNUAL(serie, "SUM")
-          }
-        }
-        ret
-      }
+    data <- foreach(nome=iter(names(x)), .multicombine=TRUE, .combine=c) %dopar% {
+      ret <- list()
+      serie <- x[[nome]]
+      ret[[nome]] <- annual(serie)
+      ret
+    }
     as.dataset(data)
   })
-
 
 setMethod(
   "annual",
   signature("ts"),
   function(x) {
     attributi <- attributes(x)
-    if(attributi$stock == 1) {
-      ANNUAL(x, "STOCK")
-    } else {
-      ANNUAL(x, "SUM")
+    if(frequency(x) == 1) {
+      return(x)
     }
+    aggregate(x, nfrequency=1, ifelse(attributi$stock==1, last, sum))
   })
