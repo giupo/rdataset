@@ -1008,7 +1008,8 @@ setMethod(
 .to_csv <- function(x, sep=";", mappa=NULL) {
   x <- as.list(x)
   counter <- 1
-  pb <- ProgressBar(counter, length(x))
+  is_interactive <- interactive()
+  if (is_interactive) pb <- ProgressBar(counter, length(x))
   mappa_ <- if (is.null(mappa)) {
     function(x) {
       x
@@ -1022,7 +1023,7 @@ setMethod(
   
   for(name in names(x)) {
     counter <- counter + 1
-    updateProgressBar(pb, counter, name)
+    if (is_interactive) updateProgressBar(pb, counter, name)
     tt <- x[[name]]
     mapped_name <- mappa_(name)
     idx <- index(tt)
@@ -1041,7 +1042,7 @@ setMethod(
         sep = "\n")
     }
   }
-  kill(pb)
+  if (is_interactive) kill(pb)
   rows
 }
 
@@ -1130,10 +1131,11 @@ do.call.cbind <- function(lst) {
          "4"="trimestrali",
          "12"="mensili"))
   count <- 0
-  pb <- ProgressBar(max=length(x))
+  is_interactive <- interactive()
+  if(is_interactive) pb <- ProgressBar(max=length(x))
   for(name in names(x)) {
     count <- count + 1
-    updateProgressBar(pb, count, name)
+    if (is_interactive) updateProgressBar(pb, count, name)
     serie <- x[[name]]
     f <- as.character(frequency(serie))
     if (f %in% keys(freqs)) {
@@ -1147,15 +1149,15 @@ do.call.cbind <- function(lst) {
     }
   }
 
-  kill(pb)
+  if (is_interactive) kill(pb)
   if(file.exists(path)) {
     unlink(path)
   }
   count <- 0
-  pb <- ProgressBar(max=length(keys(freqs)))
+  if (is_interactive) pb <- ProgressBar(max=length(keys(freqs)))
   for(freq in keys(freqs)) {
     count <- count + 1
-    updateProgressBar(pb, count, freq)
+    if (is_interactive) updateProgressBar(pb, count, freq)
     container <- freqs[[freq]]
     nomi <- names(container)
     container <- lapply(container, as.xts)
@@ -1168,7 +1170,7 @@ do.call.cbind <- function(lst) {
     sheetName <- freqs_labels[[freq]]
     write.xlsx(container, file=path, sheetName=sheetName, append=TRUE)
   }
-  kill(pb)
+  if (is_interactive) kill(pb)
 }
 
 
