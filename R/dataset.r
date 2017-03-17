@@ -757,19 +757,19 @@ setMethod(
   "abs",
   c("Dataset"),
   function(x) {
-    abs.Dataset(x)
+    abs_ds(x)
   })
 
 #' apply the abs function on all the timeseries contained in this Dataset
 #'
-#' @name abs.Dataset
+#' @name abs_ds
 #' @param x a Dataset we want to apply the abs
-#' @usage abs.Dataset(x)
+#' @usage abs_ds(x)
 #' @export
 #' @return a Dataset with all the timesereis with the abs applied
 
 # fix for 31922
-abs.Dataset <- function(x) {
+abs_ds <- function(x) {
   l <- as.list(x)
   nomi <- names(l)
   l <- lapply(l, abs)
