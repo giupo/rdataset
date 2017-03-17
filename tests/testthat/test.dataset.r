@@ -141,7 +141,7 @@ test_that("I can use abs function over a Dataset", {
   expect_true(all(ads[["A"]] > 0))
 
   # patch per ticket: 31922
-  ads <- abs.Dataset(ds)
+  ads <- abs_ds(ds)
   expect_true(all(ads[["A"]] > 0))
 })
 
