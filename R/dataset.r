@@ -762,7 +762,7 @@ setMethod(
 
 #' apply the abs function on all the timeseries contained in this Dataset
 #'
-#' @name abs.Dataset(x)
+#' @name abs.Dataset
 #' @param x a Dataset we want to apply the abs
 #' @usage abs.Dataset(x)
 #' @export
