@@ -137,8 +137,8 @@ test_that("I can use abs function over a Dataset", {
   ds <- Dataset()
   ds["A"] <- ts(c(-1,-2,-3), start=c(1990,1), freq=4)
   ds["B"] <- ts(c(0,0,0), start=c(1990,1), freq=4)
-  ads <- abs(ds)
-  expect_true(all(ads[["A"]] > 0))
+  # ads <- abs(ds)
+  # expect_true(all(ads[["A"]] > 0))
 
   # patch per ticket: 31922
   ads <- abs_ds(ds)

@@ -747,21 +747,6 @@ dataset <- function(...) {
 
 #' apply the abs function on all the timeseries contained in this Dataset
 #'
-#' @name abs
-#' @usage abs(x)
-#' @param x a Dataset where we want to apply the `abs`
-#' @export
-#' @return a Dataset with all the timeseries with the `abs` applied
-
-setMethod(
-  "abs",
-  c("Dataset"),
-  function(x) {
-    abs_ds(x)
-  })
-
-#' apply the abs function on all the timeseries contained in this Dataset
-#'
 #' @name abs_ds
 #' @param x a Dataset we want to apply the abs
 #' @usage abs_ds(x)
