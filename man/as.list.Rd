@@ -3,7 +3,6 @@
 \docType{methods}
 \name{as.list}
 \alias{as.list}
-\alias{as.list}
 \alias{as.list.Dataset}
 \title{Ritorna il dataset come una \code{list} di serie storiche}
 \usage{
@@ -24,9 +23,10 @@ Ritorna il dataset come una \code{list} di serie storiche
 
 Ritorna il `Dataset` come `list` di oggetti
 }
-\seealso{
-base::as.list
-}
 \author{
 Giuseppe Acito
 }
+\seealso{
+base::as.list
+}
+

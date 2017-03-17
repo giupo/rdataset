@@ -3,8 +3,8 @@ Title: Timeseries container
 Version: 0.2.20
 Authors@R: person("Giuseppe", "Acito", email = "giuseppe.acito@gmail.com", role = c("aut", "cre"))
 Description: A timeseries container supplied with basic group operations
-	     (sums, union set, differences). It manages the container as an
-	     hash (1 unique character name -> 1 timeseries)
+    (sums, union set, differences). It manages the container as an
+    hash (1 unique character name -> 1 timeseries)
 Depends:
     R (>= 3.1.0),
 Imports:
@@ -35,8 +35,7 @@ Collate:
     'RcppExports.R'
     'io.r'
     'dataset.r'
-RoxygenNote: 6.0.1
+RoxygenNote: 5.0.1
 LinkingTo: Rcpp
-Remotes:
-    github::giupo/rprogressbar,
+Remotes: github::giupo/rprogressbar,
     github::giupo/rutils

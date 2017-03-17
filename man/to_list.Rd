@@ -15,3 +15,4 @@ a list object
 \description{
 converts a timeseries to a list representation
 }
+

@@ -18,3 +18,4 @@ converts a JSON timeseries to a BIMETS timeseries timeseries
 \seealso{
 \code{from_list}
 }
+

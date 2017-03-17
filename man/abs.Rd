@@ -16,3 +16,4 @@ a Dataset with all the timeseries with the `abs` applied
 \description{
 apply the abs function on all the timeseries contained in this Dataset
 }
+

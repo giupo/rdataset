@@ -15,3 +15,4 @@ un dataframe con 4 colonne (nome, start, end, freq)
 \description{
 I metadati ritornati sono start period, end period, freq
 }
+

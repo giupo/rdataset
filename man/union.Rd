@@ -3,7 +3,6 @@
 \name{union}
 \alias{union}
 \alias{union.Dataset}
-\alias{union}
 \title{Fonde due dataset in un unico dataset
 Le serie storiche contenute nel secondo \code{y} sovrascrivono le
 serie storiche contenute nel primo in caso che l'intersezione dei
@@ -38,13 +37,14 @@ Le serie storiche contenute nel secondo \code{y} sovrascrivono le
 serie storiche contenute nel primo in caso che l'intersezione dei
 nomi dei due dataset sia non nulla.
 }
-\seealso{
-base::union
-
-base::union
-}
 \author{
 Giuseppe Acito
 
 Giuseppe Acito
 }
+\seealso{
+base::union
+
+base::union
+}
+

@@ -18,7 +18,7 @@ Classe contenitore di dati (serie storiche)
 
 \item{\code{url}}{path where data is}
 }}
-
 \author{
 Giuseppe Acito
 }
+
