@@ -752,8 +752,8 @@ dataset <- function(...) {
 #' @usage abs_ds(x)
 #' @export
 #' @return a Dataset with all the timesereis with the abs applied
+#' @note fix for 31922
 
-# fix for 31922
 abs_ds <- function(x) {
   l <- as.list(x)
   nomi <- names(l)
