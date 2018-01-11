@@ -19,4 +19,3 @@ Ritorna il numero di oggetti contenute nel Dataset
 \author{
 Giuseppe Acito
 }
-

@@ -15,4 +15,3 @@ una copia di `x`
 \description{
 Questa funzione esegue una deep copy dell'oggetto
 }
-

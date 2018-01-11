@@ -15,4 +15,3 @@ a String representation of a timeseries as a JSON object
 \description{
 Converts to JSON a timeseries
 }
-

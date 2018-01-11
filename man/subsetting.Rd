@@ -3,8 +3,8 @@
 \docType{methods}
 \name{"["}
 \alias{"["}
-\alias{"[<-"}
 \alias{"[["}
+\alias{"[<-"}
 \title{Subsetting}
 \usage{
 \S4method{[}{Dataset,ANY,missing,ANY}(x, i, j, ..., drop = TRUE)
@@ -63,4 +63,3 @@ Giuseppe Acito
 
 Giuseppe Acito
 }
-

@@ -20,4 +20,3 @@ Esegue la differenza tra due dataset di oggetti (a patto che la differenza
 sia definita per gli oggetti)
 Se un oggetto non e' comune ai due dataset viene lanciato un warning
 }
-

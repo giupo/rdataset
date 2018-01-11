@@ -265,11 +265,6 @@ test_that("Setting to null an object removes it from Dataset", {
   .tearDown()
 })
 
-test_that("I can load datasets of timeseries", {
-  .setUp()
-  d <- Dataset(jsonFilePath)
-  .tearDown()
-})
 
 test_that("I can produce an xlsx from a Dataset", {
   ds <- Dataset()
@@ -410,24 +405,16 @@ test_that("Expect output from show", {
 })
 
 test_that("saveDataset behaves like expected", {
-  called <- 0
+  skip_if_not(require(mockery), "mockery required")
+  output <- tempfile()
+  on.exit(file.remove(output))
+
   d <- Dataset()
   d["A"] <- ts(c(1,2,3))
   d["B"] <- ts(c(1,2,3))
 
-  with_mock(
-    `base::write`=function(...) { called <<- called + 1 }, {
-      saveDataset(d, "/non/esisto", as.csv = FALSE, as.grafo=FALSE)
-      expect_true(called > 0)
-      called <<- 0
-    })
-
-   with_mock(
-    `rdataset::tsWrite_nativo`=function(...) { called <<- called + 1 }, {
-      saveDataset(d, "/non/esisto", as.csv = TRUE)
-      expect_true(called > 0)
-      called <<- 0
-    })
+  expect_error(saveDataset(d, output, as.csv = FALSE, as.grafo=FALSE), NA)
+  expect_error(saveDataset(d, output, as.csv = TRUE), NA)
 
 })
 
@@ -553,6 +540,7 @@ test_that("to_csv creates a string CSV of the Dataset", {
 })
 
 test_that("can copy a Dataset", {
+  skip_if_not(require(pryr), "pryr is required")
   d <- Dataset()
   d["A"] <- ts(c(1, 2, 3), start=c(1990,1), frequency=4)
   d["B"] <- ts(c(1, 2, 3), start=c(1990,1), frequency=4)
@@ -567,6 +555,7 @@ test_that("can copy a Dataset", {
 })
 
 test_that("you can round timeseries in Dataset", {
+  skip_if_not(require(pryr), "pryr is required")
   d <- Dataset()
   d["A"] <- ts(c(1.001, 2.001, 3.001), start=c(1990,1), frequency=4)
   d["B"] <- ts(c(1, 2, 3), start=c(1990,1), frequency=4)

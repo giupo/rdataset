@@ -17,10 +17,9 @@ Una rappresentazione a lista del Dataset
 Ritorna un elenco di nomi di serie storiche serie storiche contenuti
 nel Dataset
 }
-\author{
-Giuseppe Acito
-}
 \seealso{
 \code{link{rcf::names}}
 }
-
+\author{
+Giuseppe Acito
+}

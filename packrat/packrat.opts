@@ -1,9 +1,10 @@
-auto.snapshot: TRUE
+auto.snapshot: FALSE
 use.cache: FALSE
 print.banner.on.startup: auto
 vcs.ignore.lib: TRUE
 vcs.ignore.src: FALSE
-external.packages: 
+external.packages:
+    rJava
 local.repos: 
 load.external.packages.on.startup: FALSE
 ignored.packages: 

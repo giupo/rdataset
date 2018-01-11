@@ -13,10 +13,9 @@
 \description{
 Default metodo show per la classe Dataset
 }
-\author{
-Giuseppe Acito
-}
 \seealso{
 \code{Dataset}
 }
-
+\author{
+Giuseppe Acito
+}

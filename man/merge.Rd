@@ -21,4 +21,3 @@ merges two timeseries datasets
 \note{
 raises a warning for timeseries names not common in `x` and `y`
 }
-

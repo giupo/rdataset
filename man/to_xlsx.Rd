@@ -19,4 +19,3 @@ La funzione segue la seguente convezione:
      con il medesimo valore
    - altrimenti e' un flusso e va allungata con zero
 }
-

@@ -390,22 +390,29 @@ setGeneric (
 #' @param as.csv Salva Dataset come CSV
 #'               files csv (1 per serie storica)
 #' @importFrom stats ts as.ts is.ts
+
 setMethod(
   "saveDataset",
   signature("Dataset", "character", "logical"),
   function(x, path, as.csv = FALSE) {
-    data <- x@data
-    if (as.csv) {
-      for (name in keys(data)) {
-        timeSeries <- data[[name]]
-        tsWrite_nativo(timeSeries, file.path(path, paste0(name, ".csv")))
-      }
-    } else {
-      data <- lapply(as.list(data), to_list)
-      json_data <- toJSON(data, digits=20)
-      write(json_data, path)
-    }
+    .saveDataset(x, path, as.csv = as.csv)
   })
+
+.saveDataset <- function(x, path, as.csv = FALSE) {
+  data <- x@data
+  if (as.csv) {
+    for (name in keys(data)) {
+      timeSeries <- data[[name]]
+      tsWrite_nativo(timeSeries, file.path(path, paste0(name, ".csv")))
+    }
+  } else {
+    data <- lapply(as.list(data), to_list)
+    json_data <- toJSON(data, digits=20)
+    write(json_data, path)
+  }
+}
+
+
 
 
 setGeneric(
@@ -1264,6 +1271,7 @@ setMethod(
 #' @importFrom foreach foreach %do% %dopar%
 #' @importFrom iterators iter
 #' @importFrom stats frequency aggregate
+#' @importFrom xts last
 
 setGeneric(
   "annual",

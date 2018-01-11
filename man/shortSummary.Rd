@@ -16,4 +16,3 @@ shortSummary(object)
 \description{
 For each series prints it's stard period, end period and frequency
 }
-

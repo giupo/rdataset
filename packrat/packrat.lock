@@ -1,6 +1,6 @@
 PackratFormat: 1.4
 PackratVersion: 0.4.8.1
-RVersion: 3.3.2
+RVersion: 3.2.3
 Repos: CRAN=http://cran.rstudio.com/
 
 Package: BH
@@ -43,6 +43,12 @@ Source: CRAN
 Version: 1.0-6
 Hash: 931f9972deae0f205e1c78a51f33149b
 
+Package: cli
+Source: CRAN
+Version: 1.0.0
+Hash: f4239f89feb7ddc65821e4514e9734ae
+Requires: assertthat, crayon
+
 Package: commonmark
 Source: CRAN
 Version: 1.1
@@ -56,8 +62,8 @@ Requires: crayon, httr, jsonlite, rex, withr
 
 Package: crayon
 Source: CRAN
-Version: 1.3.2
-Hash: 576a9d297a567d6a5ebd164ca5221590
+Version: 1.3.4
+Hash: ff2840dd9b0d563fc80377a5a45510cd
 
 Package: curl
 Source: CRAN
@@ -152,6 +158,12 @@ Source: CRAN
 Version: 0.5
 Hash: 463550cf44fb6f0a2359368f42eebe62
 
+Package: mockery
+Source: CRAN
+Version: 0.4.1
+Hash: bce6846bd2ed0a41b7cba564bd816dac
+Requires: testthat
+
 Package: openssl
 Source: CRAN
 Version: 0.9.6
@@ -167,6 +179,12 @@ Source: CRAN
 Version: 1.0.0
 Hash: 77da8f1df873a4b91e5c4a68fe2fb1b6
 
+Package: pryr
+Source: CRAN
+Version: 0.1.3
+Hash: 3952d86649322f2fa1f088268480e80e
+Requires: Rcpp, stringr
+
 Package: rJava
 Source: CRAN
 Version: 0.9-8
@@ -177,6 +195,11 @@ Source: CRAN
 Version: 1.1.1
 Hash: 69e208c6283398d235e507a658ba8079
 Requires: lazyeval, magrittr
+
+Package: rlang
+Source: CRAN
+Version: 0.1.6
+Hash: 8eb4b2dce38b8f663cb9364b28eaa76b
 
 Package: roxygen2
 Source: CRAN
@@ -229,9 +252,9 @@ Requires: magrittr, stringi
 
 Package: testthat
 Source: CRAN
-Version: 1.0.2
-Hash: 88d5291104227f9dc2e7c7c1d0eb6c74
-Requires: R6, crayon, digest, magrittr, praise
+Version: 2.0.0
+Hash: 537114b476376c5773bf3c557f5bbd19
+Requires: R6, cli, crayon, digest, magrittr, praise, rlang, withr
 
 Package: tis
 Source: CRAN
@@ -245,8 +268,8 @@ Hash: 803d662762e532705c2c066a82d066e7
 
 Package: withr
 Source: CRAN
-Version: 1.0.2
-Hash: 774eb7be9087cdc24b53b74e5359cfac
+Version: 2.1.1
+Hash: a86856ae0b4a7c3daf9a3ef0097a403b
 
 Package: xlsx
 Source: CRAN
@@ -268,11 +291,11 @@ Requires: BH, Rcpp
 
 Package: xts
 Source: CRAN
-Version: 0.9-7
-Hash: fb3f81d7a2fa2323879b6b49722ddc5e
+Version: 0.10-1
+Hash: 7a0e7f006bef315e41038c5258905a51
 Requires: zoo
 
 Package: zoo
 Source: CRAN
-Version: 1.7-14
-Hash: a4c3a385cd122b5d6af30732bf267060
+Version: 1.8-1
+Hash: 4662280a4dad0f93d6ecfdf797fc1cf2

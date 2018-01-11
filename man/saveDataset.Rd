@@ -18,10 +18,9 @@ files csv (1 per serie storica)}
 \description{
 Salva un Dataset.
 }
-\author{
-Giuseppe Acito
-}
 \seealso{
 \code{saveGraph}
 }
-
+\author{
+Giuseppe Acito
+}

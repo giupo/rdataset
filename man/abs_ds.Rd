@@ -15,4 +15,6 @@ a Dataset with all the timesereis with the abs applied
 \description{
 apply the abs function on all the timeseries contained in this Dataset
 }
-
+\note{
+fix for 31922
+}

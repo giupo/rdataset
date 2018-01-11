@@ -21,7 +21,8 @@ Imports:
     tis,
     methods,
     stats,
-    rutils
+    rutils,
+    xts
 License: BSD_2_clause + file LICENSE
 LazyData: true
 Suggests:
@@ -30,12 +31,14 @@ Suggests:
     covr,
     roxygen2,
     zoo,
-    data.table
+    data.table,
+    pryr,
+    mockery
 Collate:
     'RcppExports.R'
     'io.r'
     'dataset.r'
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 LinkingTo: Rcpp
 Remotes: github::giupo/rprogressbar,
     github::giupo/rutils
