@@ -1127,12 +1127,12 @@ do.call.cbind <- function(lst) {
 #' @param path percorso dove esportare i dati
 #' @param bycol esporta per colonna se `TRUE`, altrimenti per riga
 #' @rdname to_xlsx-internal
-#' @importFrom xlsx write.xlsx
 #' @importFrom hash hash
 #' @importFrom xts as.xts
 #' @importFrom rprogressbar ProgressBar updateProgressBar kill
 
 .to_xlsx <- function(x, path, bycol=T) {
+  stopifnot(require(xlsx))
   x <- as.list(x)
   path <- suppressWarnings(normalizePath(path))
   freqs <- hash()
