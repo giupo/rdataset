@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // tsWrite_nativo
 void tsWrite_nativo(NumericVector series, std::string path);
-RcppExport SEXP rdataset_tsWrite_nativo(SEXP seriesSEXP, SEXP pathSEXP) {
+RcppExport SEXP _rdataset_tsWrite_nativo(SEXP seriesSEXP, SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericVector >::type series(seriesSEXP);
@@ -18,7 +18,7 @@ END_RCPP
 }
 // tsRead_nativo
 NumericVector tsRead_nativo(std::string path);
-RcppExport SEXP rdataset_tsRead_nativo(SEXP pathSEXP) {
+RcppExport SEXP _rdataset_tsRead_nativo(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -26,4 +26,15 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(tsRead_nativo(path));
     return rcpp_result_gen;
 END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_rdataset_tsWrite_nativo", (DL_FUNC) &_rdataset_tsWrite_nativo, 2},
+    {"_rdataset_tsRead_nativo", (DL_FUNC) &_rdataset_tsRead_nativo, 1},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_rdataset(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
 }

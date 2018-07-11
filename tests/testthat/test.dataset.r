@@ -268,6 +268,9 @@ test_that("Setting to null an object removes it from Dataset", {
 
 test_that("I can produce an xlsx from a Dataset", {
   ds <- Dataset()
+  if(!suppressWarnings(require(xlsx))) {
+    skip("Can't run this test without xlsx")
+  }
   ds["TS1"] <- ts(c(1,2,3), start=c(1990,1), freq=1)
   ds["TS4"] <- ts(c(1,2,3), start=c(1990,1), freq=4)
   ds["TS12"] <- ts(c(1,2,3), start=c(1990,1), freq=12)

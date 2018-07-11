@@ -21,10 +21,10 @@ NULL
 NULL
 
 tsWrite_nativo <- function(series, path) {
-    invisible(.Call('rdataset_tsWrite_nativo', PACKAGE = 'rdataset', series, path))
+    invisible(.Call('_rdataset_tsWrite_nativo', PACKAGE = 'rdataset', series, path))
 }
 
 tsRead_nativo <- function(path) {
-    .Call('rdataset_tsRead_nativo', PACKAGE = 'rdataset', path)
+    .Call('_rdataset_tsRead_nativo', PACKAGE = 'rdataset', path)
 }
 
