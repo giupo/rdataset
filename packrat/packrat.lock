@@ -68,6 +68,7 @@ Hash: 877149b42d479b93ab15d5cef46c0f1b
 Package: data.table
 Source: CRAN
 Version: 1.11.4
+Hash: d8736a5fe41e5ebef191c43f5e22652f
 
 Package: desc
 Source: CRAN
@@ -162,6 +163,7 @@ Hash: 77da8f1df873a4b91e5c4a68fe2fb1b6
 Package: pryr
 Source: CRAN
 Version: 0.1.4
+Hash: ce7b1a2ab14b0352c61f00aa76d4d14e
 Requires: Rcpp, codetools, stringr
 
 Package: rex
@@ -191,10 +193,6 @@ GithubRepo: rprogressbar
 GithubUsername: giupo
 GithubRef: master
 GithubSha1: db7c8ffacb34705b488b185dacf05fb44a4d921c
-RemoteHost: https://api.github.com
-RemoteRepo: rprogressbar
-RemoteUsername: giupo
-RemoteSha: db7c8ffacb34705b488b185dacf05fb44a4d921c
 
 Package: rprojroot
 Source: CRAN
@@ -208,23 +206,16 @@ Version: 0.7
 Hash: e2ebaff8160aff3e6b32e6e78a693c2d
 
 Package: rutils
-Source: github
-Version: 0.5.1
-Hash: daf4f17723d88a07943a214cb1aeaef0
+Source: source
+Version: 0.6.2
+Hash: bf4ff1f626f527729cac43bcefd22841
 Requires: R6, doParallel, foreach, testthat
-GithubRepo: rutils
-GithubUsername: giupo
-GithubRef: master
-GithubSha1: b661094ad6eb6d75160d7e1021fced5308f0894e
-RemoteHost: https://api.github.com
-RemoteRepo: rutils
-RemoteUsername: giupo
-RemoteSha: b661094ad6eb6d75160d7e1021fced5308f0894e
+SourcePath: ~/projects/rutils
 
 Package: stringi
 Source: CRAN
-Version: 1.2.3
-Hash: bccbb90bf5e1c53f659359c06c0dde79
+Version: 1.4.3
+Hash: ed2a82fc7cc668c1345223d938cdfaf2
 
 Package: stringr
 Source: CRAN
