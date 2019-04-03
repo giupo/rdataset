@@ -7,9 +7,8 @@ external.packages:
     rJava
     bimets
     RPostgreSQL
-    stringi
 local.repos: ~/projects
-load.external.packages.on.startup: TRUE
+load.external.packages.on.startup: FALSE
 ignored.packages: 
 ignored.directories:
     data
@@ -20,3 +19,4 @@ snapshot.fields:
     Imports
     Depends
     LinkingTo
+symlink.system.packages: TRUE
