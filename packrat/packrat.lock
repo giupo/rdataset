@@ -18,11 +18,6 @@ Source: CRAN
 Version: 0.12.17
 Hash: d2eff4634ccd7aca030c540ad805ac4a
 
-Package: XML
-Source: CRAN
-Version: 3.98-1.11
-Hash: 93ca736e34d01f5952dc770fbfa5fa62
-
 Package: assertthat
 Source: CRAN
 Version: 0.2.0
@@ -216,7 +211,7 @@ Package: rutils
 Source: github
 Version: 0.5.1
 Hash: daf4f17723d88a07943a214cb1aeaef0
-Requires: R6, XML, doParallel, foreach, testthat
+Requires: R6, doParallel, foreach, testthat
 GithubRepo: rutils
 GithubUsername: giupo
 GithubRef: master
