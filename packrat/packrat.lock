@@ -1,12 +1,12 @@
 PackratFormat: 1.4
-PackratVersion: 0.5.0
+PackratVersion: 0.4.9.3
 RVersion: 3.3.3
 Repos: CRAN=https://cran.stat.unipd.it
 
 Package: R6
 Source: CRAN
-Version: 2.2.2
-Hash: b2366cd9d2f3851a5704b4e192b985c2
+Version: 2.4.0
+Hash: 948a547c484e5bea15eee76cc53cce3f
 
 Package: RJSONIO
 Source: CRAN
@@ -15,23 +15,29 @@ Hash: fb672e20eb6f3010a3639f855d8ef6de
 
 Package: Rcpp
 Source: CRAN
-Version: 0.12.17
-Hash: d2eff4634ccd7aca030c540ad805ac4a
+Version: 1.0.1
+Hash: 390ed5b5da840cec3e6f5c90c6ab23f7
 
 Package: assertthat
 Source: CRAN
-Version: 0.2.0
-Hash: e8805df54c65ac96d50235c44a82615c
+Version: 0.2.1
+Hash: 622be49032fe50bd42e96aaef613e209
 
 Package: backports
 Source: CRAN
-Version: 1.1.2
-Hash: 5ae7b3466e529e4400951ca18c137e40
+Version: 1.1.3
+Hash: a0b8191e6bd2fe71aadd4678bb8f3c98
 
 Package: brew
 Source: CRAN
 Version: 1.0-6
 Hash: 931f9972deae0f205e1c78a51f33149b
+
+Package: callr
+Source: CRAN
+Version: 3.2.0
+Hash: a6f55e383e4a82bf953aa92136c18d58
+Requires: R6, processx
 
 Package: cli
 Source: CRAN
@@ -41,19 +47,19 @@ Requires: assertthat, crayon
 
 Package: codetools
 Source: CRAN
-Version: 0.2-15
-Hash: a4268e48f71dc70ac2203aced7cdd8ea
+Version: 0.2-16
+Hash: eb51f6f32efbc11c76c48b9c4307f1b5
 
 Package: commonmark
 Source: CRAN
-Version: 1.5
-Hash: 432a16a9967055dad6b39f1c14fd6b2c
+Version: 1.7
+Hash: 77f4ba718e2bad1877ef26e48cf8fa43
 
 Package: covr
 Source: CRAN
 Version: 3.1.0
 Hash: 55eaad0d3e61626cc0c8928985a849fa
-Requires: crayon, digest, jsonlite, withr, rex, httr
+Requires: crayon, digest, httr, jsonlite, rex, withr
 
 Package: crayon
 Source: CRAN
@@ -78,14 +84,20 @@ Requires: R6, assertthat, crayon, rprojroot
 
 Package: digest
 Source: CRAN
-Version: 0.6.15
-Hash: 1f202ebd812ac7192be3739245746a13
+Version: 0.6.18
+Hash: 65f62365ec69ddd17230d2ffe891a6ab
+
+Package: doMC
+Source: CRAN
+Version: 1.3.5
+Hash: fe6e8767cb2a24f6db19768091be5c03
+Requires: foreach, iterators
 
 Package: doParallel
 Source: CRAN
 Version: 1.0.11
 Hash: cb602c6ef64eced7c8f32b206d4d74b4
-Requires: iterators, foreach
+Requires: foreach, iterators
 
 Package: foreach
 Source: CRAN
@@ -121,8 +133,8 @@ Hash: 9c51936d8dd00b2f1d4fe9d10499694c
 
 Package: lattice
 Source: CRAN
-Version: 0.20-34
-Hash: 4390fc5602fd36017be70a27f7123ff3
+Version: 0.20-38
+Hash: 8e57af1ae6fb8d8e4978d686e0116a3a
 
 Package: lazyeval
 Source: CRAN
@@ -155,16 +167,57 @@ Source: CRAN
 Version: 0.4.9-3
 Hash: 03fb817297975f1da0d1b774b47620b3
 
+Package: pkgbuild
+Source: CRAN
+Version: 1.0.3
+Hash: 59dd44c0ddf2f59ee68813240ed2c871
+Requires: R6, callr, cli, crayon, desc, prettyunits, rprojroot, withr
+
+Package: pkgload
+Source: CRAN
+Version: 1.0.2
+Hash: 41eb2db35be61f6f9e8864cf87a1ecb0
+Requires: desc, pkgbuild, rlang, rprojroot, rstudioapi, withr
+
 Package: praise
 Source: CRAN
 Version: 1.0.0
 Hash: 77da8f1df873a4b91e5c4a68fe2fb1b6
 
+Package: prettyunits
+Source: CRAN
+Version: 1.0.2
+Hash: 49286102a855640daaa38eafe8b1ec30
+Requires: assertthat, magrittr
+
+Package: processx
+Source: CRAN
+Version: 3.3.0
+Hash: 89c6047da2d7dfad11bedd624252d78a
+Requires: R6, ps
+
 Package: pryr
 Source: CRAN
 Version: 0.1.4
-Hash: ce7b1a2ab14b0352c61f00aa76d4d14e
+Hash: cda6a56b214a450d169d881589302d79
 Requires: Rcpp, codetools, stringr
+
+Package: ps
+Source: CRAN
+Version: 1.3.0
+Hash: 1d4cae95887ffe5b1a22bea5994476cd
+
+Package: purrr
+Source: CRAN
+Version: 0.3.2
+Hash: d7bb7f62bb3af2d6510f50cb7190a060
+Requires: magrittr, rlang
+
+Package: rJava
+Source: source
+Version: 0.9-8
+Hash: 3e8627a2a5bd45c9bad6112acfc231d9
+SourcePath: ~/projects/rJava
 
 Package: rex
 Source: CRAN
@@ -179,10 +232,10 @@ Hash: 4dbc6ee05f1a6802b24608d8d38f6496
 
 Package: roxygen2
 Source: CRAN
-Version: 6.0.1
-Hash: 103c10a2707a21170b74bdde8a5f987a
-Requires: R6, Rcpp, brew, commonmark, digest, stringi, xml2, stringr,
-    desc
+Version: 6.1.1
+Hash: 17e7d5f731ad04292f1b8b616c83318b
+Requires: R6, Rcpp, brew, commonmark, desc, digest, pkgload, purrr,
+    stringi, stringr, xml2
 
 Package: rprogressbar
 Source: github
@@ -202,14 +255,14 @@ Requires: backports
 
 Package: rstudioapi
 Source: CRAN
-Version: 0.7
-Hash: e2ebaff8160aff3e6b32e6e78a693c2d
+Version: 0.10
+Hash: 63f43c6ff14d92e1d65ca6c21d45a1eb
 
 Package: rutils
 Source: source
 Version: 0.6.2
 Hash: bf4ff1f626f527729cac43bcefd22841
-Requires: R6, foreach, testthat, doParallel
+Requires: R6, doParallel, foreach, testthat
 SourcePath: ~/projects/rutils
 
 Package: stringi
@@ -219,15 +272,15 @@ Hash: ed2a82fc7cc668c1345223d938cdfaf2
 
 Package: stringr
 Source: CRAN
-Version: 1.3.1
-Hash: 9f417a1d899ed1f080942ab36998e8b5
-Requires: magrittr, stringi
+Version: 1.4.0
+Hash: 67da32dbb2a7a16f2ef124336358e54a
+Requires: glue, magrittr, stringi
 
 Package: testthat
 Source: CRAN
-Version: 2.0.0
-Hash: 537114b476376c5773bf3c557f5bbd19
-Requires: R6, crayon, digest, magrittr, praise
+Version: 2.0.1
+Hash: 777eb6e94f5a62bf6320fecf0175bbbb
+Requires: R6, cli, crayon, digest, magrittr, praise, rlang, withr
 
 Package: tis
 Source: CRAN
@@ -239,10 +292,22 @@ Source: CRAN
 Version: 2.1.2
 Hash: d534108bcd5f34ec73e9eb523751ba20
 
+Package: xlsx
+Source: CRAN
+Version: 0.6.1
+Hash: cc1594963f85841495a12f107a93db4b
+Requires: rJava, xlsxjars
+
+Package: xlsxjars
+Source: CRAN
+Version: 0.6.1
+Hash: 3902149dad80bcb14fcd88d8c7fd7f3b
+Requires: rJava
+
 Package: xml2
 Source: CRAN
 Version: 1.2.0
-Hash: a9af563f148c0170654bd9b4bb974ba7
+Hash: dd507db1fa0240b62dc493ed3d53206f
 Requires: Rcpp
 
 Package: xts
