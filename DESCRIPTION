@@ -6,7 +6,7 @@ Description: A timeseries container supplied with basic group operations
     (sums, union set, differences). It manages the container as an
     hash (1 unique character name -> 1 timeseries)
 Depends:
-    R (>= 3.2.3),
+    R (>= 3.3.3),
 Imports:
     hash,
     tools,
@@ -14,13 +14,13 @@ Imports:
     RJSONIO,
     foreach,
     iterators,
-    rprogressbar,
     stringr,
     tis,
     methods,
     stats,
     rutils,
-    xts
+    xts,
+    progress
 License: BSD_2_clause + file LICENSE
 LazyData: true
 Suggests:
@@ -38,5 +38,4 @@ Collate:
     'dataset.r'
 RoxygenNote: 6.0.1
 LinkingTo: Rcpp
-Remotes: github::giupo/rprogressbar,
-    github::giupo/rutils
+Remotes: github::giupo/rutils

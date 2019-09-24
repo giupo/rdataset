@@ -34,19 +34,19 @@ Dataset <- setClass(
     .Object@data <- hash()
     return(.Object)
   }
-  
+
   .Object@url <- url
 
   startsWith <- function(x, pattern) grepl(paste0('^', pattern), x)
-  
+
   if(startsWith(url, "http")) {
     stop("http[s] not Implemented")
   }
-  
+
   # bypass for future releases
   parsed_url<- list()
   parsed_url$scheme <- NULL
-  
+
   path <- normalizePath(url)
   if (is_grafo(path)) {
     raw_list <- load_dataset_grafo(path)
@@ -805,13 +805,13 @@ setMethod(
       endp <- end(series)[[2]]
       endy <- end(series)[[1]]
       freq <- frequency(series)
-      
+
       NOMI <- c(NOMI, name)
       STARTP <- c(STARTP, paste0(starty, "/",startp))
       ENDP <- c(ENDP, paste0(endy, "/", endp))
       FREQ <- c(FREQ,paste(freq))
     }
-    
+
     df <- data.frame(NOMI=NOMI, START=STARTP, END=ENDP, FREQ=FREQ)
     print(df)
     invisible(df)
@@ -895,13 +895,13 @@ setMethod(
       endp <- stats::end(timeSeries)[[2]]
       START <- starty + startp/freq
       END <- endy + endp/freq
-      
+
       data.frame(list(
         name=name, freq = freq, start = START,
         end = END, starty = starty, startp = startp,
         endy = endy, endp = endp))
     }
-    
+
     foreach(name = iter(names(x)), .combine=rbind) %dopar% {
       closure(name)
     }
@@ -981,6 +981,7 @@ setMethod(
 #' @param x nome del Dataset
 #' @param periodo coppia `(anno, trimestre)` rispetto cui allungare le serie
 #' @return il dataset con le serie allungate
+#' @importFrom progress progress_bar
 #' @export
 
 setGeneric(
@@ -1019,7 +1020,8 @@ setMethod(
   x <- as.list(x)
   counter <- 1
   is_interactive <- interactive()
-  if (is_interactive) pb <- ProgressBar(counter, length(x))
+  if (is_interactive) pb <- progress_bar$new(format="[:bar] :current/:total (:percent)", total=length(x))
+  pb$tick(counter)
   mappa_ <- if (is.null(mappa)) {
     function(x) {
       x
@@ -1030,10 +1032,10 @@ setMethod(
     }
   }
   rows <- character(0)
-  
+
   for(name in names(x)) {
     counter <- counter + 1
-    if (is_interactive) updateProgressBar(pb, counter, name)
+    if (is_interactive) pb$tick(counter)
     tt <- x[[name]]
     mapped_name <- mappa_(name)
     idx <- index(tt)
@@ -1052,11 +1054,11 @@ setMethod(
         sep = "\n")
     }
   }
-  if (is_interactive) kill(pb)
+
   rows
 }
 
-#' @importFrom rprogressbar ProgressBar updateProgressBar kill 
+#' @importFrom progress progress_bar
 
 setGeneric(
   "to_csv",
@@ -1129,7 +1131,7 @@ do.call.cbind <- function(lst) {
 #' @rdname to_xlsx-internal
 #' @importFrom hash hash
 #' @importFrom xts as.xts
-#' @importFrom rprogressbar ProgressBar updateProgressBar kill
+#' @importFrom progress progress_bar
 
 .to_xlsx <- function(x, path, bycol=T) {
   stopifnot(require(xlsx))
@@ -1142,10 +1144,10 @@ do.call.cbind <- function(lst) {
          "12"="mensili"))
   count <- 0
   is_interactive <- interactive()
-  if(is_interactive) pb <- ProgressBar(max=length(x))
+  if(is_interactive) pb <- progesss_bar$new(format="[:bar] :current/:total (:percent)", total=length(x))
   for(name in names(x)) {
     count <- count + 1
-    if (is_interactive) updateProgressBar(pb, count, name)
+    if (is_interactive) pb$tick(count)
     serie <- x[[name]]
     f <- as.character(frequency(serie))
     if (f %in% keys(freqs)) {
@@ -1159,15 +1161,16 @@ do.call.cbind <- function(lst) {
     }
   }
 
-  if (is_interactive) kill(pb)
   if(file.exists(path)) {
     unlink(path)
   }
+
   count <- 0
-  if (is_interactive) pb <- ProgressBar(max=length(keys(freqs)))
+
+  if (is_interactive) pb <- progress_bar(format="[:bar] :current/:total (:percent)", total=length(keys(freqs)))
   for(freq in keys(freqs)) {
     count <- count + 1
-    if (is_interactive) updateProgressBar(pb, count, freq)
+    if (is_interactive) pb$tick(count)
     container <- freqs[[freq]]
     nomi <- names(container)
     container <- lapply(container, as.xts)
@@ -1180,7 +1183,6 @@ do.call.cbind <- function(lst) {
     sheetName <- freqs_labels[[freq]]
     write.xlsx(container, file=path, sheetName=sheetName, append=TRUE)
   }
-  if (is_interactive) kill(pb)
 }
 
 
