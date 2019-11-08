@@ -5,7 +5,8 @@
 \alias{saveDataset}
 \title{Salva un Dataset}
 \usage{
-\S4method{saveDataset}{Dataset,character,logical}(x, path, as.csv = FALSE)
+\S4method{saveDataset}{Dataset,character,logical}(x, path,
+  as.csv = FALSE)
 }
 \arguments{
 \item{x}{un Dataset}

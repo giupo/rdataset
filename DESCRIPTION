@@ -36,6 +36,6 @@ Collate:
     'RcppExports.R'
     'io.r'
     'dataset.r'
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 LinkingTo: Rcpp
 Remotes: github::giupo/rutils

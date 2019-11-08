@@ -3,7 +3,6 @@
 \docType{methods}
 \name{as.list}
 \alias{as.list}
-\alias{as.list}
 \alias{as.list.Dataset}
 \title{Ritorna il dataset come una \code{list} di serie storiche}
 \usage{

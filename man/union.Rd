@@ -3,7 +3,6 @@
 \name{union}
 \alias{union}
 \alias{union.Dataset}
-\alias{union}
 \title{Fonde due dataset in un unico dataset
 Le serie storiche contenute nel secondo \code{y} sovrascrivono le
 serie storiche contenute nel primo in caso che l'intersezione dei
