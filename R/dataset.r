@@ -1021,7 +1021,7 @@ setMethod(
   counter <- 1
   is_interactive <- interactive()
   if (is_interactive) pb <- progress_bar$new(format="[:bar] :current/:total (:percent)", total=length(x))
-  pb$tick(counter)
+  if (is_interactive) pb$tick(counter)
   mappa_ <- if (is.null(mappa)) {
     function(x) {
       x
