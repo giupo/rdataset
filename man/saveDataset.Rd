@@ -5,16 +5,12 @@
 \alias{saveDataset}
 \title{Salva un Dataset}
 \usage{
-\S4method{saveDataset}{Dataset,character,logical}(x, path,
-  as.csv = FALSE)
+\S4method{saveDataset}{Dataset,character}(x, path)
 }
 \arguments{
 \item{x}{un Dataset}
 
 \item{path}{percorso dove salvare il Dataset}
-
-\item{as.csv}{Salva Dataset come CSV
-files csv (1 per serie storica)}
 }
 \description{
 Salva un Dataset.

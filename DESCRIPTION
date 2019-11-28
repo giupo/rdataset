@@ -33,9 +33,9 @@ Suggests:
     pryr,
     mockery
 Collate:
-    'RcppExports.R'
     'io.r'
     'dataset.r'
 RoxygenNote: 6.1.1
 LinkingTo: Rcpp
 Remotes: github::giupo/rutils
+Encoding: UTF-8

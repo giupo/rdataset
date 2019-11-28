@@ -48,9 +48,8 @@ Dataset <- setClass(
   parsed_url$scheme <- NULL
 
   path <- normalizePath(url)
-  if (is_grafo(path)) {
-    raw_list <- load_dataset_grafo(path)
-  } else if (is_JSON(path)) {
+
+  if (is_JSON(path)) {
     raw_list <- load_dataset_json(path)
   } else if (is_csv_library(path)) {
     raw_list <- load_dataset_csv(path, ids=ids)
@@ -372,7 +371,7 @@ setMethod(
 
 setGeneric (
   "saveDataset",
-  function(x, path, as.csv = FALSE, as.grafo=FALSE){
+  function(x, path){
     standardGeneric("saveDataset")
   })
 
@@ -387,29 +386,20 @@ setGeneric (
 #' @seealso \code{saveGraph}
 #' @param x un Dataset
 #' @param path percorso dove salvare il Dataset
-#' @param as.csv Salva Dataset come CSV
-#'               files csv (1 per serie storica)
 #' @importFrom stats ts as.ts is.ts
 
 setMethod(
   "saveDataset",
-  signature("Dataset", "character", "logical"),
-  function(x, path, as.csv = FALSE) {
-    .saveDataset(x, path, as.csv = as.csv)
+  signature("Dataset", "character"),
+  function(x, path) {
+    .saveDataset(x, path)
   })
 
-.saveDataset <- function(x, path, as.csv = FALSE) {
+.saveDataset <- function(x, path) {
   data <- x@data
-  if (as.csv) {
-    for (name in keys(data)) {
-      timeSeries <- data[[name]]
-      tsWrite_nativo(timeSeries, file.path(path, paste0(name, ".csv")))
-    }
-  } else {
-    data <- lapply(as.list(data), to_list)
-    json_data <- toJSON(data, digits=20)
-    write(json_data, path)
-  }
+  data <- lapply(as.list(data), to_list)
+  json_data <- toJSON(data, digits=20)
+  write(json_data, path)
 }
 
 

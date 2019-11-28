@@ -9,3 +9,5 @@ Makefile
 packrat
 CONTRIBUTING.rst
 ^\.travis\.yml$
+^renv$
+^renv\.lock$
