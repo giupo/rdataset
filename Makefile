@@ -47,7 +47,7 @@ autotest:
 	Rscript autotest.r
 
 test:
-	Rscript -e 'devtools::test()' --default-packages=methods,utils,data.table
+	Rscript -e 'devtools::test()' --default-packages=methods,utils
 
 coverage:
 	Rscript -e 'covr::package_coverage(line_exclusions=list.files(path="renv", full.names=TRUE, recursive=TRUE))'

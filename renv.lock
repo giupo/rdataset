@@ -564,15 +564,15 @@
     },
     "rprogressbar": {
       "Package": "rprogressbar",
-      "Version": "0.1.7",
+      "Version": "0.2.1",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "rprogressbar",
       "RemoteUsername": "giupo",
       "RemoteRef": "master",
-      "RemoteSha": "db7c8ffacb34705b488b185dacf05fb44a4d921c",
-      "Hash": "caf6524e9f80414e118a785b60436425"
+      "RemoteSha": "cc7aeb3e6e1277e2e3ca09d88e8758cd08518020",
+      "Hash": "b87607631e97de8608904ad247ef2c52"
     },
     "rprojroot": {
       "Package": "rprojroot",
