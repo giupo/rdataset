@@ -18,11 +18,11 @@ $(PKG_NAME)_$(PKG_VERSION).tar.gz: $(PKG_FILES)
 check: $(PKG_NAME)_$(PKG_VERSION).tar.gz
 	R CMD check $(PKG_NAME)_$(PKG_VERSION).tar.gz
 
-build: $(PKG_NAME)_$(PKG_VERSION).tar.gz
-	R CMD INSTALL --build $(PKG_NAME)_$(PKG_VERSION).tar.gz
+build: $(PKG_NAME)_$(PKG_VERSION).tar.gz DOCS
+	R --vanilla CMD INSTALL --build $(PKG_NAME)_$(PKG_VERSION).tar.gz
 
 install: $(PKG_NAME)_$(PKG_VERSION).tar.gz
-	R CMD INSTALL $(PKG_NAME)_$(PKG_VERSION).tar.gz
+	R --vanilla CMD INSTALL $(PKG_NAME)_$(PKG_VERSION).tar.gz
 
 NAMESPACE: $(R_FILES) $(SRC_FILES)
 	Rscript -e "library(roxygen2);roxygenize('.')"
@@ -49,14 +49,11 @@ autotest:
 test:
 	Rscript -e 'devtools::test()' --default-packages=methods,utils,data.table
 
-so:
-	Rscript --vanilla -e 'devtools::compile_dll()'
-
 coverage:
-	Rscript -e 'covr::package_coverage(line_exclusions=list.files(path="packrat", full.names=TRUE, recursive=TRUE))'
+	Rscript -e 'covr::package_coverage(line_exclusions=list.files(path="renv", full.names=TRUE, recursive=TRUE))'
 
 codecov:
-	Rscript -e 'covr::codecov(line_exclusions=list.files(path="packrat", recursive=TRUE, full.names=TRUE))'
+	Rscript -e 'covr::codecov(line_exclusions=list.files(path="renv", recursive=TRUE, full.names=TRUE))'
 
-packrat_restore:
-	Rscript -e 'packrat::restore()'
+restore:
+	Rscript -e 'renv::restore()'
