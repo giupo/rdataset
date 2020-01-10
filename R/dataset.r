@@ -1134,7 +1134,7 @@ do.call.cbind <- function(lst) {
          "12"="mensili"))
   count <- 0
   is_interactive <- interactive()
-  if(is_interactive) pb <- progesss_bar$new(format="[:bar] :current/:total (:percent)", total=length(x))
+  if(is_interactive) pb <- progress::progress_bar$new(format="[:bar] :current/:total (:percent)", total=length(x))
   for(name in names(x)) {
     count <- count + 1
     if (is_interactive) pb$tick(count)
@@ -1157,7 +1157,7 @@ do.call.cbind <- function(lst) {
 
   count <- 0
 
-  if (is_interactive) pb <- progress_bar(format="[:bar] :current/:total (:percent)", total=length(keys(freqs)))
+  if (is_interactive) pb <- progress_bar$new(format="[:bar] :current/:total (:percent)", total=length(keys(freqs)))
   for(freq in keys(freqs)) {
     count <- count + 1
     if (is_interactive) pb$tick(count)
@@ -1293,4 +1293,32 @@ setMethod(
       return(x)
     }
     aggregate(x, nfrequency=1, ifelse(attributi$stock==1, last, sum))
+  })
+
+
+setMethod(
+  "sum",
+  signature("Dataset", "logical"),
+  function(x, na.rm = FALSE) {
+    somma <- NULL
+    freq <- NULL
+
+    for(name in names(x)) {
+      serie <- x[[name]]
+      if (is.null(freq)) {
+        freq <- frequency(serie)
+      }
+
+      if (freq != frequency(serie)) {
+        warning(name, " has a different frequency ", frequency(serie), " != ", freq, ", skipping ...")
+        next
+      }
+
+      if(is.null(somma)) {
+        somma <- serie
+      } else {
+        somma <- somma + serie
+      }
+    }
+    somma
   })

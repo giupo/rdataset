@@ -550,9 +550,27 @@ test_that('i can get an annual of an entire dataset', {
 
 test_that("I can access series with $", {
    ds <- Dataset()
-   ds["A"] <- A <- ts(c(1,2,3), start=c(1990,1), freq=1)
-   ds["B"] <- B <- ts(c(1,2,3), start=c(1990,1), freq=4)
+   ds["A"] <- A <- ts(c(1,2,3), start=c(1990,1), frequency=1)
+   ds["B"] <- B <- ts(c(1,2,3), start=c(1990,1), frequency=4)
    expect_equal(ds$A, A)
    expect_equal(ds$B, B)
    expect_equal(ds$`A B`, ds[[c("A", "B")]])
+})
+
+
+test_that("I can sum series in a dataset", {
+  ds <- Dataset()
+  ds["A"] <- A <- ts(c(1,2,3), start=c(1990,1), frequency=4)
+  ds["B"] <- B <- ts(c(1,2,3), start=c(1990,1), frequency=4)
+
+  expect_equal(sum(ds), ts(c(2,4,6), start=c(1990,1), frequency=4))
+})
+
+
+test_that("I get a warning if I sum different frequencies", {
+  ds <- Dataset()
+  ds["A"] <- A <- ts(c(1,2,3), start=c(1990,1), frequency=4)
+  ds["B"] <- B <- ts(c(1,2,3), start=c(1990,1), frequency=12)
+
+  expect_warning(sum(ds), "has a different frequency")
 })
