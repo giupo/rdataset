@@ -1300,6 +1300,15 @@ setMethod(
   "sum",
   signature("Dataset", "logical"),
   function(x, na.rm = FALSE) {
+    sum.Dataset(x, na.rm=na.rm)
+  })
+
+
+#' Esegue il `sum` sul Dataset
+#'
+#' @export
+
+sum.Dataset <- function(x, na.rm = FALSE) {
     somma <- NULL
     freq <- NULL
 
@@ -1321,4 +1330,4 @@ setMethod(
       }
     }
     somma
-  })
+  }
