@@ -489,6 +489,7 @@ as.list.Dataset <- function(x, ...) as.list(x@data, ...) #cosa cambia dal preced
 #' @param x il primo dataset
 #' @param y il secondo dataset
 #' @return un dataset con l'unione di tutte le serie storiche
+#' @export
 
 union.Dataset <- function(x, y) { 
   out <- Dataset()
@@ -1176,19 +1177,16 @@ do.call.cbind <- function(lst) {
 }
 
 
-#' @importFrom stringr str_split
-
 setMethod(
   "$",
   signature("Dataset"),
   function(x, name) {
-    x[[unlist(str_split(name, " "))]]
+    x[[unlist(stringr::str_split(name, " "))]]
   })
 
 #' Esegue il `window` sul Dataset
 #'
-#' @importFrom stats window
-#' @export
+#' @export window.Dataset
 
 window.Dataset <- function(x, ...) {
   aslist <- as.list(x)
@@ -1197,7 +1195,7 @@ window.Dataset <- function(x, ...) {
   end <- params$end
   ret <- lapply(aslist, function(y, ...) {
     tryCatch({
-      window(y, start=start, end=end)
+      stats::window(y, start=start, end=end)
     }, error=function(cond) {
       y
     })
