@@ -17,8 +17,7 @@ $(PKG_NAME)_$(PKG_VERSION).tar.gz: $(PKG_FILES)
 	R CMD build .
 
 
-check: tarball
-	## R CMD check --no-build-vignettes $(PKG_NAME)_$(PKG_VERSION).tar.gz
+check:
 	R -e 'devtools::check(error_on="error")'
 
 build: $(PKG_NAME)_$(PKG_VERSION).tar.gz
