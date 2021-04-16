@@ -6,7 +6,7 @@ Description: A timeseries container supplied with basic group operations
     (sums, union set, differences). It manages the container as an
     hash (1 unique character name -> 1 timeseries)
 Depends:
-    R (>= 3.3.3),
+    R (>= 3.3.0),
 Imports:
     hash,
     tools,
