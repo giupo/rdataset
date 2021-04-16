@@ -21,7 +21,7 @@ Costruisce un dataset.
 \dontrun{
 ds <-Dataset()
 ds <- Dataset('/path/to/something/useful')
-given \\code{lll} is a list of timeseries
+given \code{lll} is a list of timeseries
 ds <- dataset(lll)
 }
 }

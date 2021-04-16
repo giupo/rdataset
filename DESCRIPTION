@@ -35,6 +35,6 @@ Suggests:
 Collate:
     'io.r'
     'dataset.r'
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
 Remotes: github::giupo/rutils
 Encoding: UTF-8

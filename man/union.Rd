@@ -16,10 +16,6 @@ union(x, y)
 \item{x}{il primo dataset}
 
 \item{y}{il secondo dataset}
-
-\item{x}{il primo dataset}
-
-\item{y}{il secondo dataset}
 }
 \value{
 un dataset con l'unione di tutte le serie storiche
