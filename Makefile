@@ -9,26 +9,28 @@ R_FILES := $(wildcard R/*.[R|r])
 SRC_FILES := $(wildcard src/*) $(addprefix src/, $(COPY_SRC))
 PKG_FILES := DESCRIPTION NAMESPACE $(R_FILES) $(SRC_FILES)
 
-.PHONY: tarball install check clean build
+.PHONY: tarball clean CHANGELOG.md
 
 tarball: $(PKG_NAME)_$(PKG_VERSION).tar.gz 
+
 $(PKG_NAME)_$(PKG_VERSION).tar.gz: $(PKG_FILES)
 	R CMD build .
 
-check: $(PKG_NAME)_$(PKG_VERSION).tar.gz
-	R CMD check $(PKG_NAME)_$(PKG_VERSION).tar.gz
 
-build: $(PKG_NAME)_$(PKG_VERSION).tar.gz DOCS
+check: tarball
+	## R CMD check --no-build-vignettes $(PKG_NAME)_$(PKG_VERSION).tar.gz
+	R -e 'devtools::check(error_on="error")'
+
+build: $(PKG_NAME)_$(PKG_VERSION).tar.gz
 	R --vanilla CMD INSTALL --build $(PKG_NAME)_$(PKG_VERSION).tar.gz
 
 install: $(PKG_NAME)_$(PKG_VERSION).tar.gz
 	R --vanilla CMD INSTALL $(PKG_NAME)_$(PKG_VERSION).tar.gz
 
 NAMESPACE: $(R_FILES) $(SRC_FILES)
-	Rscript -e "library(roxygen2);roxygenize('.')"
+	Rscript -e "require(methods); devtools::document()"
 
-DOCS: 
-	Rscript -e "devtools::document()"
+DOCS: NAMESPACE
 
 clean:
 	-rm -f $(PKG_NAME)_*.tar.gz
@@ -43,17 +45,23 @@ list:
 	@echo "Source files:"
 	@echo $(SRC_FILES)
 
+test:
+	Rscript -e 'require(methods); devtools::test()'
+
 autotest:
 	Rscript autotest.r
 
-test:
-	Rscript -e 'devtools::test()' --default-packages=methods,utils
+# so:     deps
+so:
+	Rscript --vanilla -e 'devtools::compile_dll()'
 
 coverage:
-	Rscript -e 'covr::package_coverage(line_exclusions=list.files(path="renv", full.names=TRUE, recursive=TRUE))'
+	Rscript -e 'covr::package_coverage()'
 
 codecov:
-	Rscript -e 'covr::codecov(line_exclusions=list.files(path="renv", recursive=TRUE, full.names=TRUE))'
+	Rscript -e 'covr::codecov()'
 
-restore:
-	Rscript -e 'renv::restore()'
+CHANGELOG.md:
+	gitchangelog | grep -v "git-svn-id" > CHANGELOG.md
+
+changelog: CHANGELOG.md
