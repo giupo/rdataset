@@ -21,6 +21,3 @@ Un dataset joinato
 Joina i due dataset \code{x} e \code{historic} alla data (\code{date})
 specificata.
 }
-\author{
-Giuseppe Acito
-}

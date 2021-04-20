@@ -38,8 +38,3 @@ base::union
 
 base::union
 }
-\author{
-Giuseppe Acito
-
-Giuseppe Acito
-}

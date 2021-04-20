@@ -25,6 +25,3 @@ Ritorna il `Dataset` come `list` di oggetti
 \seealso{
 base::as.list
 }
-\author{
-Giuseppe Acito
-}

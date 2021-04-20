@@ -25,6 +25,3 @@ given \code{lll} is a list of timeseries
 ds <- dataset(lll)
 }
 }
-\author{
-Giuseppe Acito
-}

@@ -5,10 +5,9 @@
 #' @export
 #' @param t a BIMETS timeseries
 #' @return a list object
-#' @importFrom stats is.ts
 
 to_list <- function(t) {
-  if (is.ts(t)) {
+  if (stats::is.ts(t)) {
     freq <- frequency(t)
     year <- start(t)[[1]]
     period <- start(t)[[2]]
@@ -64,10 +63,9 @@ from_list <- function(lista) {
 #' @export
 #' @param t a bimets timeseries
 #' @return a String representation of a timeseries as a JSON object
-#' @importFrom RJSONIO toJSON
 
 to_json <- function(t) {
-  toJSON(to_list(t), digits = 20)
+  RJSONIO::toJSON(to_list(t), digits = 20)
 }
 
 #' converts a JSON timeseries to a BIMETS timeseries timeseries
@@ -77,7 +75,6 @@ to_json <- function(t) {
 #' @param json a character array containing a json string
 #' @return a BIMETS timeseries
 #' @seealso \code{from_list}
-#' @importFrom RJSONIO fromJSON
 #' @export
 
 from_json <- function(json) {

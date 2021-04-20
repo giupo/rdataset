@@ -19,6 +19,3 @@ nel Dataset
 \seealso{
 \code{link{rcf::names}}
 }
-\author{
-Giuseppe Acito
-}

@@ -7,39 +7,35 @@
 ##
 ## and then inspect in which frame there's a getGeneric a see which one
 ## pisses R off.
-
 #' Classe contenitore di dati (serie storiche)
 #'
 #' @name Dataset
 #' @usage Dataset(url, ids)
 #' @aliases Dataset-class
-#' @slot data hash containing data
+#' @slot data hash::hash containing data
 #' @slot url path where data is
 #' @title Dataset OOP
 #' @export Dataset
 #' @exportClass Dataset
-#' @author Giuseppe Acito
-#' @importFrom hash hash
-#' @importFrom methods setClass representation setGeneric setMethod signature new
 
-Dataset <- setClass(
+Dataset <- methods::setClass( # nolint
   "Dataset",
   representation(
     data = "hash",
-    url="character"))
+    url = "character"))
 
-.init <- function(.Object, url=NULL, ids=NULL) {
+.init <- function(.Object, url = NULL, ids = NULL) { # nolint
   if(is.null(url)) {
     raw_list <- list()
-    .Object@data <- hash()
+    .Object@data <- hash::hash()
     return(.Object)
   }
 
   .Object@url <- url
 
-  startsWith <- function(x, pattern) grepl(paste0('^', pattern), x)
+  starts_with <- function(x, pattern) grepl(paste0("^", pattern), x)
 
-  if(startsWith(url, "http")) {
+  if (starts_with(url, "http")) {
     stop("http[s] not Implemented")
   }
 
@@ -49,23 +45,23 @@ Dataset <- setClass(
 
   path <- normalizePath(url)
 
-  if (is_JSON(path)) {
-    raw_list <- load_dataset_json(path)
+  raw_list <- if (is_JSON(path)) {
+    load_dataset_json(path)
   } else if (is_csv_library(path)) {
-    raw_list <- load_dataset_csv(path, ids=ids)
+    load_dataset_csv(path, ids = ids)
   } else {
     stop(parsed_url$scheme, "not Implemented")
   }
 
-  .Object@data <- hash(as.list(raw_list))
+  .Object@data <- hash::hash(as.list(raw_list))
   .Object
 }
 
-setMethod(
+methods::setMethod(
   "initialize",
   signature("Dataset"),
-  function(.Object, url = NULL, ids = NULL) {
-    .init(.Object, url=url, ids=ids)
+  function(.Object, url = NULL, ids = NULL) { # nolint
+    .init(.Object, url = url, ids = ids)
   })
 
 #' Ritorna una singola serie storica o un sub Dataset di serie storiche
@@ -73,7 +69,6 @@ setMethod(
 #' @name "["
 #' @title Subsetting
 #' @rdname subsetting
-#' @author Giuseppe Acito
 #' @export
 #' @param x il dataset da cui estrarre la/le serie
 #' @param i i nomi da cui estrare (stringa o character array)
@@ -82,32 +77,23 @@ setMethod(
 #' @param drop Same as before
 #' @return Ritorna un sub-Dataset
 
-setMethod(
+methods::setMethod(
   "[",
   c("Dataset", "ANY", "missing", "ANY"),
-  function(x, i, j, ..., drop = TRUE) {        
+  function(x, i, j, ..., drop = TRUE) {
     out <- Dataset()
     data <- x@data
 
-    if(is.logical(i)) {
-      if(!any(i)) {
-        return(Dataset())
-      }
-    }
+    if (is.logical(i) && !any(i)) return(Dataset())
+    if (is.numeric(i) && length(i) == 0) return(Dataset())
 
-    if(is.numeric(i)) {
-      if(length(i) == 0) {
-        return(Dataset())
-      }
-    }
-    
     if (is.numeric(i) | is.logical(i)) {
       aslist <- as.list(x)
-      out@data <- hash(aslist[i])
-    } else if (is.character(i)) {    
+      out@data <- hash::hash(aslist[i])
+    } else if (is.character(i)) {
       for (name in i) {
         out[name] <- data[[name]]
-      }   
+      }
     } else {
       stop("can't subset")
     }
@@ -121,7 +107,6 @@ setMethod(
 #' @name "[["
 #' @title Subsetting
 #' @rdname subsetting
-#' @author Giuseppe Acito
 #' @export
 #' @param x il dataset da cui estrarre la/le serie
 #' @param i i nomi da cui estrare (stringa o character array)
@@ -130,7 +115,7 @@ setMethod(
 #' @param drop Same as before
 #' @return Ritorna una serie storica on una list di serie storiche
 
-setMethod(
+methods::setMethod(
   "[[",
   signature("Dataset", "character"),
   function(x, i) {
@@ -151,14 +136,13 @@ setMethod(
 #' @title Subsetting
 #' @rdname subsetting
 #' @export
-#' @author Giuseppe Acito
 #' @param x un istanza di Dataset
 #' @param i una stringa (il nome della serie storica)
 #' @param j una stringa (never userd)
 #' @param ... God knows what is this good for
 #' @param value l'oggetto da impostare
 
-setMethod(
+methods::setMethod(
   "[<-",
   c("Dataset", "ANY", "missing", "ANY"),
   function(x, i, j, ..., value) {
@@ -173,14 +157,13 @@ setMethod(
 #' @name "[[<-"
 #' @title Subsetting
 #' @export
-#' @author Giuseppe Acito
 #' @param x un istanza di Dataset
 #' @param i una stringa (il nome della serie storica)
 #' @param j una stringa (never userd)
 #' @param ... God knows what is this good for
 #' @param value l'oggetto da impostare
 
-setMethod(
+methods::setMethod(
   "[[<-",
   c("Dataset", "ANY", "missing", "ANY"),
   function(x, i, j, ..., value) {
@@ -193,11 +176,11 @@ setMethod(
 #' @name length
 #' @title Elenco nomi Dataset
 #' @export
-#' @author Giuseppe Acito
+
 #' @param x un istanza di Dataset
 #' @return il numero di serie storiche nel Dataset
 
-setMethod(
+methods::setMethod(
   "length",
   c("Dataset"),
   function(x) {
@@ -212,11 +195,9 @@ setMethod(
 #' @title Elenco nomi Dataset
 #' @export
 #' @seealso \code{link{rcf::names}}
-#' @importFrom hash keys
-#' @author Giuseppe Acito
 #' @param x un istanza di Dataset
 #' @return Una rappresentazione a lista del Dataset
-setMethod(
+methods::setMethod(
   "as.vector",
   c("Dataset"),
   function(x) {
@@ -228,15 +209,14 @@ setMethod(
 #' @name names
 #' @title Elenco nomi Dataset
 #' @export
-#' @importFrom hash keys
 #' @param x un istanza di Dataset
 #' @return un character array contenente i nomi delle serie storiche nel Dataset
 
-setMethod(
+methods::setMethod(
   "names",
   c("Dataset"),
   function(x) {
-    keys(x@data)
+    hash::keys(x@data)
   })
 
 #' Esegue la differenza tra due dataset di oggetti (a patto che la differenza
@@ -249,11 +229,8 @@ setMethod(
 #' @param e1 Dataset (primo operando)
 #' @param e2 Dataset (secondo operando)
 #' @return Il dataset con le differenze
-#' @importFrom foreach foreach %dopar%
-#' @importFrom iterators iter
-#' @importFrom parallel detectCores
 
-setMethod(
+methods::setMethod(
   "-",
   signature(e1 = "Dataset", e2 = "Dataset"),
   function(e1, e2) {
@@ -276,20 +253,20 @@ setMethod(
 
     result <- Dataset()
     
-    data <- foreach(
-      nome = iter(common),
+    data <- foreach::`%dopar%`(foreach::foreach(
+      nome = iterators::iter(common),
       .multicombine = TRUE,
-      .combine = c) %dopar% {
+      .combine = c), {
         ret <- list()
         ret[[nome]] <- e1[[nome]] - e2[[nome]]
         ret
-      }
+      })
     # names(data) <- common
     as.dataset(data)
   })
 
 
-setMethod(
+methods::setMethod(
   "==",
   signature("Dataset", "numeric"),
   function(e1, e2) {
@@ -301,7 +278,7 @@ setMethod(
     ret
   })
 
-setMethod(
+methods::setMethod(
   ">",
   signature("Dataset", "numeric"),
   function(e1, e2) {
@@ -313,7 +290,7 @@ setMethod(
     ret
   })
 
-setMethod(
+methods::setMethod(
   "<",
   signature("Dataset", "numeric"),
   function(e1, e2) {
@@ -325,7 +302,7 @@ setMethod(
     ret
   })
 
-setMethod(
+methods::setMethod(
   "<=",
   signature("Dataset", "numeric"),
   function(e1, e2) {
@@ -337,7 +314,7 @@ setMethod(
     ret
   })
 
-setMethod(
+methods::setMethod(
   ">=",
   signature("Dataset", "numeric"),
   function(e1, e2) {
@@ -353,12 +330,10 @@ setMethod(
 #'
 #' @name show
 #' @title Show Method
-#' @export
-#' @author Giuseppe Acito
 #' @seealso \code{Dataset}
 #' @param x Dataset da mostrare
 
-setMethod(
+methods::setMethod(
   "show",
   "Dataset",
   function(object) {
@@ -369,7 +344,7 @@ setMethod(
     cat(paste0("with ", length(object@data), " objects\n"))
   })
 
-setGeneric (
+methods::setGeneric (
   "saveDataset",
   function(x, path){
     standardGeneric("saveDataset")
@@ -381,14 +356,11 @@ setGeneric (
 #' @name saveDataset
 #' @title Salva un Dataset
 #' @export
-#' @importFrom RJSONIO toJSON
-#' @author Giuseppe Acito
 #' @seealso \code{saveGraph}
 #' @param x un Dataset
 #' @param path percorso dove salvare il Dataset
-#' @importFrom stats ts as.ts is.ts
 
-setMethod(
+methods::setMethod(
   "saveDataset",
   signature("Dataset", "character"),
   function(x, path) {
@@ -398,14 +370,14 @@ setMethod(
 .saveDataset <- function(x, path) {
   data <- x@data
   data <- lapply(as.list(data), to_list)
-  json_data <- toJSON(data, digits=20)
+  json_data <- RJSONIO::toJSON(data, digits=20)
   write(json_data, path)
 }
 
 
 
 
-setGeneric(
+methods::setGeneric(
   "djoin",
   function(historic, x, date) {
     standardGeneric("djoin")
@@ -415,16 +387,14 @@ setGeneric(
 #' specificata.
 #' @name djoin
 #' @aliases djoin
-#' @author Giuseppe Acito
+
 #' @export
 #' @param x il dataset nuovo
 #' @param historic il dataset storico
 #' @param date una periodo di join
 #' @return Un dataset joinato
-#' @importFrom foreach foreach %do% %dopar%
-#' @importFrom tis mergeSeries
 
-setMethod(
+methods::setMethod(
   "djoin",
   c("Dataset", "Dataset", "ANY"),
   function(historic, x, date) {
@@ -435,19 +405,21 @@ setMethod(
         ret[[name]] <- x[[name]]
       } else {
         ret[[name]] <- tryCatch(
-          as.ts(mergeSeries(historic[[name]], window(x[[name]], start = date))),
+          stats::as.ts(tis::mergeSeries(historic[[name]],
+            window(x[[name]], start = date))),
           error = function(cond) {
             stop(name, ": ", cond)
           })
       }
       ret
     }
-    
+
     ret <- Dataset()
-    ret@data <- hash(
-      foreach(name = iter(names(x)), .combine=c, .multicombine=TRUE) %dopar% {
+    ret@data <- hash::hash(
+      foreach::`%dopar%`(foreach::foreach(name = iterators::iter(names(x)),
+        .combine = c, .multicombine = TRUE), {
         closure(name)
-      })
+      }))
     ret
   })
 
@@ -457,11 +429,11 @@ setMethod(
 #' @name as.list
 #' @aliases as.list
 #' @export
-#' @author Giuseppe Acito
+
 #' @param x il Dataset
 #' @return la \code{list} contenente le serie storiche
 
-setMethod(
+methods::setMethod(
   "as.list",
   signature("Dataset"),
   function(x) as.list.Dataset(x))
@@ -485,7 +457,7 @@ as.list.Dataset <- function(x, ...) as.list(x@data, ...) #cosa cambia dal preced
 #' @aliases union
 #' @seealso base::union
 #' @export
-#' @author Giuseppe Acito
+
 #' @param x il primo dataset
 #' @param y il secondo dataset
 #' @return un dataset con l'unione di tutte le serie storiche
@@ -514,18 +486,18 @@ union.Dataset <- function(x, y) {
 #' @seealso base::union
 #' @exportMethod union
 #' @export
-#' @author Giuseppe Acito
+
 #' @param x il primo dataset
 #' @param y il secondo dataset
 #' @return un dataset con l'unione di tutte le serie storiche
 
-setGeneric(
+methods::setGeneric(
   "union",
   function(x, y) {
     standardGeneric("union")
   })
 
-setMethod(
+methods::setMethod(
   "union",
   c("Dataset","Dataset"),
   function(x, y) {
@@ -542,9 +514,8 @@ setMethod(
 #' @return a dataset with the timeseries merged
 #' @note raises a warning for timeseries names not common in `x` and `y`
 #' @export
-#' @importFrom tis mergeSeries
 
-setMethod(
+methods::setMethod(
   "merge",
   c("Dataset", "Dataset"),
   function(x,y) {
@@ -554,14 +525,14 @@ setMethod(
         setdiff(names(x), names(y)),
         setdiff(names(y), names(x))
       ))
-    
+
     if (length(not_common)) {
       warning("Le seguenti serie non sono comuni: ",
               paste(not_common, collapse=", "))
     }
-    ret = Dataset()
-    for( name in common ) {
-      ret[[name]] = as.ts(mergeSeries(x[[name]], y[[name]]))
+    ret <- Dataset()
+    for(name in common) {
+      ret[[name]] <- stats::as.ts(tis::mergeSeries(x[[name]], y[[name]]))
     }
     ret
   })
@@ -571,7 +542,7 @@ setMethod(
 #'
 #' @name is_grafo
 #' @aliases is_grafo
-#' @author Giuseppe Acito
+
 #' @export
 #' @param path percorso da controllare
 #' @return \code{TRUE} se il percorso e' un grafo valido,
@@ -585,25 +556,21 @@ is_grafo <- function(path) {
 #'
 #' @name is_JSON
 #' @aliases is_JSON
-#' @author Giuseppe Acito
+
 #' @export
-#' @importFrom tools file_ext
 #' @param path percorso da controllare
 #' @return \code{TRUE} se il percorso e' un file JSON valido,
 #'         altrimenti \code{FALSE}
 
 is_JSON <- function(path) {
   fileInfo <- file.info(path)
-  
+
   if(is.na(fileInfo$isdir)) {
     stop(paste0(path, " doesn't exist"))
   }
-  
-  if(!fileInfo$isdir) {
-    return(file_ext(path) == "json")
-  } else {
-    return(FALSE)
-  }
+
+  rutils::ifelse(!fileInfo$isdir,
+    tools::file_ext(path) == "json", FALSE)
 }
 
 #' Controlla che `path` sia una library CSV
@@ -630,9 +597,6 @@ is_csv_library <- function(path) {
 #' @return a named `list` with timeseries
 #' @seealso tsRead_nativo
 #' @note the path is scanned recursively
-#' @importFrom foreach foreach %do% %dopar%
-#' @importFrom iterators iter
-#' @importFrom rutils .basename
 
 load_dataset_csv <- function(path, ids=NULL) {
   csvs <- list.files(
@@ -653,7 +617,8 @@ load_dataset_csv <- function(path, ids=NULL) {
 
   nomi <- unlist(lapply(csvs, function(x) toupper(rutils::.basename(x))))
   
-  foreach(filepath = iter(csvs), .combine = c, .errorhandling = 'remove') %dopar% {
+  foreach::`%dopar%`(foreach::foreach(filepath = iterators::iter(csvs), 
+    .combine = c, .errorhandling = "remove"), {
     ret <- list()
     name <- toupper(basename(filepath))
     name <- gsub("\\.CSV", "", name)
@@ -663,7 +628,7 @@ load_dataset_csv <- function(path, ids=NULL) {
       stop(name, ":", cond)
     })
     ret
-  }
+  })
 }
 
 #' Carica un Dataset da un percorso di Grafo
@@ -685,7 +650,6 @@ load_dataset_grafo <- function(path) load_dataset_csv(file.path(path, "data"))
 #' @return un `Dataset`
 #' @note Funzione interna, potrebbe cambiare
 #' @title Internal Functions
-#' @importFrom RJSONIO fromJSON
 
 load_dataset_json <- function(path) {
   json_data <- fromJSON(path, nullValue=NA)
@@ -713,7 +677,7 @@ is.dataset <- function(x) inherits(x, "Dataset")
 #' @title Dataset OOP
 #' @rdname Dataset.Rd
 #' @export
-#' @author Giuseppe Acito
+
 #' @param ... Qui si puo specificare
 #'            - una stringa con un URL da cui costruire il Dataset
 #'            - una lista di oggetti
@@ -729,17 +693,16 @@ is.dataset <- function(x) inherits(x, "Dataset")
 dataset <- function(...) {
   params <- list(...)
   class <- "Dataset"
-  if(length(params) == 0) {
-    return(new(class))
-  }
-  
-  if("biss" %in% names(params) && params$biss) { # nocov start
-    if(!requireNamespace("RBISS", quietly=TRUE)) {
-      stop("Non c'e' la library RBISS")
+
+  if ("biss" %in% names(params) && params$biss) { # nocov start
+    if (requireNamespace("BItools", quietly = TRUE)) {
+      class <- "BissDataset"
+      return(new(class, params[[1]]))
     }
-    class <- "BissDataset"
+    stop("Non c'e' la library BItools")
   } # nocov end
-  return(new(class, params[[1]]))
+
+  new(class, ...)
 }
 
 
@@ -772,16 +735,15 @@ abs_ds <- function(x) {
 #' @export
 #'
 
-setGeneric(
+methods::setGeneric(
   "shortSummary",
   function(ds) {
     standardGeneric("shortSummary")
   })
 
 #' @rdname shortSummary
-#' @importFrom methods signature
 
-setMethod(
+methods::setMethod(
   "shortSummary",
   signature("Dataset"),
   function(ds) {
@@ -803,7 +765,7 @@ setMethod(
       FREQ <- c(FREQ,paste(freq))
     }
 
-    df <- data.frame(NOMI=NOMI, START=STARTP, END=ENDP, FREQ=FREQ)
+    df <- data.frame(NOMI=NOMI, start = STARTP, END=ENDP, FREQ=FREQ)
     print(df)
     invisible(df)
   })
@@ -814,22 +776,21 @@ setMethod(
 #' @name fullSummary
 #' @usage fullSummary(ds)
 #' @export
-#' @importFrom xts as.xts
 #' @param ds a `Dataset` instance
 
-setGeneric(
+methods::setGeneric(
   "fullSummary",
   function(ds) {
     standardGeneric("fullSummary")
   })
 
 .fullSummary <-  function(ds, digits=2) {
-  freq_bins <- hash()
+  freq_bins <- hash::hash()
   for(name in names(ds)) {
     series <- round(ds[[name]], digits=digits)
     freq <- as.character(frequency(series))
-    series <- as.xts(series)
-    if(freq %in% keys(freq_bins)) {
+    series <- xts::as.xts(series)
+    if(freq %in% hash::keys(freq_bins)) {
       bin <- freq_bins[[freq]]
       bin[[name]] <- series
       freq_bins[freq] <- bin
@@ -839,14 +800,14 @@ setGeneric(
       freq_bins[freq] <- container
     }
   }
-  
-  for(freq in keys(freq_bins)) {
+
+  for(freq in hash::keys(freq_bins)) {
     samefreq <- freq_bins[[freq]]
     print(do.call(cbind, samefreq))
   }
 }
 
-setMethod(
+methods::setMethod(
   "fullSummary",
   signature("Dataset"),
   function(ds) {
@@ -861,19 +822,16 @@ setMethod(
 #' @usage URLIST(x)
 #' @param x un Dataset
 #' @return un dataframe con 4 colonne (nome, start, end, freq)
-#' @importFrom foreach foreach %do% %dopar%
-#' @importFrom iterators iter
-#' @importFrom stats end start
 #' @export
 
-setGeneric(
+methods::setGeneric(
   "URLIST",
   function(x) {
     standardGeneric("URLIST")
   })
 
 
-setMethod(
+methods::setMethod(
   "URLIST",
   signature("Dataset"),
   function(x) {
@@ -893,9 +851,10 @@ setMethod(
         endy = endy, endp = endp))
     }
 
-    foreach(name = iter(names(x)), .combine=rbind) %dopar% {
+    foreach::`%dopar%`(foreach::foreach(
+      name = iterators::iter(names(x)), .combine=rbind), {
       closure(name)
-    }
+    })
   })
 
 #' Casts to a Dataset
@@ -905,16 +864,15 @@ setMethod(
 #' @param x a generico object with "[[" method defined and names
 #' @param ... forza la creazione di un nuovo dataset, anche se x e' un `Dataset`
 #' @return a Dataset with data defined in x
-#' @importFrom hash hash
 #' @export
 
-setGeneric(
+methods::setGeneric(
   "as.dataset",
   function(x, ...) {
     standardGeneric("as.dataset")
   })
 
-setMethod(
+methods::setMethod(
   "as.dataset",
   signature("list"),
   function (x) {
@@ -925,7 +883,7 @@ setMethod(
     ret
   })
 
-setMethod(
+methods::setMethod(
   "as.dataset",
   signature("Dataset"),
   function(x) {
@@ -933,7 +891,7 @@ setMethod(
   })
 
 
-setMethod(
+methods::setMethod(
   "as.dataset",
   signature("character"),
   function(x) {
@@ -949,14 +907,13 @@ setMethod(
 #' 
 #' @param x dataset
 #' @param name nome dell'oggetto da estrarre
-#' @importFrom stringr str_split
 #' @export
 
-setMethod(
+methods::setMethod(
   "$",
   signature("Dataset"),
   function(x, name) {
-    x[[unlist(str_split(name, " "))]]
+    x[[unlist(stringr::str_split(name, " "))]]
   })
 
 #' Allunga tutte le serie del Dataset.
@@ -972,10 +929,9 @@ setMethod(
 #' @param x nome del Dataset
 #' @param periodo coppia `(anno, trimestre)` rispetto cui allungare le serie
 #' @return il dataset con le serie allungate
-#' @importFrom progress progress_bar
 #' @export
 
-setGeneric(
+methods::setGeneric(
   "stretch",
   function(x, prd) {
     standardGeneric("stretch")
@@ -985,22 +941,22 @@ setGeneric(
 .stretch <- function(x, prd) {
   ret <- list()
   for (name in names(x)) {
-    last_char <- substr(name, nchar(name), nchar(name))
-    stock <- (last_char == "C" || last_char == "S")
+    xts::last_char <- substr(name, nchar(name), nchar(name))
+    stock <- (xts::last_char == "C" || xts::last_char == "S")
     serie <- x[[name]]
     ret[[name]] <- stretch_it(serie, UPTO=prd, stock=stock)
   }
   ret
 }
 
-setMethod(
+methods::setMethod(
   "stretch",
   signature("Dataset", "numeric"),
   function(x, prd) {
     as.dataset(.stretch(x, prd))
   })
 
-setMethod(
+methods::setMethod(
   "stretch",
   signature("list", "numeric"),
   function(x, prd) {
@@ -1011,7 +967,8 @@ setMethod(
   x <- as.list(x)
   counter <- 1
   is_interactive <- interactive()
-  if (is_interactive) pb <- progress_bar$new(format="[:bar] :current/:total (:percent)", total=length(x))
+  if (is_interactive) pb <- progress::progress_bar$new(
+      format="[:bar] :current/:total (:percent)", total=length(x))
   if (is_interactive) pb$tick(counter)
   mappa_ <- if (is.null(mappa)) {
     function(x) {
@@ -1049,15 +1006,13 @@ setMethod(
   rows
 }
 
-#' @importFrom progress progress_bar
-
-setGeneric(
+methods::setGeneric(
   "to_csv",
   function(x, sep=";", mappa=NULL) {
     standardGeneric("to_csv")
   })
 
-setMethod(
+methods::setMethod(
   "to_csv",
   signature("Dataset", "ANY", "ANY"),
   function(x, sep=";", mappa=NULL) {
@@ -1080,35 +1035,36 @@ setMethod(
 #' @param bycol esporta per colonna se `TRUE`, altrimenti per riga
 #' @export
 
-setGeneric(
+methods::setGeneric(
   "to_xlsx",
   function(x, path, bycol=T) {
     standardGeneric("to_xlsx")
   })
 
-setMethod(
+methods::setMethod(
   "to_xlsx",
   signature("Dataset", "character", "logical"),
   function(x, path, bycol=T) {
-    .to_xlsx(x, path, bycol=bycol)
+    .to_xlsx(x, path, bycol = bycol)
   })
 
-setMethod(
+methods::setMethod(
   "to_xlsx",
   signature("Dataset", "character"),
   function(x, path) {
-    .to_xlsx(x, path, bycol=F)
+    .to_xlsx(x, path, bycol = FALSE)
   })
 
 
 do.call.cbind <- function(lst) {
-  while(length(lst) > 1) {
-    idxlst <- seq(from=1, to=length(lst), by=2)
+  while (length(lst) > 1) {
+    idxlst <- seq(from = 1, to = length(lst), by = 2)
     lst <- lapply(idxlst, function(i) {
-      if(i==length(lst)) { return(lst[[i]]) }
-      return(cbind(lst[[i]], lst[[i+1]]))
+      if (i == length(lst)) { return(lst[[i]]) }
+      return(cbind(lst[[i]], lst[[i + 1]]))
     })
   }
+
   lst[[1]]
 }
 
@@ -1120,28 +1076,29 @@ do.call.cbind <- function(lst) {
 #' @param path percorso dove esportare i dati
 #' @param bycol esporta per colonna se `TRUE`, altrimenti per riga
 #' @rdname to_xlsx-internal
-#' @importFrom hash hash
-#' @importFrom xts as.xts
-#' @importFrom progress progress_bar
 
 .to_xlsx <- function(x, path, bycol=T) {
-  stopifnot(require(xlsx))
+  stopifnot(requireNamespace("xlsx"))
   x <- as.list(x)
   path <- suppressWarnings(normalizePath(path))
-  freqs <- hash()
-  freqs_labels <- hash(
-    list("1"="annuali",
-         "4"="trimestrali",
-         "12"="mensili"))
+  freqs <- hash::hash()
+
+  freqs_labels <- hash::hash(
+    list("1" = "annuali",
+         "4" = "trimestrali",
+         "12" = "mensili"))
+
   count <- 0
   is_interactive <- interactive()
-  if(is_interactive) pb <- progress::progress_bar$new(format="[:bar] :current/:total (:percent)", total=length(x))
-  for(name in names(x)) {
+  if (is_interactive) pb <- progress::progress_bar$new(
+    format = "[:bar] :current/:total (:percent)", total = length(x))
+
+  for (name in names(x)) {
     count <- count + 1
     if (is_interactive) pb$tick(count)
     serie <- x[[name]]
     f <- as.character(frequency(serie))
-    if (f %in% keys(freqs)) {
+    if (f %in% hash::keys(freqs)) {
       container <- freqs[[f]]
       container[[name]] <- serie
       freqs[[f]] <- container
@@ -1158,26 +1115,30 @@ do.call.cbind <- function(lst) {
 
   count <- 0
 
-  if (is_interactive) pb <- progress_bar$new(format="[:bar] :current/:total (:percent)", total=length(keys(freqs)))
-  for(freq in keys(freqs)) {
+  if (is_interactive) pb <- progress::progress_bar$new(
+    format = "[:bar] :current/:total (:percent)",
+    total = length(hash::keys(freqs)))
+  
+  for (freq in hash::keys(freqs)) {
     count <- count + 1
     if (is_interactive) pb$tick(count)
     container <- freqs[[freq]]
     nomi <- names(container)
-    container <- lapply(container, as.xts)
+    container <- lapply(container, xts::as.xts)
     container <- do.call.cbind(container)
     colnames(container) <- nomi
-    if(!bycol) {
+    if (!bycol) {
       container <- t(container)
       colnames(container) <- gsub("X", "", as.character(colnames(container)))
     }
-    sheetName <- freqs_labels[[freq]]
-    write.xlsx(container, file=path, sheetName=sheetName, append=TRUE)
+    sheet_name <- freqs_labels[[freq]]
+    xlsx::write.xlsx(container, file = path,
+      sheetName = sheet_name, append = TRUE)
   }
 }
 
 
-setMethod(
+methods::setMethod(
   "$",
   signature("Dataset"),
   function(x, name) {
@@ -1188,15 +1149,15 @@ setMethod(
 #'
 #' @export window.Dataset
 
-window.Dataset <- function(x, ...) {
+window.Dataset <- function(x, ...) { # nolint
   aslist <- as.list(x)
   params <- list(...)
   start <- params$start
   end <- params$end
   ret <- lapply(aslist, function(y, ...) {
     tryCatch({
-      stats::window(y, start=start, end=end)
-    }, error=function(cond) {
+      stats::window(y, start = start, end = end)
+    }, error = function(cond) {
       y
     })
   })
@@ -1212,26 +1173,26 @@ window.Dataset <- function(x, ...) {
 #' @export
 #' @exportMethod copy
 
-setGeneric(
+methods::setGeneric(
   "copy",
   function(x) {
     standardGeneric("copy")
   })
 
 
-setMethod(
+methods::setMethod(
   "copy",
   signature("Dataset"),
   function(x) {
     ret <- Dataset()
-    for(name in names(x)) {
+    for (name in names(x)) {
       ret[[name]] <- x[[name]]
     }
     ret@url <- x@url
     ret
   })
 
-setMethod(
+methods::setMethod(
   "round",
   signature("Dataset", "ANY"),
   function(x, digits=0) {
@@ -1239,7 +1200,7 @@ setMethod(
     ret <- copy(x)
     for(name in names(ret)) {
       serie <- ret[[name]]
-      ret[[name]] = round(serie, digits=digits)
+      ret[[name]] <- round(serie, digits=digits)
     }
     ret
   }
@@ -1258,47 +1219,44 @@ setMethod(
 #' @return un dataset annualizzato
 #' @export
 #' @exportMethod annual
-#' @importFrom foreach foreach %do% %dopar%
-#' @importFrom iterators iter
-#' @importFrom stats frequency aggregate
-#' @importFrom xts last
 
-setGeneric(
+methods::setGeneric(
   "annual",
   function(x) {
     standardGeneric("annual")
   })
 
-setMethod(
+methods::setMethod(
   "annual",
   signature("Dataset"),
   function(x) {
-    data <- foreach(nome=iter(names(x)), .multicombine=TRUE, .combine=c) %dopar% {
+    as.dataset(foreach::`%dopar%`(foreach::foreach(nome = iterators::iter(names(x)),
+      .multicombine = TRUE, .combine = c), {
       ret <- list()
       serie <- x[[nome]]
       ret[[nome]] <- annual(serie)
       ret
-    }
-    as.dataset(data)
+    }))
   })
 
-setMethod(
+methods::setMethod(
   "annual",
-  signature("ts"),
+  list(x = "ts"),
   function(x) {
     attributi <- attributes(x)
     if(frequency(x) == 1) {
       return(x)
     }
-    aggregate(x, nfrequency=1, ifelse(attributi$stock==1, last, sum))
+    aggregate(x, nfrequency = 1,
+      ifelse(attributi$stock == 1, xts::last, sum))
   })
 
 
-setMethod(
+methods::setMethod(
   "sum",
   signature("Dataset", "logical"),
-  function(x, na.rm = FALSE) {
-    sum.Dataset(x, na.rm=na.rm)
+  function(x,..., na.rm = FALSE) { # nolint
+    sum.Dataset(x,..., na.rm = na.rm)
   })
 
 
@@ -1306,26 +1264,22 @@ setMethod(
 #'
 #' @export
 
-sum.Dataset <- function(x, na.rm = FALSE) {
-    somma <- NULL
-    freq <- NULL
+sum.Dataset <- function(x,..., na.rm = FALSE) { # nolint
+  somma <- NULL
+  freq <- NULL
+  for(name in names(x)) {
+    serie <- x[[name]]
 
-    for(name in names(x)) {
-      serie <- x[[name]]
-      if (is.null(freq)) {
-        freq <- frequency(serie)
-      }
+    freq <- rutils::ifelse(is.null(freq), frequency(serie), freq)
 
-      if (freq != frequency(serie)) {
-        warning(name, " has a different frequency ", frequency(serie), " != ", freq, ", skipping ...")
-        next
-      }
-
-      if(is.null(somma)) {
-        somma <- serie
-      } else {
-        somma <- somma + serie
-      }
+    if (freq != frequency(serie)) {
+      warning(name, " has a different frequency ",
+        frequency(serie), " != ", freq, ", skipping ...")
+      next
     }
-    somma
+
+    somma <- rutils::ifelse(is.null(somma), serie, somma + serie)
   }
+
+  somma
+}

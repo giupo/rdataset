@@ -37,10 +37,3 @@ Ritorna un list o una singola  serie storica
 
 Imposta, data una stringa ed un oggetto xts, una serie storica nel Dataset
 }
-\author{
-Giuseppe Acito
-
-Giuseppe Acito
-
-Giuseppe Acito
-}

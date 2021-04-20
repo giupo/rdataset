@@ -4,9 +4,9 @@ Version: 0.5.3
 Authors@R: person("Giuseppe", "Acito", email = "giuseppe.acito@gmail.com", role = c("aut", "cre"))
 Description: A timeseries container supplied with basic group operations
     (sums, union set, differences). It manages the container as an
-    hash (1 unique character name -> 1 timeseries)
+    hash::hash (1 unique character name -> 1 timeseries).
 Depends:
-    R (>= 3.3.0),
+    R (>= 3.5.0),
 Imports:
     hash,
     tools,
@@ -31,7 +31,9 @@ Suggests:
     zoo,
     data.table,
     pryr,
-    mockery
+    mockery,
+    xlsx,
+    BItools
 Collate:
     'io.r'
     'dataset.r'

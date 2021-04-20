@@ -15,6 +15,3 @@ il numero di serie storiche nel Dataset
 \description{
 Ritorna il numero di oggetti contenute nel Dataset
 }
-\author{
-Giuseppe Acito
-}

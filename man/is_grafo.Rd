@@ -18,6 +18,3 @@ is_grafo(path)
 Controlla che il percorso \code{path} contenga una struttura a
 Grafo sul file system
 }
-\author{
-Giuseppe Acito
-}

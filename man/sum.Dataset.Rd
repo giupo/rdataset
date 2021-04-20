@@ -4,7 +4,7 @@
 \alias{sum.Dataset}
 \title{Esegue il `sum` sul Dataset}
 \usage{
-\method{sum}{Dataset}(x, na.rm = FALSE)
+\method{sum}{Dataset}(x, ..., na.rm = FALSE)
 }
 \description{
 Esegue il `sum` sul Dataset

@@ -17,6 +17,3 @@ Salva un Dataset.
 \seealso{
 \code{saveGraph}
 }
-\author{
-Giuseppe Acito
-}

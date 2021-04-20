@@ -27,7 +27,7 @@ install: $(PKG_NAME)_$(PKG_VERSION).tar.gz
 	R --vanilla CMD INSTALL $(PKG_NAME)_$(PKG_VERSION).tar.gz
 
 NAMESPACE: $(R_FILES) $(SRC_FILES)
-	Rscript -e "require(methods); devtools::document()"
+	Rscript -e "devtools::document()"
 
 DOCS: NAMESPACE
 
@@ -45,7 +45,7 @@ list:
 	@echo $(SRC_FILES)
 
 test:
-	Rscript -e 'require(methods); devtools::test()'
+	Rscript -e 'devtools::test()'
 
 autotest:
 	Rscript autotest.r
@@ -63,4 +63,4 @@ codecov:
 CHANGELOG.md:
 	gitchangelog | grep -v "git-svn-id" > CHANGELOG.md
 
-changelog: CHANGELOG.md
+changelog: CHANGELOG.md[]

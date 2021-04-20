@@ -14,11 +14,8 @@ Classe contenitore di dati (serie storiche)
 \section{Slots}{
 
 \describe{
-\item{\code{data}}{hash containing data}
+\item{\code{data}}{hash::hash containing data}
 
 \item{\code{url}}{path where data is}
 }}
 
-\author{
-Giuseppe Acito
-}

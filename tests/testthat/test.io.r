@@ -10,7 +10,7 @@ tslist12 <- list(
   "period" = prd,
   "freq" = 12)
 
-tss12 <- ts(numbers, start=c(year, prd), freq=12)
+tss12 <- ts(numbers, start = c(year, prd), freq=12)
 
 tslist4 <- list(
   "numbers" = numbers,
@@ -18,7 +18,7 @@ tslist4 <- list(
   "period" = prd,
   "freq" = 4)
 
-tss4 <- ts(numbers, start=c(year, prd), freq=4)
+tss4 <- ts(numbers, start = c(year, prd), freq=4)
 
 test_that("to_list behaves like expected", {
   listed12 <- to_list(tss12)
@@ -78,52 +78,52 @@ test_that("to_json produces a JSON string", {
 })
 
 test_that("from_json can create a timeseries", {
-  json <- "{'freq':1, 'year':1990, 'period':1, 'numbers':[1,2,3,4]}"
+  json <- "{'freq':1, 'year':1990, 'period':1, 'numbers':[1, 2, 3,4]}"
   x <- from_json(json)
-  expect_true(is.ts(x))
-  expect_equal(frequency(x), 1)
-  expect_equal(as.numeric(x), c(1,2,3,4))
+  expect_true(stats::is.ts(x))
+  expect_equal(stats::frequency(x), 1)
+  expect_equal(as.numeric(x), c(1, 2, 3,4))
   expect_equal(start(x), c(1990, 1))
 }) 
 
 test_that("from_json returns an array of numbers if it's not encoded as a timeseries", {
-  json <- "[1,2,3,4]"
+  json <- "[1, 2, 3,4]"
   x <- from_json(json)
   expect_true(is.numeric(x))
-  expect_equal(x, c(1,2,3,4))
+  expect_equal(x, c(1, 2, 3,4))
 })
 
 test_that("to_json can encode an array", {
-  data <- c(1,2,3,4)
+  data <- c(1, 2, 3,4)
   x <- to_json(data)
   expect_equal(data, from_json(x))
 })
 
 test_that("from_list is able to convert data to the caller", {
-  data <- c(1,2,3,4)
+  data <- c(1, 2, 3,4)
   raw_list <- list(numbers=data)
   expect_equal(from_list(raw_list), data)
 })
 
 test_that("from_list returns just the numbers if year, freq, period are not present", {
-  data <- c(1,2,3,4)
+  data <- c(1, 2, 3,4)
   raw_list <- list(numbers=data)
   x <- from_list(raw_list)
   expect_equal(x, data)
-  expect_true(!is.ts(x))
+  expect_true(!stats::is.ts(x))
 
   raw_list[["year"]] <- 0
   x <- from_list(raw_list)
   expect_equal(x, data)
-  expect_true(!is.ts(x))
+  expect_true(!stats::is.ts(x))
 
   raw_list[["period"]] <- 0
   x <- from_list(raw_list)
   expect_equal(x, data)
-  expect_true(!is.ts(x))
+  expect_true(!stats::is.ts(x))
 
   raw_list[["freq"]] <- 0
   x <- from_list(raw_list)
   expect_equal(x, data)
-  expect_true(!is.ts(x))
+  expect_true(!stats::is.ts(x))
 })
