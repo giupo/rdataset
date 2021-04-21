@@ -2,13 +2,9 @@
 
 language: r
 
-cache:
-  directories:
-    - $TRAVIS_BUILD_DIR/packrat/src
-    - $TRAVIS_BUILD_DIR/packrat/lib
-  packages: true
-  
 sudo: false
+pandoc: false
+latex: false
 
 addons:
   apt:
@@ -22,12 +18,7 @@ warnings_are_errors: false
 repos:
   CRAN: http://cran.rstudio.com
 
-r_github_packages:
-  - jimhester/covr
-  - rstudio/packrat
-
 after_success:
-  - make packrat_restore
   - make test
   - make codecov
  
