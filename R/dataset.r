@@ -406,7 +406,7 @@ methods::setMethod(
       } else {
         ret[[name]] <- tryCatch(
           stats::as.ts(tis::mergeSeries(historic[[name]],
-            window(x[[name]], start = date))),
+            stats::window(x[[name]], start = date))),
           error = function(cond) {
             stop(name, ": ", cond)
           })
@@ -1147,7 +1147,7 @@ methods::setMethod(
 
 #' Esegue il `window` sul Dataset
 #'
-#' @export window.Dataset
+#' @export
 
 window.Dataset <- function(x, ...) { # nolint
   aslist <- as.list(x)
