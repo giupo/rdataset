@@ -63,4 +63,4 @@ codecov:
 CHANGELOG.md:
 	gitchangelog | grep -v "git-svn-id" > CHANGELOG.md
 
-changelog: CHANGELOG.md[]
+changelog: CHANGELOG.md
