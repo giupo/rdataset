@@ -16,3 +16,5 @@ window.Dataset <- function(x, ...) { # nolint
   })
   as.dataset(ret)
 }
+
+window <- function() {}

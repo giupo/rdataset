@@ -23,7 +23,8 @@ Imports:
     progress,
     writexl,
     whisker,
-    zoo
+    zoo,
+    lubridate
 License: BSD_2_clause + file LICENSE
 LazyData: true
 Suggests:
@@ -31,7 +32,6 @@ Suggests:
     crayon,
     covr,
     roxygen2,
-    data.table,
     pryr,
     mockery,
     BItools

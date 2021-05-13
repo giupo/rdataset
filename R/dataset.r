@@ -18,6 +18,8 @@
 #' @export Dataset
 #' @exportClass Dataset
 
+requireNamespace("hash", quietly=TRUE)
+
 Dataset <- methods::setClass( # nolint
   "Dataset",
   representation(data = "hash", url = "character"))
@@ -204,16 +206,7 @@ is.dataset <- function(x) inherits(x, "Dataset")
 dataset <- function(...) {
   params <- list(...)
   class <- "Dataset"
-
-  if ("biss" %in% names(params) && params$biss) { # nocov start
-    if (requireNamespace("BItools", quietly = TRUE)) {
-      class <- "BissDataset"
-      return(new(class, params[[1]]))
-    }
-    stop("Non c'e' la library BItools")
-  } # nocov end
-
-  new(class, ...)
+  methods::new(class, ...)
 }
 
 

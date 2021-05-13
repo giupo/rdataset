@@ -4,7 +4,7 @@
 \alias{window.Dataset}
 \title{Esegue il `window` sul Dataset}
 \usage{
-\method{window}{Dataset}(x, ...)
+window.Dataset(x, ...)
 }
 \description{
 Esegue il `window` sul Dataset
