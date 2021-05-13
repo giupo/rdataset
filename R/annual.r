@@ -22,7 +22,7 @@ methods::setMethod(
   "annual",
   signature("Dataset"),
   function(x) {
-    as.dataset(foreach::`%dopar%`(
+    as.dataset(suppressWarnings(foreach::`%dopar%`(
       foreach::foreach(
         nome = iterators::iter(names(x)),
         .multicombine = TRUE, .combine = c), {
@@ -30,7 +30,7 @@ methods::setMethod(
           serie <- x[[nome]]
           ret[[nome]] <- annual(serie)
           ret
-        }))
+        })))
   })
 
 methods::setMethod(

@@ -32,14 +32,14 @@ methods::setMethod(
 
     result <- Dataset()
 
-    data <- foreach::`%dopar%`(foreach::foreach(
+    data <- suppressWarnings(foreach::`%dopar%`(foreach::foreach(
       nome = iterators::iter(common),
       .multicombine = TRUE,
       .combine = c), {
         ret <- list()
         ret[[nome]] <- e1[[nome]] - e2[[nome]]
         ret
-      })
+      }))
     # names(data) <- common
     as.dataset(data)
   })

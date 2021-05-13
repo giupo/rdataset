@@ -35,8 +35,8 @@ methods::setMethod(
         endy = endy, endp = endp))
     }
 
-    foreach::`%dopar%`(foreach::foreach(
+    suppressWarnings(foreach::`%dopar%`(foreach::foreach(
       name = iterators::iter(names(x)), .combine=rbind), {
       closure(name)
-    })
+    }))
   })
