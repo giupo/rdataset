@@ -1,5 +1,3 @@
-context("Marshalling functions, ts->list, list->ts")
-
 numbers <- (1:10)
 year <- 1990
 prd <- 1
@@ -52,7 +50,7 @@ test_that("to_list and from_list are symmetric", {
   expect_equal(sort(names(l12)), sort(names(tslist12)))
 
   for(name in names(l12)) {
-    expect_equal(l12[[name]], tslist12[[name]])    
+    expect_equal(l12[[name]], tslist12[[name]])
   }
 
   for(name in names(tslist12)) {

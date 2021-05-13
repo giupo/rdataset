@@ -20,23 +20,45 @@ Imports:
     stats,
     rutils,
     xts,
-    progress
+    progress,
+    writexl,
+    whisker
 License: BSD_2_clause + file LICENSE
 LazyData: true
 Suggests:
-    testthat,
+    testthat (>= 3.0.0),
     crayon,
     covr,
-    roxygen2,
+    roxygen2,m
     zoo,
     data.table,
     pryr,
     mockery,
-    xlsx,
     BItools
 Collate:
-    'io.r'
+    'utils.r'
     'dataset.r'
+    'annual.r'
+    'as_data_frame.r'
+    'as_dataset.r'
+    'copy.r'
+    'djoin.r'
+    'io.r'
+    'merge.r'
+    'relations.r'
+    'round.r'
+    'save_dataset.r'
+    'stretch.r'
+    'subsetting.r'
+    'sum.r'
+    'summary.r'
+    'to_csv.r'
+    'to_xlsx.r'
+    'union.r'
+    'urlist.r'
+    'window.r'
 RoxygenNote: 7.1.1
 Remotes: github::giupo/rutils
 Encoding: UTF-8
+Config/testthat/edition: 3
+Config/testthat/parallel: true
