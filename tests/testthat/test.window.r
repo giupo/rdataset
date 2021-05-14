@@ -26,7 +26,7 @@ test_that("window works with a multiple ts Dataset", {
   expect_equal(stats::start(y[["B"]]), c(2000, 1))
 })
 
-test_that("window works with a multiple ts Dataset", {
+test_that("window raises a warning ts Dataset", {
   x <- Dataset()
   x[["A"]] <- stats::ts(rep(0, 4), start=c(1990, 1), frequency = 4)
   x[["B"]] <- stats::ts(rep(0, 8), start=c(1990, 1), frequency = 4)
@@ -37,4 +37,15 @@ test_that("window works with a multiple ts Dataset", {
   expect_true("B" %in% names(y))
 })
 
+test_that("window leaves the series alone if stats::window mess up", {
+  skip_if_not_installed("mockery")
+
+  stat_window_mock <- mockery::mock(stop("error"))
+  mockery::stub(window.Dataset, "stats::window", stat_window_mock)
+
+  x <- Dataset()
+  x[["A"]] <- stats::ts(rep(0, 4), start=c(1990, 1), frequency = 4)
+  y <- expect_error(window(x, start=c(1990, 2)), NA)
+  expect_identical(x[["A"]], y[["A"]])
+})
 

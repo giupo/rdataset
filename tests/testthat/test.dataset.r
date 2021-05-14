@@ -61,6 +61,25 @@ test_that("looking for wrong names yields a warning and an empty Dataset", {
 })
 
 
+test_that("I can produce an xlsx from a Dataset (bycol)", {
+  skip_if(.Platform$OS.type == "windows")
+  skip_if_not_installed("writexl")
+  ds <- Dataset()
+
+  ds["TS1"] <- ts(c(1, 2, 3), start = c(1990, 1), frequency = 1)
+  ds["TS4"] <- ts(c(1, 2, 3), start = c(1990, 1), frequency = 4)
+  ds["TS12"] <- ts(c(1, 2, 3), start = c(1990, 1), frequency = 12)
+  ds["TS1-1"] <- ts(c(1, 2, 3), start = c(1990, 1), frequency = 1)
+  ds["TS4-1"] <- ts(c(1, 2, 3), start = c(1990, 1), frequency = 4)
+  ds["TS12-1"] <- ts(c(1, 2, 3), start = c(1990, 1), frequency = 12)
+
+  tmpfile <- tempfile(fileext=".xlsx")
+  on.exit(unlink(tmpfile, force = TRUE))
+
+  to_xlsx(ds, tmpfile, bycol = TRUE)
+  expect_true(file.info(tmpfile)$size > 0)
+})
+
 test_that("I can produce an xlsx from a Dataset", {
   skip_if(.Platform$OS.type == "windows")
   skip_if_not_installed("writexl")
@@ -74,9 +93,9 @@ test_that("I can produce an xlsx from a Dataset", {
   ds["TS12-1"] <- ts(c(1, 2, 3), start = c(1990, 1), frequency = 12)
 
   tmpfile <- tempfile(fileext=".xlsx")
-  on.exit(unlink(tmpfile, force=TRUE))
+  on.exit(unlink(tmpfile, force = TRUE))
 
-  to_xlsx(ds, tmpfile)
+  to_xlsx(ds, tmpfile, bycol = FALSE)
   expect_true(file.info(tmpfile)$size > 0)
 })
 
