@@ -26,7 +26,7 @@ do.call.cbind <- function(lst) {
   while (length(lst) > 1) {
     idxlst <- seq(from = 1, to = length(lst), by = 2)
     lst <- lapply(idxlst, function(i) {
-      if (i == length(lst)) { return(lst[[i]]) }
+      if (i == length(lst)) { return(lst[[i]]) } # nocov
       return(cbind(lst[[i]], lst[[i + 1]]))
     })
   }
