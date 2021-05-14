@@ -26,19 +26,12 @@ methods::setMethod(
     ret
   })
 
+
 methods::setMethod(
   "as.dataset",
   signature("Dataset"),
   function(x) {
     x
-  })
-
-
-methods::setMethod(
-  "as.dataset",
-  signature("character"),
-  function(x) {
-    Dataset(x)
   })
 
 
