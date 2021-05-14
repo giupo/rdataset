@@ -50,7 +50,6 @@ Collate:
     'subsetting.r'
     'sum.r'
     'summary.r'
-    'to_csv.r'
     'to_xlsx.r'
     'union.r'
     'urlist.r'
