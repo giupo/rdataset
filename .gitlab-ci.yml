@@ -1,0 +1,54 @@
+stages:
+  - build
+  - test
+  - deploy
+  - check
+
+build:
+  stage: build
+  tags: 
+    - collaudo
+  script:
+    - make tarball
+
+test:
+  stage: test
+  tags: 
+    - collaudo
+  script: 
+    - make test
+
+check:
+  stage: check
+  tags: 
+    - collaudo
+  script:
+    - make check || (cat rcf.Rcheck/tests/testthat.Rout.fail && exit 1)
+  allow_failure: true
+
+deploy:
+  stage: deploy
+  tags:
+    - prod
+  script:
+    - make install
+  allow_failure: false
+    
+deploy_collaudo:
+  stage: deploy
+  tags:
+    - collaudo
+  script:
+    - make install
+  allow_failure: true
+
+
+coverage:
+  stage: test
+  tags: 
+    - collaudo
+  script:
+    - make coverage
+    - Rscript -e 'covr::codecov()'
+  allow_failure: true
+

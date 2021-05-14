@@ -47,7 +47,6 @@ Collate:
     'relations.r'
     'round.r'
     'save_dataset.r'
-    'stretch.r'
     'subsetting.r'
     'sum.r'
     'summary.r'
