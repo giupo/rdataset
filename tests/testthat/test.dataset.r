@@ -99,6 +99,23 @@ test_that("I can produce an xlsx from a Dataset", {
   expect_true(file.info(tmpfile)$size > 0)
 })
 
+test_that("I can produce a csv from a Dataset", {
+  skip_if(.Platform$OS.type == "windows")
+  skip_if_not_installed("writexl")
+  ds <- Dataset()
+
+  ds["TS1"] <- ts(c(1, 2, 3), start = c(1990, 1), frequency = 1)
+  ds["TS4"] <- ts(c(1, 2, 3), start = c(1990, 1), frequency = 4)
+  ds["TS12"] <- ts(c(1, 2, 3), start = c(1990, 1), frequency = 12)
+  ds["TS1-1"] <- ts(c(1, 2, 3), start = c(1990, 1), frequency = 1)
+  ds["TS4-1"] <- ts(c(1, 2, 3), start = c(1990, 1), frequency = 4)
+  ds["TS12-1"] <- ts(c(1, 2, 3), start = c(1990, 1), frequency = 12)
+
+  x <- expect_error(to_csv(ds), NA)
+  expect_type(x, "character")
+})
+
+
 
 test_that("Init with a non existing directory raises a warning and an error", {
   expect_error(expect_warning(Dataset("/io/non/esisto")))
