@@ -2,36 +2,78 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+v1.0.0 (2021-05-14)
+-------------------
+- Bump version: 0.7.3 → 1.0.0. [Giuseppe Acito]
+- Remove unused code. [Giuseppe Acito]
+- Remove unused code. [Giuseppe Acito]
+- Remove not working to_csv function. [Giuseppe Acito]
+- Increase code coverage. [Giuseppe Acito]
+- Adds several tests. [Giuseppe Acito]
+- Adds some tests on window. [Giuseppe Acito]
+- Remove unused methods. [Giuseppe Acito]
+- Increase code coverage. [Giuseppe Acito]
+- Remove unused files. [Giuseppe Acito]
+- Adds Gitlab CI. [Giuseppe Acito]
+- Remove stretch from rdataset. [Giuseppe Acito]
+- Prefer Rscript for tools in Makefile; removed commands echo. [Giuseppe
+  Acito]
+- Remove as.list as S4 method. [Giuseppe Acito]
+- Prepare to remove as.list method. [Giuseppe Acito]
 
-Fix
-~~~
-- 31922. R ti odio. [Giuseppe Acito]
-- 31922. R ti odio. [Giuseppe Acito]
 
-Other
-~~~~~
+v0.7.3 (2021-05-13)
+-------------------
+- Bump version: 0.7.2 → 0.7.3. [Giuseppe Acito]
+- Fixed check. [Giuseppe Acito]
+
+
+v0.7.2 (2021-05-13)
+-------------------
 - Bump version: 0.7.1 → 0.7.2. [Giuseppe Acito]
 - Removes shit. [Giuseppe Acito]
+
+
+v0.7.1 (2021-05-13)
+-------------------
 - Bump version: 0.7.0 → 0.7.1. [Giuseppe Acito]
 - Major refactor. [Giuseppe Acito]
+
+
+v0.7.0 (2021-05-13)
+-------------------
+- Bump version: 0.6.0 → 0.7.0. [Giuseppe Acito]
 - Major refactor. [Giuseppe Acito]
 - Fixes missing export for S3 method window. [giupo]
 - Fixes missing export for S3 method window. [giupo]
 - Fix travis recepit. [giupo]
+
+
+v0.5.4 (2021-04-20)
+-------------------
 - Bump version: 0.5.3 → 0.5.4. [giupo]
 - Code cleaning. [giupo]
 - Fix wrong patchlevel in DESCRIPTION. [giupo]
 - Adds some files used for development. [giupo]
 - Updates docs. [giupo]
+
+
+v0.5.3 (2021-04-16)
+-------------------
 - Bump version: 0.5.2 → 0.5.3. [giupo]
 - Review encoding. [giupo]
 - Remvoe Renv. [giupo]
 - Remove renv. [giupo]
+
+
+v0.5.2 (2020-01-10)
+-------------------
 - Bumpversion 0.5.2. [Giuseppe Acito]
 - Adds sum for a dataset. [Giuseppe Acito]
-- Adds CHANGELOG. [Giuseppe]
+
+
+v0.5.1 (2019-11-29)
+-------------------
 - Bump version: 0.5.0 → 0.5.1. [giupo]
 - Updates renv with rprogressbar>=0.2.x. [giupo]
 - Fixed some inconsistencies. [Giuseppe]
@@ -41,17 +83,45 @@ Other
 - Fix missing interactive check. [Giuseppe Acito]
 - Removed rprogressbar. [Giuseppe Acito]
 - Screw you, tk. [Giuseppe]
+
+
+v0.4.1 (2019-09-24)
+-------------------
 - Bump version: 0.4.0 → 0.4.1. [Giuseppe Acito]
 - Updates packrat. [Giuseppe Acito]
 - Removed rprogressbar. [Giuseppe Acito]
+
+
+v0.4.0 (2019-04-04)
+-------------------
 - Bump version: 0.3.4 → 0.4.0. [Giuseppe Acito]
 - Update packrat, again. [Giuseppe Acito]
 - Update packrat. [Giuseppe Acito]
 - Updated packrat. [Giuseppe Acito]
+
+
+v0.3.4 (2019-04-03)
+-------------------
 - Bump version: 0.3.3 → 0.3.4. [Giuseppe Acito]
 - Fixed some deps on packrat. [Giuseppe Acito]
+
+
+v0.3.3 (2019-04-03)
+-------------------
 - Bump version: 0.3.2 → 0.3.3. [Giuseppe Acito]
 - Updated rutils without XML. [Giuseppe Acito]
+
+
+v0.3.2 (2018-07-11)
+-------------------
+
+Fix
+~~~
+- 31922. R ti odio. [Giuseppe Acito]
+- 31922. R ti odio. [Giuseppe Acito]
+
+Other
+~~~~~
 - Bump version: 0.3.1 → 0.3.2. [Giuseppe Acito]
 - Updates packrat repo:n. [Giuseppe Acito]
 - Remove explicit xlsx deps. [Giuseppe Acito]
