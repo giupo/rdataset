@@ -6,6 +6,13 @@
 \usage{
 \method{sum}{Dataset}(x, ..., na.rm = FALSE)
 }
+\arguments{
+\item{x}{dataset da sommare}
+
+\item{...}{other objects to add}
+
+\item{na.rm}{Not used, just to be compliant with sum}
+}
 \description{
 Esegue il `sum` sul Dataset
 }

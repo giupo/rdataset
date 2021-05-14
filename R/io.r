@@ -1,16 +1,15 @@
 #' converts a timeseries to a list representation
 #'
 #' @name to_list
-#' @usage to_list(t)
 #' @export
-#' @param t a BIMETS timeseries
+#' @param t a timeseries
 #' @return a list object
 
 to_list <- function(t) {
   if (stats::is.ts(t)) {
     freq <- stats::frequency(t)
-    year <- start(t)[[1]]
-    period <- start(t)[[2]]
+    year <- stats::start(t)[[1]]
+    period <- stats::start(t)[[2]]
   } else {
     freq <- 0
     year <- 0
@@ -29,7 +28,6 @@ to_list <- function(t) {
 #' converts a list structure to a BIMETS timeseries
 #'
 #' @name from_list
-#' @usage from_list(lista)
 #' @export
 #' @param lista a list object
 #' @return a timeseries
@@ -59,7 +57,6 @@ from_list <- function(lista) {
 #' Converts to JSON a timeseries
 #'
 #' @name to_json
-#' @usage to_json(t)
 #' @export
 #' @param t a bimets timeseries
 #' @return a String representation of a timeseries as a JSON object
@@ -71,7 +68,6 @@ to_json <- function(t) {
 #' converts a JSON timeseries to a BIMETS timeseries timeseries
 #'
 #' @name from_json
-#' @usage from_json(json)
 #' @param json a character array containing a json string
 #' @return a BIMETS timeseries
 #' @seealso \code{from_list}

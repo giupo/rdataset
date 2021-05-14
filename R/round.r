@@ -1,3 +1,15 @@
+#' Yields a rounding of the object
+#'
+#' @rdname round-methods
+#' @docType methods
+#' @name round
+#' @param x object to round
+#' @param digits numeber of digits for roundings
+#' @return the same object, with roundings
+NULL
+
+#' @rdname round-methods
+#' @aliases round,Dataset,ANY-method
 
 methods::setMethod(
   "round",

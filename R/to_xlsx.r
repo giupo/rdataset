@@ -1,11 +1,12 @@
 #' Converte in un file XLSX il dataset
 #'
 #' @name to_xlsx
-#' @usage to_xlsx(x, path, bycol)
 #' @param x nome del Dataset
-#' @param periodo percorso del file
+#' @param path percorso del file
 #' @param bycol esporta per colonna se `TRUE`, altrimenti per riga
 #' @export
+#' @docType methods
+#' @rdname to_xlsx-methods
 
 methods::setGeneric(
   "to_xlsx",
@@ -13,6 +14,9 @@ methods::setGeneric(
     standardGeneric("to_xlsx")
   })
 
+
+#' @rdname to_xlsx-methods
+#' @aliases to_xlsx,Dataset,character,logical-method
 
 methods::setMethod(
   "to_xlsx",
@@ -37,12 +41,10 @@ do.call.cbind <- function(lst) {
 #' Exporta in xlsx un Dataset
 #'
 #' @name .to_xlsx
-#' @usage .to_xlsx(x, path, bycol)
 #' @param x Istanza di Dataset
 #' @param path percorso dove esportare i dati
 #' @param bycol esporta per colonna se `TRUE`, altrimenti per riga
 #' @include as_data_frame.r utils.r
-
 
 .to_xlsx <- function(x, path, bycol = TRUE) {
   df <- as.data.frame(x)
@@ -61,7 +63,6 @@ do.call.cbind <- function(lst) {
   for(freq in names(by_freq)) {
     nomi <- unique(by_freq[[freq]]$name)
     lista <- tutte[nomi]
- 
     singola <- do.call.cbind(lista)
     idx <- date_index(zoo::index(singola), as.integer(freq))
     singola <- as.data.frame(singola)

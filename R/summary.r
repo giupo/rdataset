@@ -3,11 +3,10 @@
 #' For each series prints it's stard period, end period and frequency
 #'
 #' @name shortSummary
-#' @rdname shortSummary
-#' @usage shortSummary(object)
-#' @param object a `Dataset` object
+#' @param ds a `Dataset` object
 #' @export
-#'
+#' @docType methods
+#' @rdname shortSummary-methods
 
 methods::setGeneric(
   "shortSummary",
@@ -15,7 +14,8 @@ methods::setGeneric(
     standardGeneric("shortSummary")
   })
 
-#' @rdname shortSummary
+#' @rdname shortSummary-methods
+#' @aliases shortSummary,Dataset-method
 
 methods::setMethod(
   "shortSummary",
@@ -27,10 +27,10 @@ methods::setMethod(
     FREQ <- c()
     for(name in names(ds)) {
       series <- ds[[name]]
-      startp <- start(series)[[2]]
-      starty <- start(series)[[1]]
-      endp <- end(series)[[2]]
-      endy <- end(series)[[1]]
+      startp <- stats::start(series)[[2]]
+      starty <- stats::start(series)[[1]]
+      endp <- stats::end(series)[[2]]
+      endy <- stats::end(series)[[1]]
       freq <- stats::frequency(series)
 
       NOMI <- c(NOMI, name)
@@ -48,9 +48,10 @@ methods::setMethod(
 #' tabs all the series in the Dataset
 #'
 #' @name fullSummary
-#' @usage fullSummary(ds)
 #' @export
 #' @param ds a `Dataset` instance
+#' @docType methods
+#' @rdname fullSummary-methods
 
 methods::setGeneric(
   "fullSummary",
@@ -80,6 +81,9 @@ methods::setGeneric(
     print(do.call(cbind, samefreq))
   }
 }
+
+#' @rdname fullSummary-methods
+#' @aliases fullSummary,Dataset-method
 
 methods::setMethod(
   "fullSummary",

@@ -6,6 +6,14 @@
 \usage{
 \method{as.data.frame}{Dataset}(x, ...)
 }
+\arguments{
+\item{x}{Dataset da convertire in data.frame}
+
+\item{...}{solo per compliancy con as.data.frame}
+}
+\value{
+un data.frame con i dati del Dataset
+}
 \description{
 Ogni riga del dataframe contiene NOME della serie
 Osservazione, anno, periodo, frequenza e data come

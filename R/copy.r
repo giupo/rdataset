@@ -1,12 +1,12 @@
 
-#' Questa funzione esegue una deep copy dell'oggetto
+#' Makes a deep copy of the object
 #'
 #' @name copy
-#' @usage copy(x)
 #' @param x oggetto da copiare
 #' @return una copia di `x`
 #' @export
-#' @exportMethod copy
+#' @docType methods
+#' @rdname copy-methods
 
 methods::setGeneric(
   "copy",
@@ -14,6 +14,9 @@ methods::setGeneric(
     standardGeneric("copy")
   })
 
+
+#' @rdname copy-methods
+#' @aliases copy,Dataset-method
 
 methods::setMethod(
   "copy",

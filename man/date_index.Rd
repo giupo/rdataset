@@ -6,6 +6,14 @@
 \usage{
 date_index(idx, freq)
 }
+\arguments{
+\item{idx}{vettore di periodi/date (ottenuto con zoo::index)}
+
+\item{freq}{frequenza del vettore}
+}
+\value{
+un vettore di date, con correzzione se frequenza annuale
+}
 \description{
 la funzione ha cura di correggere il problema delle date annuali di xts
 }

@@ -7,7 +7,7 @@
 to_list(t)
 }
 \arguments{
-\item{t}{a BIMETS timeseries}
+\item{t}{a timeseries}
 }
 \value{
 a list object

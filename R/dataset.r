@@ -7,18 +7,19 @@
 ##
 ## and then inspect in which frame there's a getGeneric a see which one
 ## pisses R off.
+
 #' Classe contenitore di dati (serie storiche)
 #'
-#' @name Dataset
-#' @usage Dataset(url, ids)
-#' @aliases Dataset-class
+#' @name Dataset-class
+#' @rdname Dataset-class
 #' @slot data hash::hash containing data
 #' @slot url path where data is
-#' @title Dataset OOP
 #' @export Dataset
 #' @exportClass Dataset
+#' @importClassesFrom hash hash
+#' @importFrom methods new
 
-requireNamespace("hash", quietly=TRUE)
+# requireNamespace("hash", quietly=TRUE)
 
 Dataset <- methods::setClass( # nolint
   "Dataset",
@@ -36,14 +37,18 @@ methods::setMethod(
     .init(.Object, url = url)
   })
 
-#' Ritorna il numero di oggetti contenute nel Dataset
+
+#' Returns the length of the object
 #'
 #' @name length
-#' @title Elenco nomi Dataset
-#' @export
+#' @param x object to retrieve the length
+#' @return the length of the object x
+#' @rdname length-methods
+#' @docType methods
+NULL
 
-#' @param x un istanza di Dataset
-#' @return il numero di serie storiche nel Dataset
+#' @rdname length-methods
+#' @aliases length,Dataset-method
 
 methods::setMethod(
   "length",
@@ -52,31 +57,17 @@ methods::setMethod(
     length(x@data)
   })
 
-
-#' Ritorna un elenco di nomi di serie storiche serie storiche contenuti
-#' nel Dataset
+#' Yields the names contained in the Object
 #'
-#' @name as.vector
-#' @title Elenco nomi Dataset
-#' @export
-#' @seealso \code{link{rcf::names}}
-#' @param x un istanza di Dataset
-#' @return Una rappresentazione a lista del Dataset
-
-methods::setMethod(
-  "as.vector",
-  c("Dataset"),
-  function(x) {
-    as.list(x@data)
-  })
-
-#' Elenco dei nomi di serie contenuti nel Dataset
-#'
+#' @rdname names-methods
+#' @docType methods
 #' @name names
-#' @title Elenco nomi Dataset
-#' @export
-#' @param x un istanza di Dataset
-#' @return un character array contenente i nomi delle serie storiche nel Dataset
+#' @param x object where "names" are from
+NULL
+
+
+#' @rdname names-methods
+#' @aliases names,Dataset-method
 
 methods::setMethod(
   "names",
@@ -85,58 +76,16 @@ methods::setMethod(
     hash::keys(x@data)
   })
 
-#' Esegue la differenza tra due dataset di oggetti (a patto che la differenza
-#' sia definita per gli oggetti)
-#' Se un oggetto non e' comune ai due dataset viene lanciato un warning
+#' shows the object on the stdout
 #'
-#' @name "-"
-#' @title Differenza tra Dataset
-#' @export
-#' @param e1 Dataset (primo operando)
-#' @param e2 Dataset (secondo operando)
-#' @return Il dataset con le differenze
-
-methods::setMethod(
-  "-",
-  signature(e1 = "Dataset", e2 = "Dataset"),
-  function(e1, e2) {
-    nomi1 <- names(e1)
-    nomi2 <- names(e2)
-    common <- intersect(nomi1, nomi2)
-    not_common <- union(
-      setdiff(nomi1, nomi2),
-      setdiff(nomi2, nomi1))
-
-    if (length(common) == 0) {
-      stop("No common objects between the datasets")
-    }
-
-    if (length(not_common) > 0) {
-      lapply(not_common, function(name) {
-        warning(paste0(name, " not common, excluded from diff"))
-      })
-    }
-
-    result <- Dataset()
-
-    data <- suppressWarnings(foreach::`%dopar%`(foreach::foreach(
-      nome = iterators::iter(common),
-      .multicombine = TRUE,
-      .combine = c), {
-        ret <- list()
-        ret[[nome]] <- e1[[nome]] - e2[[nome]]
-        ret
-      }))
-    # names(data) <- common
-    as.dataset(data)
-  })
-
-#' Default metodo show per la classe Dataset
-#'
+#' @rdname show-methods
+#' @docType methods
+#' @param object object to printout
 #' @name show
-#' @title Show Method
-#' @seealso \code{Dataset}
-#' @param x Dataset da mostrare
+NULL
+
+#' @rdname show-methods
+#' @aliases show,Dataset-method
 
 methods::setMethod(
   "show",
@@ -152,11 +101,11 @@ methods::setMethod(
 
 #' Ritorna il `Dataset` come `list` di oggetti
 #'
-#' @name as.list
+#' @param x Dataset da convertire in list
+#' @param ... per essere compliant su as.list
 #' @seealso base::as.list
 #' @return una `list` di Timeseries
 #' @export
-#' 
 
 as.list.Dataset <- function(x, ...) as.list(x@data, ...)
 
@@ -164,7 +113,6 @@ as.list.Dataset <- function(x, ...) as.list(x@data, ...)
 #' checks if \code{x} is an object of type \code{Dataset}
 #'
 #' @name is.dataset
-#' @usage is.dataset(x)
 #' @export
 #' @param x a generic object
 #' @return \code{TRUE} if \code{x} is a \code{Dataset}, \code{FALSE} otherwise
@@ -199,7 +147,6 @@ dataset <- function(...) {
 #'
 #' @name abs_ds
 #' @param x a Dataset we want to apply the abs
-#' @usage abs_ds(x)
 #' @export
 #' @return a Dataset with all the timesereis with the abs applied
 #' @note fix for 31922

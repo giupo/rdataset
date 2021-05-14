@@ -1,5 +1,9 @@
 #' Esegue il `sum` sul Dataset
 #'
+#' @param x dataset da sommare
+#' @param ... other objects to add
+#' @param na.rm Not used, just to be compliant with sum
+#' 
 #' @export
 
 sum.Dataset <- function(x,..., na.rm = FALSE) { # nolint
@@ -21,11 +25,3 @@ sum.Dataset <- function(x,..., na.rm = FALSE) { # nolint
 
   somma
 }
-
-
-methods::setMethod(
-  "sum",
-  c("Dataset", "logical"),
-  function(x,..., na.rm = FALSE) { # nolint
-    sum.Dataset(x,..., na.rm = na.rm)
-  })

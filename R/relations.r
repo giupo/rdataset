@@ -2,12 +2,17 @@
 #' sia definita per gli oggetti)
 #' Se un oggetto non e' comune ai due dataset viene lanciato un warning
 #'
-#' @name "-"
+#' @name -
 #' @title Differenza tra Dataset
-#' @export
 #' @param e1 Dataset (primo operando)
 #' @param e2 Dataset (secondo operando)
 #' @return Il dataset con le differenze
+#' @rdname differences-methods
+#' @docType methods
+NULL
+
+#' @rdname differences-methods
+#' @aliases -,Dataset,Dataset-method
 
 methods::setMethod(
   "-",
@@ -31,6 +36,8 @@ methods::setMethod(
     }
 
     result <- Dataset()
+    # to fix checks
+    nome <- NULL
 
     data <- suppressWarnings(foreach::`%dopar%`(foreach::foreach(
       nome = iterators::iter(common),
@@ -44,6 +51,17 @@ methods::setMethod(
     as.dataset(data)
   })
 
+#' equals relation operator
+#'
+#' @name ==
+#' @param e1 Dataset
+#' @param e2 numeric
+#' @rdname relations-methods
+#' @docType methods
+NULL
+
+#' @rdname relations-methods
+#' @aliases ==,Dataset,numeric-method
 
 methods::setMethod(
   "==",
@@ -57,6 +75,18 @@ methods::setMethod(
     ret
   })
 
+#' greater-than relation operator
+#'
+#' @name >
+#' @param e1 Dataset
+#' @param e2 numeric
+#' @rdname relations-methods
+#' @docType methods
+NULL
+
+#' @rdname relations-methods
+#' @aliases >,Dataset,numeric-method
+
 methods::setMethod(
   ">",
   signature("Dataset", "numeric"),
@@ -68,6 +98,18 @@ methods::setMethod(
     }
     ret
   })
+
+#' less-than relation operator
+#'
+#' @name <
+#' @param e1 Dataset
+#' @param e2 numeric
+#' @rdname relations-methods
+#' @docType methods
+NULL
+
+#' @rdname relations-methods
+#' @aliases <,Dataset,numeric-method
 
 methods::setMethod(
   "<",
@@ -81,6 +123,18 @@ methods::setMethod(
     ret
   })
 
+#' less-or-equal relation operator
+#'
+#' @name <=
+#' @param e1 Dataset
+#' @param e2 numeric
+#' @rdname relations-methods
+#' @docType methods
+NULL
+
+#' @rdname relations-methods
+#' @aliases <=,Dataset,numeric-method
+
 methods::setMethod(
   "<=",
   signature("Dataset", "numeric"),
@@ -93,6 +147,18 @@ methods::setMethod(
     ret
   })
 
+#' greater-or-equal relation operator
+#'
+#' @name >=
+#' @param e1 Dataset
+#' @param e2 numeric
+#' @rdname relations-methods
+#' @docType methods
+NULL
+
+#' @rdname relations-methods
+#' @aliases >=,Dataset,numeric-method
+
 methods::setMethod(
   ">=",
   signature("Dataset", "numeric"),
@@ -104,4 +170,3 @@ methods::setMethod(
     }
     ret
   })
-

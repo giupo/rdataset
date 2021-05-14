@@ -3,10 +3,11 @@
 #' I metadati ritornati sono start period, end period, freq
 #'
 #' @name URLIST
-#' @usage URLIST(x)
 #' @param x un Dataset
 #' @return un dataframe con 4 colonne (nome, start, end, freq)
-#' @export
+#' @docType methods
+#' @rdname URLIST-methods
+
 
 methods::setGeneric(
   "URLIST",
@@ -14,6 +15,9 @@ methods::setGeneric(
     standardGeneric("URLIST")
   })
 
+
+#' @rdname URLIST-methods
+#' @aliases URLIST,Dataset-method
 
 methods::setMethod(
   "URLIST",
@@ -35,6 +39,7 @@ methods::setMethod(
         endy = endy, endp = endp))
     }
 
+    name <- NULL
     suppressWarnings(foreach::`%dopar%`(foreach::foreach(
       name = iterators::iter(names(x)), .combine=rbind), {
       closure(name)

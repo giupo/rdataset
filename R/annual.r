@@ -1,16 +1,16 @@
 
-#' Esegue l'annual del dataset
+#' Annualizza l'oggetto 
 #'
 #' Se le serie contenute sono gia' annuali, non fa nulla e
 #' lascia la serie cosi' com'e'
 #'
-#' @name annual
-#' @usage annual(x)
 #' @param x Dataset da annualizzare
 #' @return un dataset annualizzato
-#' @export
-#' @exportMethod annual
 #' @include dataset.r
+#' @export
+#' @docType methods
+#' @rdname annual-methods
+
 
 methods::setGeneric(
   "annual",
@@ -18,10 +18,14 @@ methods::setGeneric(
     standardGeneric("annual")
   })
 
+#' @rdname annual-methods
+#' @aliases annual,Dataset-method
+
 methods::setMethod(
   "annual",
   signature("Dataset"),
   function(x) {
+    nome <- NULL
     as.dataset(suppressWarnings(foreach::`%dopar%`(
       foreach::foreach(
         nome = iterators::iter(names(x)),
@@ -33,6 +37,9 @@ methods::setMethod(
         })))
   })
 
+#' @rdname annual-methods
+#' @aliases annual,ts-method
+
 methods::setMethod(
   "annual",
   list(x = "ts"),
@@ -41,7 +48,9 @@ methods::setMethod(
     if (stats::frequency(x) == 1) {
       return(x)
     }
-    aggregate(x, nfrequency = 1,
-              ifelse(attributi$stock == 1, xts::last, sum))
+    stats::aggregate(
+      x,
+      nfrequency = 1,
+      rutils::ifelse(attributi$stock == 1, xts::last, sum))
   })
 

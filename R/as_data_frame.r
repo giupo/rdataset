@@ -6,6 +6,9 @@
 #' timestamp dell'osservazione
 #'
 #' @export
+#' @param x Dataset da convertire in data.frame
+#' @param ... solo per compliancy con as.data.frame
+#' @return un data.frame con i dati del Dataset
 #' @include utils.r
 
 as.data.frame.Dataset <- function(x, ...) {

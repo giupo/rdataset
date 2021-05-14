@@ -1,18 +1,23 @@
 #' Casts to a Dataset
 #'
 #' @name as.dataset
-#' @usage as.dataset(x)
 #' @param x a generico object with "[[" method defined and names
 #' @param ... forza la creazione di un nuovo dataset, anche se x e' un `Dataset`
 #' @return a Dataset with data defined in x
 #' @include dataset.r
 #' @export
+#' @docType methods
+#' @rdname as.dataset-methods
 
 methods::setGeneric(
   "as.dataset",
   function(x, ...) {
     standardGeneric("as.dataset")
   })
+
+
+#' @rdname as.dataset-methods
+#' @aliases as.dataset,list-method
 
 methods::setMethod(
   "as.dataset",
@@ -21,11 +26,14 @@ methods::setMethod(
     ret <- Dataset()
     data <- ret@data
     # this is kinda obscure
-    slot(data, ".xData") <- as.environment(x)
+    methods::slot(data, ".xData") <- as.environment(x)
     ret@data <- data
     ret
   })
 
+
+#' @rdname as.dataset-methods
+#' @aliases as.dataset,Dataset-method
 
 methods::setMethod(
   "as.dataset",
@@ -34,6 +42,9 @@ methods::setMethod(
     x
   })
 
+
+#' @rdname as.dataset-methods
+#' @aliases as.dataset,data.frame-method
 
 methods::setMethod(
   "as.dataset",

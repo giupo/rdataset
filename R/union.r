@@ -3,11 +3,7 @@
 #' serie storiche contenute nel primo in caso che l'intersezione dei
 #' nomi dei due dataset sia non nulla.
 #'
-#' @name union
-#' @aliases union
 #' @seealso base::union
-#' @export
-
 #' @param x il primo dataset
 #' @param y il secondo dataset
 #' @return un dataset con l'unione di tutte le serie storiche
@@ -32,20 +28,22 @@ union.Dataset <- function(x, y) {
 #' nomi dei due dataset sia non nulla.
 #'
 #' @name union
-#' @aliases union
 #' @seealso base::union
-#' @exportMethod union
-#' @export
-
 #' @param x il primo dataset
 #' @param y il secondo dataset
 #' @return un dataset con l'unione di tutte le serie storiche
+#' @export
+#' @docType methods
+#' @rdname union-methods
 
 methods::setGeneric(
   "union",
   function(x, y) {
     standardGeneric("union")
   })
+
+#' @rdname union-methods
+#' @aliases union,Dataset,Dataset-method
 
 methods::setMethod(
   "union",

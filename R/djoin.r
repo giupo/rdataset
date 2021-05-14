@@ -1,8 +1,3 @@
-methods::setGeneric(
-  "djoin",
-  function(historic, x, date) {
-    standardGeneric("djoin")
-  })
 
 .djoin <- function(historic, x, date) {
   closure <- function(name) {
@@ -24,7 +19,7 @@ methods::setGeneric(
   }
 
   ret <- Dataset()
-  
+
   # used to pass checks
   name <- NULL
 
@@ -43,12 +38,23 @@ methods::setGeneric(
 #' specificata.
 #'
 #' @name djoin
-#' @aliases djoin
 #' @export
 #' @param historic il dataset storico
 #' @param x il dataset nuovo
 #' @param date una periodo di join
 #' @return Un dataset joinato
+#' @docType methods
+#' @rdname djoin-methods
+
+methods::setGeneric(
+  "djoin",
+  function(historic, x, date) {
+    standardGeneric("djoin")
+  })
+
+
+#' @rdname djoin-methods
+#' @aliases djoin,Dataset,Dataset,ANY-method
 
 methods::setMethod(
   "djoin",

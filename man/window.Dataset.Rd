@@ -6,6 +6,11 @@
 \usage{
 \method{window}{Dataset}(x, ...)
 }
+\arguments{
+\item{x}{Dataset su cui applicare il window}
+
+\item{...}{altri parametri da passare a stats::window}
+}
 \description{
 Esegue il `window` sul Dataset
 }

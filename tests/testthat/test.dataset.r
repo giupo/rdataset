@@ -105,15 +105,6 @@ test_that("Init with a non existing directory raises a warning and an error", {
 })
 
 
-test_that("`as.vector` returns a list representtion of this Dataset", {
-  d <- Dataset()
-  d["A"] <- ts(c(1, 2, 3))
-  d["B"] <- ts(c(1, 2, 3))
-  expect_type(as.vector(d), "list")
-  expect_equal(as.vector(d), list(A=d[["A"]], B=d[["B"]]))
-})
-
-
 test_that("differences from a dataset with different names raises a warning", {
   d1 <- Dataset()
   d1["A"] <- ts(c(1, 2, 3))

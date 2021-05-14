@@ -1,16 +1,17 @@
-
-#' Ritorna una singola serie storica o un sub Dataset di serie storiche
+#' standard method for accessing indexed elements in a container
 #'
-#' @name "["
-#' @title Subsetting
-#' @rdname subsetting
-#' @export
-#' @param x il dataset da cui estrarre la/le serie
-#' @param i i nomi da cui estrare (stringa o character array)
-#' @param j unused here
-#' @param ... God knows what this is good for here.
-#' @param drop Same as before
-#' @return Ritorna un sub-Dataset
+#' @rdname subsetting-methods
+#' @docType methods
+#' @name [
+#' @param x Dataset
+#' @param i index element identifier
+#' @param j dunno what to do with this
+#' @param ... just for compliance
+#' @param drop just for compliance
+NULL
+
+#' @rdname subsetting-methods
+#' @aliases [,Dataset,ANY,missing,ANY-method
 
 methods::setMethod(
   "[",
@@ -35,20 +36,21 @@ methods::setMethod(
     out
   })
 
+#' standard method for accessing indexed elements in a container
+#'
+#' @rdname subsetting-methods
+#' @docType methods
+#' @name [[
+#' @param x Dataset
+#' @param i index element identifier
+#' @param j dunno what to do with this
+#' @param ... just for compliance
+#' @param drop just for compliance
+NULL
 
+#' @rdname subsetting-methods
+#' @aliases [[,Dataset,ANY,missing,ANY-method
 
-#' Ritorna un list o una singola  serie storica
-#' 
-#' @name "[["
-#' @title Subsetting
-#' @rdname subsetting
-#' @export
-#' @param x il dataset da cui estrarre la/le serie
-#' @param i i nomi da cui estrare (stringa o character array)
-#' @param j unused here
-#' @param ... God knows what this is good for here.
-#' @param drop Same as before
-#' @return Ritorna una serie storica on una list di serie storiche
 
 methods::setMethod(
   "[[",
@@ -64,17 +66,21 @@ methods::setMethod(
     out
   })
 
-#' Imposta, data una stringa ed un oggetto xts, una serie storica nel Dataset
+#' standard method for accessing indexed elements in a container
 #'
-#' @name "[<-"
-#' @title Subsetting
-#' @rdname subsetting
-#' @export
-#' @param x un istanza di Dataset
-#' @param i una stringa (il nome della serie storica)
-#' @param j una stringa (never userd)
-#' @param ... God knows what is this good for
-#' @param value l'oggetto da impostare
+#' @rdname subsetting-methods
+#' @docType methods
+#' @name [<-
+#' @param x Dataset
+#' @param i index element identifier
+#' @param j dunno what to do with this
+#' @param ... just for compliance
+#' @param value the value to be set for `i`
+
+NULL
+
+#' @rdname subsetting-methods
+#' @aliases [<-,Dataset,ANY,missing,ANY-method
 
 methods::setMethod(
   "[<-",
@@ -86,16 +92,21 @@ methods::setMethod(
     invisible(x)
   })
 
-#' Imposta, data una stringa ed un oggetto xts, una serie storica nel Dataset
+#' standard method for accessing indexed elements in a container
 #'
-#' @name "[[<-"
-#' @title Subsetting
-#' @export
-#' @param x un istanza di Dataset
-#' @param i una stringa (il nome della serie storica)
-#' @param j una stringa (never userd)
-#' @param ... God knows what is this good for
-#' @param value l'oggetto da impostare
+#' @rdname subsetting-methods
+#' @docType methods
+#' @name [[<-
+#' @param x Dataset
+#' @param i index element identifier
+#' @param j dunno what to do with this
+#' @param ... just for compliance
+#' @param value the value to be set for `i`
+NULL
+
+#' @rdname subsetting-methods
+#' @aliases [[<-,Dataset,ANY,missing,ANY-method
+
 
 methods::setMethod(
   "[[<-",
