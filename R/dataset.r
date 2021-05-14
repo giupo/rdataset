@@ -150,19 +150,6 @@ methods::setMethod(
   })
 
 
-#' Ritorna il dataset come una \code{list} di serie storiche
-#'
-#' @name as.list
-#' @aliases as.list
-#' @export
-#' @param x il Dataset
-#' @return la \code{list} contenente le serie storiche
-
-methods::setMethod(
-  "as.list",
-  signature("Dataset"),
-  function(x) as.list.Dataset(x))
-
 #' Ritorna il `Dataset` come `list` di oggetti
 #'
 #' @name as.list

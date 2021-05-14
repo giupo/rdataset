@@ -3,23 +3,14 @@
 \name{as.list}
 \alias{as.list}
 \alias{as.list.Dataset}
-\title{Ritorna il dataset come una \code{list} di serie storiche}
+\title{Ritorna il `Dataset` come `list` di oggetti}
 \usage{
-\S4method{as.list}{Dataset}(x)
-
-as.list.Dataset(x, ...)
-}
-\arguments{
-\item{x}{il Dataset}
+\method{as.list}{Dataset}(x, ...)
 }
 \value{
-la \code{list} contenente le serie storiche
-
 una `list` di Timeseries
 }
 \description{
-Ritorna il dataset come una \code{list} di serie storiche
-
 Ritorna il `Dataset` come `list` di oggetti
 }
 \seealso{
