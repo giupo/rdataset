@@ -1,5 +1,6 @@
 #' Esegue il `window` sul Dataset
 #'
+#' @importFrom stats window
 #' @export
 
 window.Dataset <- function(x, ...) { # nolint
@@ -16,5 +17,3 @@ window.Dataset <- function(x, ...) { # nolint
   })
   as.dataset(ret)
 }
-
-window <- function() {}

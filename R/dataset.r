@@ -155,7 +155,6 @@ methods::setMethod(
 #' @name as.list
 #' @aliases as.list
 #' @export
-
 #' @param x il Dataset
 #' @return la \code{list} contenente le serie storiche
 
@@ -170,6 +169,7 @@ methods::setMethod(
 #' @seealso base::as.list
 #' @return una `list` di Timeseries
 #' @export
+#' 
 
 as.list.Dataset <- function(x, ...) as.list(x@data, ...)
 
