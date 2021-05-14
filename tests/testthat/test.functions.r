@@ -239,3 +239,58 @@ test_that("I get a warning if I sum different frequencies", {
 
   expect_warning(sum(ds), "has a different frequency")
 })
+
+test_that("as.dataset on the dataset returns the same dataset", {
+  x <- Dataset()
+  y <- as.dataset(x)
+
+  expect_identical(x, y)
+})
+
+test_that("from_data_frame_to_ts works as expected", {
+  x <- data.frame(
+    obs = 0,
+    year = 1990,
+    peiod = 1,
+    freq = 4,
+    idx = as.Date("1990-03-31")
+  )
+
+  expected <- stats::ts(0, start = c(1990,1), frequency = 4)
+
+  expect_equal(from_data_frame_to_ts(x), expected)
+})
+
+
+test_that("as.dataset works as expected on data.frame", {
+  x <- data.frame(
+    name = c("TRIMESTRALE", "ANNUALE"),
+    obs = c(0, 1),
+    year = c(1990, 1990),
+    peiod = c(3, 1),
+    freq = c(4, 1),
+    idx = c(as.Date("1990-03-31"), as.Date("1990-12-31"))
+  )
+
+  x <- expect_error(as.dataset(x), NA)
+
+  expect_true("ANNUALE" %in% names(x))
+  expect_true("TRIMESTRALE" %in% names(x))
+
+  expect_equal(stats::frequency(x[["ANNUALE"]]), 1)
+  expect_equal(stats::frequency(x[["TRIMESTRALE"]]), 4)
+
+})
+
+
+test_that("date_index works with annual index", {
+  N <- 100
+  x <-stats::ts(rep(0, N), start=1990, frequency=1)
+  x <- xts::as.xts(x)
+
+  idx <- date_index(zoo::index(x), freq = stats::frequency(x))
+  expect_equal(length(idx), N)
+  first <- idx[[1]]
+print(idx)
+  expect_equal(first, as.Date("1990-12-31"))
+})

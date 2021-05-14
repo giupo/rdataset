@@ -20,6 +20,7 @@ methods::setMethod(
   function (x) {
     ret <- Dataset()
     data <- ret@data
+    # this is kinda obscure
     slot(data, ".xData") <- as.environment(x)
     ret@data <- data
     ret
@@ -54,10 +55,23 @@ methods::setMethod(
   })
 
 
+#' A converter from a data.frame to ts
+#'
+#' The data.frame *must* follow a fixed schema (columns):
+#' - idx with obervations timestamps
+#' - year
+#' - period
+#' - freq
+#' - obs (the observations' values)
+#'
+#' @name from_data_frame_to_ts
+#' @param y the data.frame to be converted
+#' @return a ts object
+
 from_data_frame_to_ts <- function(y) {
   data <- y[order(y$idx), ]
-  year <- data$years[[1]]
+  year <- data$year[[1]]
   period <- data$period[[1]]
   freq <- data$freq[[1]]
-  ts(data$obs, start = c(year, period), frequency = freq)
+  stats::ts(data$obs, start = c(year, period), frequency = freq)
 }
