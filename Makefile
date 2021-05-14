@@ -18,7 +18,7 @@ $(PKG_NAME)_$(PKG_VERSION).tar.gz: $(PKG_FILES)
 
 
 check:
-	R -e 'devtools::check(error_on="error")'
+	@Rscript -e 'devtools::check(error_on="error")'
 
 build: $(PKG_NAME)_$(PKG_VERSION).tar.gz
 	R --vanilla CMD INSTALL --build $(PKG_NAME)_$(PKG_VERSION).tar.gz
@@ -27,7 +27,7 @@ install: $(PKG_NAME)_$(PKG_VERSION).tar.gz
 	R --vanilla CMD INSTALL $(PKG_NAME)_$(PKG_VERSION).tar.gz
 
 NAMESPACE: $(R_FILES) $(SRC_FILES)
-	Rscript -e "devtools::document()"
+	@Rscript -e "devtools::document()"
 
 DOCS: NAMESPACE
 
@@ -45,22 +45,22 @@ list:
 	@echo $(SRC_FILES)
 
 test:
-	Rscript -e 'devtools::test()'
+	@Rscript -e 'devtools::test()'
 
 autotest:
-	Rscript autotest.r
+	@Rscript autotest.r
 
 # so:     deps
 so:
-	Rscript --vanilla -e 'devtools::compile_dll()'
+	@Rscript --vanilla -e 'devtools::compile_dll()'
 
 coverage:
-	Rscript -e 'covr::package_coverage()'
+	@Rscript -e 'covr::package_coverage()'
 
 codecov:
-	Rscript -e 'covr::codecov()'
+	@Rscript -e 'covr::codecov()'
 
 CHANGELOG.md:
-	gitchangelog | grep -v "git-svn-id" > CHANGELOG.md
+	@gitchangelog | grep -v "git-svn-id" > CHANGELOG.md
 
 changelog: CHANGELOG.md
