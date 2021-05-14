@@ -24,6 +24,10 @@ methods::setGeneric(
   }
 
   ret <- Dataset()
+  
+  # used to pass checks
+  name <- NULL
+
   ret@data <- hash::hash(
     foreach::`%dopar%`(foreach::foreach(
       name = iterators::iter(names(x)),

@@ -21,7 +21,7 @@ methods::setMethod(
   function(x) {
     closure <- function(name) {
       timeSeries <- x[[name]]
-      freq <- frequency(timeSeries)
+      freq <- stats::frequency(timeSeries)
       starty <- stats::start(timeSeries)[[1]]
       startp <- stats::start(timeSeries)[[2]]
       endy <- stats::end(timeSeries)[[1]]

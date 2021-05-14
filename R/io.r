@@ -8,7 +8,7 @@
 
 to_list <- function(t) {
   if (stats::is.ts(t)) {
-    freq <- frequency(t)
+    freq <- stats::frequency(t)
     year <- start(t)[[1]]
     period <- start(t)[[2]]
   } else {
@@ -49,7 +49,7 @@ from_list <- function(lista) {
     if(year == 0 || period == 0 || freq == 0) {
       payload
     } else {
-      ts(payload, start = c(year, period), frequency = freq)
+      stats::ts(payload, start = c(year, period), frequency = freq)
     }
   } else {
     lista

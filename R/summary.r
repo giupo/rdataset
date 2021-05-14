@@ -31,7 +31,7 @@ methods::setMethod(
       starty <- start(series)[[1]]
       endp <- end(series)[[2]]
       endy <- end(series)[[1]]
-      freq <- frequency(series)
+      freq <- stats::frequency(series)
 
       NOMI <- c(NOMI, name)
       STARTP <- c(STARTP, paste0(starty, "/",startp))
@@ -62,7 +62,7 @@ methods::setGeneric(
   freq_bins <- hash::hash()
   for(name in names(ds)) {
     series <- round(ds[[name]], digits=digits)
-    freq <- as.character(frequency(series))
+    freq <- as.character(stats::frequency(series))
     series <- xts::as.xts(series)
     if(freq %in% hash::keys(freq_bins)) {
       bin <- freq_bins[[freq]]

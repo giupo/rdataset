@@ -8,11 +8,11 @@ sum.Dataset <- function(x,..., na.rm = FALSE) { # nolint
   for(name in names(x)) {
     serie <- x[[name]]
 
-    freq <- rutils::ifelse(is.null(freq), frequency(serie), freq)
+    freq <- rutils::ifelse(is.null(freq), stats::frequency(serie), freq)
 
-    if (freq != frequency(serie)) {
+    if (freq != stats::frequency(serie)) {
       warning(name, " has a different frequency ",
-              frequency(serie), " != ", freq, ", skipping ...")
+              stats::frequency(serie), " != ", freq, ", skipping ...")
       next
     }
 

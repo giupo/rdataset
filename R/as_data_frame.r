@@ -13,7 +13,7 @@ as.data.frame.Dataset <- function(x, ...) {
   # riapplico come colname il nome della serie (dai names della lista)
   for(name_ in names(x)) {
     data <- x[[name_]]
-    freq <- frequency(data)
+    freq <- stats::frequency(data)
 
     colnames(data) <- "obs"
     x[[name_]] <- data

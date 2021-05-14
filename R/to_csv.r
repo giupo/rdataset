@@ -21,7 +21,7 @@
     if (is_interactive) pb$tick(counter)
     tt <- x[[name]]
     mapped_name <- mappa_(name)
-    idx <- index(tt)
+    idx <- zoo::index(tt)
     for(i in seq_along(idx)) {
       numero <- round(tt[i])
       anno <- idx[i]

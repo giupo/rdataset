@@ -38,7 +38,7 @@ methods::setMethod(
   list(x = "ts"),
   function(x) {
     attributi <- attributes(x)
-    if(frequency(x) == 1) {
+    if (stats::frequency(x) == 1) {
       return(x)
     }
     aggregate(x, nfrequency = 1,

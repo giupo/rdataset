@@ -191,9 +191,7 @@ is.dataset <- function(x) inherits(x, "Dataset")
 #' }
 
 dataset <- function(...) {
-  params <- list(...)
-  class <- "Dataset"
-  methods::new(class, ...)
+  Dataset(...)
 }
 
 
