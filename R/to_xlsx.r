@@ -13,18 +13,12 @@ methods::setGeneric(
     standardGeneric("to_xlsx")
   })
 
+
 methods::setMethod(
   "to_xlsx",
   signature("Dataset", "character", "logical"),
   function(x, path, bycol=T) {
     .to_xlsx(x, path, bycol = bycol)
-  })
-
-methods::setMethod(
-  "to_xlsx",
-  signature("Dataset", "character"),
-  function(x, path) {
-    .to_xlsx(x, path, bycol = FALSE)
   })
 
 
