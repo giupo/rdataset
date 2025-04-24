@@ -4,23 +4,56 @@ stages:
   - deploy
   - check
 
+.default_matrix: &r_matrix
+  parallel:
+    matrix:
+      - ENV_LABEL: "R-default"
+        R_BIN: "R"
+        R_LIBS_USER: "/home/group/public/894cf/.R/4.2.0/library"
+        RSCRIPT_BIN: "Rscript"
+      
+      - ENV_LABEL: "R-4.4.2"
+        R_BIN: "R-4.4.2"
+        R_LIBS_USER: "/home/group/public/894cf/.R/4.4.2/library"
+        RSCRIPT_BIN: "Rscript-4.4.2"
+
+      - ENV_LABEL: "R-4.5.0"
+        R_BIN: "R-4.5.0"
+        R_LIBS_USER: "/home/group/public/894cf/.R/4.5.0/library"
+        RSCRIPT_BIN: "/home/group/public/894cf/cellar/R/4.5.0/bin/Rscript"
+        
+  before_script:
+    - |
+      mkdir -p ${R_LIBS_USER}
+      echo "ENV_LABEL: ${ENV_LABEL}"
+      echo "R_BIN: ${R_BIN}"
+      echo "RSCRIPT_BIN: ${RSCRIPT_BIN}"
+      echo "R_LIBS_USER: ${R_LIBS_USER}"
+      echo " ------- ENV --------"
+      echo "PATH: ${PATH}"
+
+
 build:
+  extends: .default_matrix
   stage: build
   script:
     - make tarball
 
 test:
+  extends: .default_matrix
   stage: test
   script: 
     - make test
 
 check:
+  extends: .default_matrix
   stage: check
   script:
     - make check || (cat rcf.Rcheck/tests/testthat.Rout.fail && exit 1)
   allow_failure: true
 
 deploy:
+  extends: .default_matrix
   stage: deploy
   script:
     - make install
@@ -36,6 +69,7 @@ deploy:
 
 
 coverage:
+  extends: .default_matrix
   stage: test
   script:
     - make coverage
