@@ -8,7 +8,7 @@
 \usage{
 window.Dataset(x, ...)
 
-\S4method{window}{Dataset}(x, start = NULL, end = NULL, ...)
+\S4method{window}{Dataset}(x, ...)
 }
 \arguments{
 \item{x}{Dataset su cui applicare il window}

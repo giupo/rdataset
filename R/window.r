@@ -27,7 +27,7 @@ window.Dataset <- function(x, ...) { # nolint
 setMethod(
   "window",
   "Dataset",
-  function(x, start = NULL, end = NULL, ...) {
-    window.Dataset(x, start = start, end = end, ...)
+  function(x, ...) {
+    window.Dataset(x, ...)
   }
 )

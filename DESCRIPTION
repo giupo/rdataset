@@ -8,9 +8,7 @@ Description: A timeseries container supplied with basic group operations
 Depends:
     R (>= 3.5.0),
 Imports:
-    hash,
-    tools,
-    Rcpp,
+    hash,        
     RJSONIO,
     foreach,
     iterators,
@@ -20,7 +18,6 @@ Imports:
     stats,
     rutils,
     xts,
-    progress,
     writexl,
     whisker,
     zoo,
