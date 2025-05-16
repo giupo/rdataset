@@ -12,9 +12,9 @@ R_FILES := $(wildcard R/*.[R|r])
 SRC_FILES := $(wildcard src/*) $(addprefix src/, $(COPY_SRC))
 PKG_FILES := DESCRIPTION NAMESPACE $(R_FILES) $(SRC_FILES)
 
-.PHONY: tarball clean CHANGELOG.md
+.PHONY: NAMESPACE tarball clean CHANGELOG.md
 
-tarball: $(PKG_NAME)_$(PKG_VERSION).tar.gz 
+tarball:$(PKG_NAME)_$(PKG_VERSION).tar.gz 
 
 $(PKG_NAME)_$(PKG_VERSION).tar.gz: $(PKG_FILES)
 	$(R_BIN) CMD build .
@@ -28,7 +28,7 @@ build: $(PKG_NAME)_$(PKG_VERSION).tar.gz
 install: $(PKG_NAME)_$(PKG_VERSION).tar.gz
 	$(R_BIN) --vanilla CMD INSTALL $(PKG_NAME)_$(PKG_VERSION).tar.gz
 
-NAMESPACE: $(R_FILES) $(SRC_FILES)
+NAMESPACE:
 	$(RSCRIPT_BIN) -e "devtools::document()"
 
 DOCS: NAMESPACE

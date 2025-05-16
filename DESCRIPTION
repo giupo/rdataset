@@ -24,8 +24,9 @@ Imports:
     writexl,
     whisker,
     zoo,
-    lubridate
-License: BSD_2_clause + file LICENSE
+    lubridate,
+    glue
+License: file LICENSE
 LazyData: true
 Suggests:
     testthat (>= 3.0.0),
@@ -54,7 +55,7 @@ Collate:
     'union.r'
     'urlist.r'
     'window.r'
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.2
 Remotes: git::git@osiride-gitlab-dev.utenze.bankit.it:m024000/rutils.git
 Encoding: UTF-8
 Config/testthat/edition: 3

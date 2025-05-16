@@ -2,9 +2,13 @@
 % Please edit documentation in R/window.r
 \name{window.Dataset}
 \alias{window.Dataset}
+\alias{window,Dataset-method}
+\alias{window,Dataset,ANY-method}
 \title{Esegue il `window` sul Dataset}
 \usage{
-\method{window}{Dataset}(x, ...)
+window.Dataset(x, ...)
+
+\S4method{window}{Dataset}(x, start = NULL, end = NULL, ...)
 }
 \arguments{
 \item{x}{Dataset su cui applicare il window}

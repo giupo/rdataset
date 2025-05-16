@@ -21,10 +21,10 @@ methods::setMethod(
   "shortSummary",
   signature("Dataset"),
   function(ds) {
-    NOMI <- c()
-    STARTP <- c()
-    ENDP <- c()
-    FREQ <- c()
+    nomi <- c()
+    inizio_periodo <- c()
+    fine_periodo <- c()
+    freqs <- c()
     for(name in names(ds)) {
       series <- ds[[name]]
       startp <- stats::start(series)[[2]]
@@ -33,13 +33,19 @@ methods::setMethod(
       endy <- stats::end(series)[[1]]
       freq <- stats::frequency(series)
 
-      NOMI <- c(NOMI, name)
-      STARTP <- c(STARTP, paste0(starty, "/",startp))
-      ENDP <- c(ENDP, paste0(endy, "/", endp))
-      FREQ <- c(FREQ,paste(freq))
+      nomi <- c(nomi, name)
+      inizio_periodo <- c(inizio_periodo, glue::glue("{starty}/{startp}"))
+      fine_periodo <- c(fine_periodo, glue::glue("{endy}/{endp}"))
+      freqs <- c(freqs, freq) ## per portarla a stringa
     }
 
-    df <- data.frame(NOMI=NOMI, start = STARTP, END=ENDP, FREQ=FREQ)
+    df <- data.frame(
+      NOMI = nomi,
+      START = inizio_periodo,
+      END = fine_periodo,
+      FREQ = freqs
+    )
+
     print(df)
     invisible(df)
   })
@@ -59,7 +65,7 @@ methods::setGeneric(
     standardGeneric("fullSummary")
   })
 
-.fullSummary <-  function(ds, digits=2) {
+.fullSummary <-  function(ds, digits = 2) { # nolint
   freq_bins <- hash::hash()
   for(name in names(ds)) {
     series <- round(ds[[name]], digits=digits)

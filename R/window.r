@@ -3,7 +3,7 @@
 #' @importFrom stats window
 #' @param x Dataset su cui applicare il window
 #' @param ... altri parametri da passare a stats::window
-#' @export
+#' @export window
 
 window.Dataset <- function(x, ...) { # nolint
   aslist <- as.list(x)
@@ -19,3 +19,15 @@ window.Dataset <- function(x, ...) { # nolint
   })
   as.dataset(ret)
 }
+
+
+#' @rdname window.Dataset
+#' @aliases window,Dataset,ANY-method
+
+setMethod(
+  "window",
+  "Dataset",
+  function(x, start = NULL, end = NULL, ...) {
+    window.Dataset(x, start = start, end = end, ...)
+  }
+)
