@@ -21,7 +21,7 @@ stages:
 
       - ENV_LABEL: "R-4.5.0"
         R_BIN: "R-4.5.0"
-        R_LIBS_USER: "/home/group/public/894cf/.R/4.5.0/library:/home/opt/R/lib64/R/library"
+        R_LIBS_USER: "/home/group/public/894cf/.R/4.5.0/library:"
         RSCRIPT_BIN: "/home/group/public/894cf/cellar/R/4.5.0/bin/Rscript"
 
   variables:
