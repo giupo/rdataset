@@ -5,12 +5,12 @@
 PKG_VERSION=$(shell grep -i ^version DESCRIPTION | cut -d : -d \  -f 2)
 PKG_NAME=$(shell grep -i ^package DESCRIPTION | cut -d : -d \  -f 2)
 
+R_BIN ?= R
+RSCRIPT_BIN ?= Rscript
+
 R_FILES := $(wildcard R/*.[R|r])
 SRC_FILES := $(wildcard src/*) $(addprefix src/, $(COPY_SRC))
 PKG_FILES := DESCRIPTION NAMESPACE $(R_FILES) $(SRC_FILES)
-
-R_BIN ?= R
-RSCRIPT_BIN ?= Rscript
 
 .PHONY: tarball clean CHANGELOG.md
 
@@ -50,17 +50,11 @@ test:
 	$(RSCRIPT_BIN) -e 'devtools::test()'
 
 autotest:
-	$(RSCRIPT_BIN) autotest.r
+	$(RSCRIPT_BIN) -e 'testthat::auto_test_package()'
 
-# so:     deps
-so:
-	$(RSCRIPT_BIN) --vanilla -e 'devtools::compile_dll()'
 
 coverage:
 	$(RSCRIPT_BIN) -e 'covr::package_coverage()'
-
-codecov:
-	$(RSCRIPT_BIN) -e 'covr::codecov()'
 
 NEWS.md:
 	@gitchangelog | grep -v "git-svn-id" > NEWS.md
