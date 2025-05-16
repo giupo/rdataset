@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+v1.0.3 (2025-05-16)
+-------------------
+- Adds install deps. [MasterOfPuppets]
+- Adds custom dir for builds. [MasterOfPuppets]
+
+
 v1.0.2 (2025-04-24)
 -------------------
 - No collaudo on Osiride3. [MasterOfPuppets]
@@ -74,7 +80,6 @@ v0.5.2 (2020-01-10)
 -------------------
 - Bumpversion 0.5.2. [Giuseppe Acito]
 - Adds sum for a dataset. [Giuseppe Acito]
-- Adds CHANGELOG. [Giuseppe]
 
 
 v0.5.1 (2019-11-29)
