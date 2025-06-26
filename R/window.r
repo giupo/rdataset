@@ -21,6 +21,13 @@ window.Dataset <- function(x, ...) { # nolint
 }
 
 
+setGeneric(
+  "window",
+  function(x, ...) {
+    standardGeneric("window")
+  }
+)
+
 #' @rdname window.Dataset
 #' @aliases window,Dataset,ANY-method
 
