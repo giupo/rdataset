@@ -4,6 +4,7 @@
 #' @param x Dataset su cui applicare il window
 #' @param ... altri parametri da passare a stats::window
 #' @export window
+#' @method window Dataset
 
 window.Dataset <- function(x, ...) { # nolint
   aslist <- as.list(x)
@@ -20,6 +21,22 @@ window.Dataset <- function(x, ...) { # nolint
   as.dataset(ret)
 }
 
+
+#' The 'window' generic
+#'
+#' @param x An object
+#' @param ... see params for `stats::window`
+#' @seealso `stats::window()`
+#' @return An object of the same class as `x`, possibly modified
+#' @export
+#' @rdname window-methods
+
+setGeneric(
+  "window",
+  function(x, ...) {
+    standardGeneric("window")
+  }
+)
 
 #' @rdname window.Dataset
 #' @aliases window,Dataset,ANY-method
