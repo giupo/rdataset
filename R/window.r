@@ -3,7 +3,6 @@
 #' @importFrom stats window
 #' @param x Dataset su cui applicare il window
 #' @param ... altri parametri da passare a stats::window
-#' @export window
 #' @method window Dataset
 
 window.Dataset <- function(x, ...) { # nolint
@@ -28,7 +27,6 @@ window.Dataset <- function(x, ...) { # nolint
 #' @param ... see params for `stats::window`
 #' @seealso `stats::window()`
 #' @return An object of the same class as `x`, possibly modified
-#' @export
 #' @rdname window-methods
 
 setGeneric(
