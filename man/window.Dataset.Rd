@@ -6,7 +6,7 @@
 \alias{window,Dataset,ANY-method}
 \title{Esegue il `window` sul Dataset}
 \usage{
-window.Dataset(x, ...)
+\method{window}{Dataset}(x, ...)
 
 \S4method{window}{Dataset}(x, ...)
 }
