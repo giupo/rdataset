@@ -6,6 +6,7 @@
 #' @method window Dataset
 
 window.Dataset <- function(x, ...) { # nolint
+  if (!is.dataset(x)) return(NextMethod())
   aslist <- as.list(x)
   params <- list(...)
   start <- params$start
