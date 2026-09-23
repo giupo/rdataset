@@ -22,7 +22,7 @@ methods::setGeneric(
 methods::setMethod(
   "as.dataset",
   signature("list"),
-  function (x) {
+  function(x) {
     ret <- Dataset()
     data <- ret@data
     # this is kinda obscure

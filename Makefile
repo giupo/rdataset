@@ -5,29 +5,31 @@
 PKG_VERSION=$(shell grep -i ^version DESCRIPTION | cut -d : -d \  -f 2)
 PKG_NAME=$(shell grep -i ^package DESCRIPTION | cut -d : -d \  -f 2)
 
+R_BIN ?= R
+RSCRIPT_BIN ?= Rscript
+
 R_FILES := $(wildcard R/*.[R|r])
 SRC_FILES := $(wildcard src/*) $(addprefix src/, $(COPY_SRC))
 PKG_FILES := DESCRIPTION NAMESPACE $(R_FILES) $(SRC_FILES)
 
-.PHONY: tarball clean CHANGELOG.md
+.PHONY: NAMESPACE tarball clean CHANGELOG.md
 
-tarball: $(PKG_NAME)_$(PKG_VERSION).tar.gz 
+tarball:$(PKG_NAME)_$(PKG_VERSION).tar.gz 
 
 $(PKG_NAME)_$(PKG_VERSION).tar.gz: $(PKG_FILES)
-	R CMD build .
-
+	$(R_BIN) CMD build .
 
 check:
-	@Rscript -e 'devtools::check()'
+	$(RSCRIPT_BIN) -e 'devtools::check()'
 
 build: $(PKG_NAME)_$(PKG_VERSION).tar.gz
-	R --vanilla CMD INSTALL --build $(PKG_NAME)_$(PKG_VERSION).tar.gz
+	$(R_BIN) --vanilla CMD INSTALL --build $(PKG_NAME)_$(PKG_VERSION).tar.gz
 
 install: $(PKG_NAME)_$(PKG_VERSION).tar.gz
-	R --vanilla CMD INSTALL $(PKG_NAME)_$(PKG_VERSION).tar.gz
+	$(R_BIN) --vanilla CMD INSTALL $(PKG_NAME)_$(PKG_VERSION).tar.gz
 
-NAMESPACE: $(R_FILES) $(SRC_FILES)
-	@Rscript -e "devtools::document()"
+NAMESPACE:
+	$(RSCRIPT_BIN) -e "devtools::document()"
 
 DOCS: NAMESPACE
 
@@ -45,22 +47,16 @@ list:
 	@echo $(SRC_FILES)
 
 test:
-	@Rscript -e 'devtools::test()'
+	$(RSCRIPT_BIN) -e 'devtools::test()'
 
 autotest:
-	@Rscript autotest.r
+	$(RSCRIPT_BIN) -e 'testthat::auto_test_package()'
 
-# so:     deps
-so:
-	@Rscript --vanilla -e 'devtools::compile_dll()'
 
 coverage:
-	@Rscript -e 'covr::package_coverage()'
+	$(RSCRIPT_BIN) -e 'covr::package_coverage()'
 
-codecov:
-	@Rscript -e 'covr::codecov()'
+NEWS.md:
+	@gitchangelog | grep -v "git-svn-id" > NEWS.md
 
-CHANGELOG.md:
-	@gitchangelog | grep -v "git-svn-id" > CHANGELOG.md
-
-changelog: CHANGELOG.md
+changelog: NEWS.md

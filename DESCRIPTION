@@ -1,6 +1,6 @@
 Package: rdataset
 Title: Timeseries container
-Version: 1.0.1
+Version: 1.0.8
 Authors@R: person("Giuseppe", "Acito", email = "giuseppe.acito@gmail.com", role = c("aut", "cre"))
 Description: A timeseries container supplied with basic group operations
     (sums, union set, differences). It manages the container as an
@@ -8,9 +8,7 @@ Description: A timeseries container supplied with basic group operations
 Depends:
     R (>= 3.5.0),
 Imports:
-    hash,
-    tools,
-    Rcpp,
+    hash,        
     RJSONIO,
     foreach,
     iterators,
@@ -20,12 +18,12 @@ Imports:
     stats,
     rutils,
     xts,
-    progress,
     writexl,
     whisker,
     zoo,
-    lubridate
-License: BSD_2_clause + file LICENSE
+    lubridate,
+    glue
+License: file LICENSE
 LazyData: true
 Suggests:
     testthat (>= 3.0.0),
@@ -54,8 +52,8 @@ Collate:
     'union.r'
     'urlist.r'
     'window.r'
-RoxygenNote: 7.1.1
-Remotes: github::giupo/rutils
+RoxygenNote: 7.3.2
+Remotes: git::git@osiride-gitlab-dev.utenze.bankit.it:m024000/rutils.git
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: true

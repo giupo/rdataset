@@ -51,4 +51,3 @@ methods::setMethod(
   function(x, y) {
     union.Dataset(x, y)
   })
-
