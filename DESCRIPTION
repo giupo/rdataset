@@ -53,7 +53,7 @@ Collate:
     'urlist.r'
     'window.r'
 RoxygenNote: 7.3.2
-Remotes: git::git@osiride-gitlab-dev.utenze.bankit.it:m024000/rutils.git
+Remotes: giupo/rutils
 Encoding: UTF-8
 Config/testthat/edition: 3
 Config/testthat/parallel: true
